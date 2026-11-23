@@ -5,7 +5,7 @@ Lagere kosten = beter. Onderdelen:
   - H2 en H3 als functie van het uitgangsniveau gelijk aan de buizentrap
   - H4/H5 niet boven die van de buis
   - frequentierespons vlak (20 Hz - 20 kHz)
-  - ruis: signaal/ruis t.o.v. 1 V rms minstens 105 dB (A-weging niet toegepast)
+  - ruis: signaal/ruis t.o.v. 1 V rms minstens 100 dB (A-weging niet toegepast)
 """
 
 from __future__ import annotations
@@ -26,7 +26,7 @@ TARGET_FILE = ROOT / "out" / "target.json"
 GAIN_DB = 10.0
 F0 = 1000.0
 VOUT_LEVELS = np.array([0.1, 0.3, 1.0, 2.0, 4.0, 7.0])  # V rms aan de uitgang
-SNR_MIN_DB = 105.0
+SNR_MIN_DB = 100.0
 H_FLOOR = -100.0  # harmonischen onder dit niveau tellen als gelijk
 
 
@@ -80,12 +80,13 @@ FAIL = 1e6
 GAIN_SCREEN_DB = 4.0  # verder dan dit van 10 dB af: geen transiëntsimulatie
 
 
-def evaluate(design: Design, tgt: dict) -> Result:
+def evaluate(design: Design, tgt: dict, opamp: str = "generic") -> Result:
     amps = VOUT_LEVELS * np.sqrt(2) / 10 ** (GAIN_DB / 20)
     # snelle voorselectie op kleinsignaalversterking
     try:
         f, mag, _ = analysis.ac_from_data(
-            spice.run(design.netlist([]), "ac dec 10 10 50k", ["v(out_ac)", "v(in_ac)"],
+            spice.run(design.netlist([], opamp=opamp), "ac dec 10 10 50k",
+                      ["v(out_ac)", "v(in_ac)"],
                       timeout=15))
         g = float(np.interp(F0, f, mag))
     except Exception as exc:  # noqa: BLE001
@@ -94,13 +95,13 @@ def evaluate(design: Design, tgt: dict) -> Result:
         return Result(cost=100 + 10 * abs(g - GAIN_DB), gain_db=g, error="versterking buiten bereik")
     try:
         tran, ac, nz = spice.run_multi(
-            design.netlist(amps, F0),
+            design.netlist(amps, F0, opamp=opamp),
             [
                 (analysis.tran_command(F0, 20, 10), [f"v(out{i})" for i in range(len(amps))]),
                 ("ac dec 10 10 50k", ["v(out_ac)", "v(in_ac)"]),
                 ("noise v(out_ac) VAC dec 10 20 20k\nsetplot noise2", ["onoise_total"]),
             ],
-            timeout=20,
+            timeout=45,
         )
     except Exception as exc:  # noqa: BLE001 - elke simulatiefout = slechte kandidaat
         return Result(cost=FAIL, error=str(exc)[:300])

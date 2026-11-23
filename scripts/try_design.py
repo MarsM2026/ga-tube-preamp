@@ -15,8 +15,8 @@ tgt = fitness.load_target()
 print("doel H2..H5 @1V:", np.round(fitness.target_at(tgt, np.array([1.0]))[0], 1))
 vals = dict(RF1=10e3, RG1=10e3, RA=10e3, RB=10e3, RBA=12e3, RBB=12e3,
             RS0=10e3, RSA=1e3, RSB=1e3, RF2=15e3, N=4)
-if len(sys.argv) > 1:
-    vals.update(json.loads(sys.argv[1]))
+if len(sys.argv) > 1:  # pad naar een ontwerp-JSON (zoals designs/run1.json)
+    vals.update(json.loads(Path(sys.argv[1]).read_text())["values"])
 t = time.time()
 r = fitness.evaluate(Design(vals), tgt)
 print(f"evaluatie: {time.time() - t:.2f} s")

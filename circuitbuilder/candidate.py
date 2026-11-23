@@ -60,7 +60,7 @@ class Design:
         lines.append(f"  N    = {int(v['N'])} x 1N4148 per tak")
         return "\n".join(lines)
 
-    def subckt(self) -> str:
+    def subckt(self, opamp: str = "OPAMP") -> str:
         v = self.values
         n = int(v["N"])
 
@@ -71,11 +71,11 @@ class Design:
         return f""".subckt PREAMP in out vp
 CIN in i1 2.2u
 RIN i1 0 100k
-XU1 i1 fb1 v1 OPAMP
+XU1 i1 fb1 v1 {opamp}
 RF1 v1 fb1 {v['RF1']:g}
 RG1 fb1 g1 {v['RG1']:g}
 CG1 g1 0 470u
-XU2 0 fb2 v1n OPAMP
+XU2 0 fb2 v1n {opamp}
 RI1 v1 fb2 10k
 RI2 v1n fb2 10k
 RA v1 a {v['RA']:g}
@@ -89,19 +89,27 @@ CSA a sa 47u
 RSA sa s {v['RSA']:g}
 CSB b sb 47u
 RSB sb s {v['RSB']:g}
-XU3 0 s out OPAMP
+XU3 0 s out {opamp}
 RF2 out s {v['RF2']:g}
 CF2 out s 22p
 .ends PREAMP
 """
 
-    def netlist(self, amplitudes, f0: float = 1000.0, r_load: float = 10e3) -> str:
+    def netlist(self, amplitudes, f0: float = 1000.0, r_load: float = 10e3,
+                opamp: str = "generic") -> str:
         """Eén netlist met per amplitude een eigen kopie (in<i>/out<i>) plus een
-        AC-kopie (in_ac/out_ac) voor frequentierespons en ruis."""
-        parts = [
-            "* opamp-voorversterker, kandidaat",
-            spice.include("parts.lib"),
-            self.subckt(),
+        AC-kopie (in_ac/out_ac) voor frequentierespons en ruis.
+
+        opamp: "generic" (snel, voor het GA) of "ne5532" (TI-macromodel, ter controle).
+        """
+        parts = ["* opamp-voorversterker, kandidaat", spice.include("parts.lib")]
+        if opamp == "ne5532":
+            parts.append(spice.include("ne5532.lib"))
+            sub = self.subckt("OPAMP_NE5532")
+        else:
+            sub = self.subckt()
+        parts += [
+            sub,
             "VP vp 0 DC 15",
             "XAC in_ac out_ac vp PREAMP",
             "VAC in_ac 0 DC 0 AC 1",

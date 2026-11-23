@@ -110,6 +110,26 @@ def main() -> None:
     rng = np.random.default_rng(args.seed)
     init = rng.integers(0, UPPER + 1, size=(args.pop, N_GENES))
     init[0] = to_genes(HAND)
+    # eerdere resultaten als startpunt, plus symmetrische varianten (tak B = tak A)
+    names = [n for n, _ in GENES]
+    idx = {n: i for i, n in enumerate(names)}
+    seeds = [to_genes(json.loads(p.read_text())["values"])
+             for p in sorted((ROOT / "designs").glob("*.json"))]
+    row = 1
+    for s in seeds:
+        init[row] = s
+        row += 1
+    base = seeds + [to_genes(HAND)]
+    n_sym = args.pop // 3
+    for k in range(n_sym):
+        g = base[k % len(base)].copy()
+        for a, b in (("RA", "RB"), ("RBA", "RBB"), ("RSA", "RSB")):
+            g[idx[b]] = g[idx[a]]
+        if k >= len(base):  # varieer, behalve de exacte symmetrische kopieën
+            mask = rng.random(N_GENES) < 0.5
+            g = np.clip(g + mask * rng.integers(-3, 4, N_GENES), 0, UPPER)
+        init[row] = g
+        row += 1
 
     t0 = time.time()
     with Pool(args.workers) as pool:
