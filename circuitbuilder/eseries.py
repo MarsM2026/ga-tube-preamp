@@ -20,11 +20,10 @@ def values(lo: float, hi: float) -> np.ndarray:
 def fmt(r: float) -> str:
     """Leesbare notatie, bijv. 4k7, 220R, 1M."""
     for unit, scale in (("M", 1e6), ("k", 1e3), ("R", 1.0)):
-        if r >= scale:
-            v = r / scale
-            s = f"{v:.2g}" if v < 10 else f"{v:.3g}"
+        if r >= scale * 0.9999:
+            s = f"{float(f'{r / scale:.3g}'):g}"  # max. 3 significante cijfers (E96)
             if "." in s:
                 a, b = s.split(".")
                 return f"{a}{unit}{b}"
-            return f"{s}{unit}" if unit != "R" else f"{s}R"
+            return f"{s}{unit}"
     return f"{r:g}R"

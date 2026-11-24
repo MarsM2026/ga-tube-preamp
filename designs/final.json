@@ -1,0 +1,24 @@
+{
+ "stage": "final",
+ "note": "run3 + RF2=1k27 (10 dB na uitgangsnetwerk) + RB = 4k42 vast + 500R trimpot (nominaal 4k7)",
+ "trim": {
+  "RB": {
+   "fixed": 4420.0,
+   "pot": 500.0,
+   "nominal": 4700.0
+  }
+ },
+ "values": {
+  "RF1": 39000.0,
+  "RG1": 20000.0,
+  "RA": 6200.0,
+  "RB": 4700.0,
+  "RBA": 9100.0,
+  "RBB": 8200.0,
+  "RS0": 1200.0,
+  "RSA": 180.0,
+  "RSB": 160.0,
+  "RF2": 1270.0,
+  "N": 3.0
+ }
+}

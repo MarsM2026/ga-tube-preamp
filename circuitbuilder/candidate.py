@@ -43,6 +43,7 @@ GENES: list[tuple[str, np.ndarray]] = [
 ]
 N_GENES = len(GENES)
 UPPER = np.array([len(v) - 1 for _, v in GENES])
+FIXED = {"RIN": 100e3, "RI1": 10e3, "RI2": 10e3}
 
 
 @dataclass
@@ -61,29 +62,44 @@ class Design:
         return "\n".join(lines)
 
     def subckt(self, opamp: str = "OPAMP") -> str:
-        v = self.values
+        """Subcircuit. Optionele sleutels in `values` (voor toleranties):
+        RIN, RI1, RI2 (vaste weerstanden) en IS_a0.., IS_b0.. (schaalfactor op de
+        verzadigingsstroom van elke diode, 1 = nominaal)."""
+        v = {**FIXED, **self.values}
         n = int(v["N"])
+        models = []
 
         def chain(top: str, tag: str) -> str:
             nodes = [top] + [f"{tag}{i}" for i in range(1, n)] + ["0"]
-            return "\n".join(f"D{tag}{i} {nodes[i]} {nodes[i + 1]} D1N4148" for i in range(n))
+            lines = []
+            for i in range(n):
+                k = v.get(f"IS_{tag}{i}", 1.0)
+                model = "D1N4148"
+                if k != 1.0:
+                    model = f"DM{tag}{i}"
+                    models.append(f".model {model} D(IS={2.52e-9 * k:.4g} RS=0.568 N=1.752 "
+                                  "CJO=4p M=0.4 TT=20n BV=100 IBV=100u)")
+                lines.append(f"D{tag}{i} {nodes[i]} {nodes[i + 1]} {model}")
+            return "\n".join(lines)
 
+        chain_a, chain_b = chain("a", "a"), chain("b", "b")
         return f""".subckt PREAMP in out vp
+{chr(10).join(models)}
 CIN in i1 2.2u
-RIN i1 0 100k
+RIN i1 0 {v['RIN']:g}
 XU1 i1 fb1 v1 {opamp}
 RF1 v1 fb1 {v['RF1']:g}
 RG1 fb1 g1 {v['RG1']:g}
 CG1 g1 0 470u
 XU2 0 fb2 v1n {opamp}
-RI1 v1 fb2 10k
-RI2 v1n fb2 10k
+RI1 v1 fb2 {v['RI1']:g}
+RI2 v1n fb2 {v['RI2']:g}
 RA v1 a {v['RA']:g}
 RBA vp a {v['RBA']:g}
-{chain('a', 'a')}
+{chain_a}
 RB v1n b {v['RB']:g}
 RBB vp b {v['RBB']:g}
-{chain('b', 'b')}
+{chain_b}
 RS0 v1n s {v['RS0']:g}
 CSA a sa 47u
 RSA sa s {v['RSA']:g}

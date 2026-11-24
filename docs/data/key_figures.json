@@ -1,0 +1,18 @@
+{
+ "versterking_db": 10.03,
+ "vlakheid_20Hz_20kHz_db": 0.11,
+ "signaal_ruis_db_ref_1Vrms": 97.5,
+ "psrr_plus15V_100Hz_db": 41.6,
+ "h2_bij_1Vrms_db": -50.3,
+ "h2_buis_bij_1Vrms_db": -50.0,
+ "h3_bij_1Vrms_db": -97.2,
+ "h3_buis_bij_1Vrms_db": -95.8,
+ "thd_bij_1Vrms_procent": 0.305,
+ "max_uitgang_Vrms": 7.0,
+ "voeding": "+/-15 V gestabiliseerd",
+ "opamps": "3x NE5532P",
+ "tolerantie_h3_sd_onafgeregeld_db": 0.43,
+ "tolerantie_h2_sd_db": 0.09,
+ "tolerantie_gain_sd_db": 0.13,
+ "ga_evaluaties_totaal": 5758
+}

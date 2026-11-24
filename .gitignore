@@ -3,3 +3,7 @@ tools/
 out/
 __pycache__/
 *.pyc
+*.lck
+*-backups/
+fp-info-cache
+*.kicad_prl

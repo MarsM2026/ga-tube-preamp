@@ -1,0 +1,31 @@
+aantal;waarde;soort;referenties;footprint
+3;NE5532P;Opamp NE5532P (DIP-8) + IC-voet;U1 U2 U3;Package_DIP:DIP-8_W7.62mm_Socket
+12;1N4148;Diode;D101 D102 D103 D104 D105 D106 D201 D202 D203 D204 D205 D206;Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal
+2;100R;Weerstand metaalfilm 1% 0,25 W;R115 R215;Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+4;100k;Weerstand metaalfilm 1% 0,25 W;R101 R116 R201 R216;Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+4;10k;Weerstand metaalfilm 1% 0,25 W;R104 R105 R204 R205;Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+2;160R;Weerstand metaalfilm 1% 0,25 W;R112 R212;Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+2;180R;Weerstand metaalfilm 1% 0,25 W;R109 R209;Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+2;1k2;Weerstand metaalfilm 1% 0,25 W;R113 R213;Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+2;1k27;Weerstand metaalfilm 1% 0,25 W;R114 R214;Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+2;20k;Weerstand metaalfilm 1% 0,25 W;R103 R203;Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+2;39k;Weerstand metaalfilm 1% 0,25 W;R102 R202;Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+2;47R;Weerstand metaalfilm 1% 0,25 W;R106 R206;Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+2;4k42;Weerstand metaalfilm 1% 0,25 W;R110 R210;Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+2;6k2;Weerstand metaalfilm 1% 0,25 W;R107 R207;Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+2;8k2;Weerstand metaalfilm 1% 0,25 W;R111 R211;Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+2;9k1;Weerstand metaalfilm 1% 0,25 W;R108 R208;Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+2;500R;Trimpot meerslagen (Bourns 3296W);RV101 RV201;Potentiometer_THT:Potentiometer_Bourns_3296W_Vertical
+6;100n;Condensator;C3 C4 C5 C6 C7 C8;Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm
+2;22p C0G;Condensator;C106 C206;Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm
+2;2µ2 film;Condensator;C101 C201;Capacitor_THT:C_Rect_L7.2mm_W5.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2
+2;100µ 25V;Elco (gepolariseerd);C1 C2;Capacitor_THT:CP_Radial_D8.0mm_P3.50mm
+2;470µ 25V;Elco (gepolariseerd);C103 C203;Capacitor_THT:CP_Radial_D10.0mm_P5.00mm
+4;47µ 25V;Elco (gepolariseerd);C104 C105 C204 C205;Capacitor_THT:CP_Radial_D6.3mm_P2.50mm
+2;10µ bipolair;Elco bipolair (NP);C107 C207;Capacitor_THT:C_Radial_D6.3mm_H11.0mm_P2.50mm
+2;22µ bipolair;Elco bipolair (NP);C102 C202;Capacitor_THT:C_Radial_D6.3mm_H11.0mm_P2.50mm
+1;+15V/GND/-15V;Schroefklem 3-polig 5,08 mm;J1;TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-3-5.08_1x03_P5.08mm_Horizontal
+1;IN_L;Pinheader 1x2 2,54 mm;J2;Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical
+1;IN_R;Pinheader 1x2 2,54 mm;J3;Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical
+1;OUT_L;Pinheader 1x2 2,54 mm;J4;Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical
+1;OUT_R;Pinheader 1x2 2,54 mm;J5;Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical

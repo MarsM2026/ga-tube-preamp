@@ -31,7 +31,7 @@ def measure(design: Design, opamp: str) -> dict:
         (analysis.tran_command(1000, 20, 10), [f"v(out{i})" for i in range(len(amps))]),
         ("ac dec 20 5 500k", ["v(out_ac)", "v(in_ac)"]),
         ("noise v(out_ac) VAC dec 10 20 20k\nsetplot noise2", ["onoise_total"]),
-    ], timeout=300)
+    ], timeout=900)
     harms = [analysis.harmonics_from_wave(tran[:, 0], tran[:, 1 + i], 1000, 10, amplitude_in=a)
              for i, a in enumerate(amps)]
     f, mag, _ = analysis.ac_from_data(ac)
