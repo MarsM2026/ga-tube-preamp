@@ -10,6 +10,10 @@ soldeerwerk meer in. Voeding, in- en uitgangen gaan met **schroefklemmen** vast.
 De schakeling en alle componentwaarden zijn precies gelijk aan de through-hole-versie.
 Alleen de behuizingen van de onderdelen zijn kleiner.
 
+> **Status:** net als de through-hole-versie is de SMD-print gesimuleerd en
+> gecontroleerd (ERC/DRC zonder fouten), maar **nog nooit besteld, gemaakt of
+> gemeten**. De prijsindicatie hieronder is een schatting en niet nagerekend.
+
 | | Through-hole | SMD |
 |---|---|---|
 | Bedoeld voor | zelf solderen | laten monteren door de fabrikant |
