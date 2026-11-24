@@ -16,7 +16,7 @@ gevonden.*
 | **Signaal/ruis** | ca. 97,5 dB t.o.v. 1 V rms (ongewogen, 20 kHz bandbreedte) |
 | **Onderdelen** | 3× NE5532P, 12× 1N4148, metaalfilmweerstanden 1 %, 2 trimpotten |
 | **Voeding** | ±15 V gestabiliseerd |
-| **Print** | Tweelaags, through-hole, 178 × 100 mm, KiCad 10 |
+| **Print** | Twee varianten, KiCad 10: through-hole om zelf te solderen (178 × 100 mm) en SMD om kant-en-klaar te laten monteren (129 × 72 mm) |
 
 ## Het idee
 
@@ -47,6 +47,7 @@ opamp-schakeling (gesimuleerd met het NE5532-model). Rechts: de frequentierespon
 3. [Resultaten en controles](04_resultaten.md)
 4. [Bouwhandleiding: onderdelen, print, afregelen](05_bouwhandleiding.md)
 5. [De software zelf draaien](06_software.md)
+6. [Kant-en-klaar laten maken: de SMD-versie](07_kant_en_klaar_smd.md)
 
 > **Status:** ontwerp volledig gesimuleerd en gecontroleerd (NE5532-model,
 > toleranties, ERC/DRC). Nog niet fysiek gebouwd en gemeten.

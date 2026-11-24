@@ -1,5 +1,8 @@
 # Bouwhandleiding
 
+> Deze handleiding is voor de **through-hole-versie**, om zelf te solderen. Kun of
+> wil je niet solderen? Laat dan de [SMD-versie kant-en-klaar maken](07_kant_en_klaar_smd.md).
+
 ![3D-weergave van de print](../hardware/export/render_3d_schuin.png)
 
 ## Wat je nodig hebt

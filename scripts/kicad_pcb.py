@@ -2,9 +2,11 @@
 
 Draaien met de Python van KiCad (niet de venv), in drie stappen:
 
-  python.exe scripts/kicad_pcb.py place     # plaatsing + nets -> .kicad_pcb en .dsn
-  java -jar tools/freerouting/freerouting.jar -de ... -do ...   (zie scripts/make_hardware.ps1)
-  python.exe scripts/kicad_pcb.py finish    # .ses importeren, massavlakken, tekst -> .kicad_pcb
+  python.exe scripts/kicad_pcb.py place [smd]   # plaatsing + nets -> .kicad_pcb en .dsn
+  java -jar tools/freerouting/freerouting.jar -de ... -do ...   (zie scripts/make_hardware.py)
+  python.exe scripts/kicad_pcb.py finish [smd]  # .ses importeren, massavlakken, tekst
+
+Zonder 'smd': through-hole-variant in hardware/kicad/; met 'smd': hardware/kicad_smd/.
 
 Indeling (bovenaanzicht, ca. 178 x 100 mm; breedte volgt uit de plaatsing):
   - IC's U1 (ingangstrap), U2 (inverter), U3 (sommator) op de middenlijn;
@@ -24,18 +26,30 @@ from pathlib import Path
 import pcbnew as P
 
 ROOT = Path(__file__).resolve().parent.parent
-HW = ROOT / "hardware" / "kicad"
+SMD = len(sys.argv) > 2 and sys.argv[2] == "smd"
+HW = ROOT / "hardware" / ("kicad_smd" if SMD else "kicad")
 BOARD_FILE = HW / "warm_preamp.kicad_pcb"
 DSN_FILE = HW / "warm_preamp.dsn"
 SES_FILE = HW / "warm_preamp.ses"
 KICAD = Path(os.environ.get("KICAD_DIR", r"C:\Users\marce\AppData\Local\Programs\KiCad\10.0"))
 FPLIB = KICAD / "share" / "kicad" / "footprints"
 
-W, H = 100.0, 100.0          # printafmetingen [mm]; W groeit mee met de plaatsing
+if SMD:
+    W, H = 60.0, 72.0
+    ROWS_L = [7.5, 14.0, 20.5, 27.0]  # max. één elco per blok, dus 6,5 mm steek volstaat
+    IC_BLOCK_MIN_W = 11.0
+    COL_GAP, BLOCK_GAP = 0.8, 1.5
+    DEC_DX = 5.0             # ontkoppel-C naast het IC
+    TRACK, CLEAR, PWR_TRACK = 0.3, 0.2, 0.6
+else:
+    W, H = 100.0, 100.0      # printafmetingen [mm]; W groeit mee met de plaatsing
+    ROWS_L = [8.0, 18.0, 28.0, 38.0]  # rij-middens kanaal L (gespiegeld voor R)
+    IC_BLOCK_MIN_W = 18.0    # minimale blokbreedte rond een IC (socket + ontkoppeling)
+    DEC_DX = 7.5
+    COL_GAP, BLOCK_GAP = 1.2, 2.5
+    TRACK, CLEAR, PWR_TRACK = 0.4, 0.25, 0.8
 OX, OY = 100.0, 50.0         # oorsprong op het KiCad-canvas
 MID = H / 2
-ROWS_L = [8.0, 18.0, 28.0, 38.0]  # rij-middens kanaal L (gespiegeld voor R)
-IC_BLOCK_MIN_W = 18.0        # minimale blokbreedte rond een IC (socket + ontkoppeling)
 BLOCKS = ["ingang", "versterker", "inverter", "voorspanning", "tak A", "tak B", "sommator", "uitgang"]
 IC_OF_BLOCK = {"versterker": "U1", "inverter": "U2", "sommator": "U3"}
 SUPPLY_NETS = {"+15V", "-15V", "GND"}              # netten van voedingssymbolen
@@ -72,8 +86,13 @@ def center_at(fp, x: float, y: float, angle: float = 0.0) -> None:
     fp.Move(P.VECTOR2I(target.x - c.x, target.y - c.y))
 
 
+MEASURED_W: dict = {}         # SMD: gemeten breedte per referentie (na draaien)
+
+
 def column_width(part) -> float:
     fp = part["footprint"]
+    if SMD:
+        return MEASURED_W[part["ref"]]
     if "CP_Radial_D10" in fp:
         return 11.5
     if "CP_Radial_D8" in fp:
@@ -89,7 +108,8 @@ def column_width(part) -> float:
 
 def is_vertical(part) -> bool:
     fp = part["footprint"]
-    return fp.startswith("Resistor_THT") or fp.startswith("Diode_THT") or "C_Rect" in fp or "C_Disc" in fp
+    return (fp.startswith(("Resistor_THT", "Diode_THT", "Resistor_SMD", "Diode_SMD"))
+            or any(k in fp for k in ("C_Rect", "C_Disc", "C_0805", "C_1206", "Elec_6.3x7.7")))
 
 
 def place(board, parts) -> None:
@@ -117,6 +137,9 @@ def place(board, parts) -> None:
         fp.SetField("Description", p["descr"])
         fp.SetField("Datasheet", "~")
         fps[p["ref"]] = fp
+        if SMD:  # breedte van de footprint zoals hij straks gedraaid staat, plus marge
+            fp.SetOrientationDegrees(90.0 if is_vertical(p) else 0.0)
+            MEASURED_W[p["ref"]] = P.ToMM(fp.GetBoundingBox(False).GetWidth()) + 0.4
 
     # ---------------- kanaalcomponenten in kolommen per blok
     block_span = {}
@@ -139,7 +162,7 @@ def place(board, parts) -> None:
                     continue
                 for r, q in zip(rows, col):
                     center_at(fps[q["ref"]], x + colw / 2, r, 90.0 if is_vertical(q) else 0.0)
-                x += colw + 1.2
+                x += colw + COL_GAP
                 col, colw = ([p], column_width(p)) if p is not None else ([], 0.0)
             if blk in IC_OF_BLOCK and x - x0 < IC_BLOCK_MIN_W:
                 shift = (IC_BLOCK_MIN_W - (x - x0)) / 2  # kolommen centreren in het blok
@@ -147,9 +170,9 @@ def place(board, parts) -> None:
                     fps[q["ref"]].Move(P.VECTOR2I(mm(shift), 0))
                 x = x0 + IC_BLOCK_MIN_W
             block_span.setdefault(blk, []).append((x0, x))
-            x += 2.5
+            x += BLOCK_GAP
         global W
-        W = max(W, x + 8.0)
+        W = max(W, x + (12.0 if SMD else 8.0))
 
     # ---------------- IC's op de middenlijn, onder het midden van hun blok
     for blk, ic in IC_OF_BLOCK.items():
@@ -162,17 +185,23 @@ def place(board, parts) -> None:
             center_at(fps[ic], cx, MID, 270.0)
         # ontkoppeling links/rechts van het IC
         dec = [p for p in parts if p["descr"].startswith(f"ontkoppeling {ic} ")]
-        for p, dx in zip(sorted(dec, key=lambda q: q["ref"]), (-7.5, 7.5)):
+        for p, dx in zip(sorted(dec, key=lambda q: q["ref"]), (-DEC_DX, DEC_DX)):
             center_at(fps[p["ref"]], cx + dx, MID, 90.0)
 
     # ---------------- aansluitingen en bulkcondensatoren
     center_at(fps["J1"], 5.5, MID, 90.0)
     center_at(fps["C1"], 15.5, MID - 6.5, 0.0)
     center_at(fps["C2"], 15.5, MID + 6.5, 0.0)
-    center_at(fps["J2"], 4.0, ROWS_L[1], 0.0)
-    center_at(fps["J3"], 4.0, H - ROWS_L[1], 0.0)
-    center_at(fps["J4"], W - 4.0, ROWS_L[1], 0.0)
-    center_at(fps["J5"], W - 4.0, H - ROWS_L[1], 0.0)
+    if SMD:  # schroefklemmen, draadinvoer naar de rand
+        center_at(fps["J2"], 5.5, ROWS_L[1], 90.0)
+        center_at(fps["J3"], 5.5, H - ROWS_L[1], 90.0)
+        center_at(fps["J4"], W - 5.5, ROWS_L[1], 270.0)
+        center_at(fps["J5"], W - 5.5, H - ROWS_L[1], 270.0)
+    else:
+        center_at(fps["J2"], 4.0, ROWS_L[1], 0.0)
+        center_at(fps["J3"], 4.0, H - ROWS_L[1], 0.0)
+        center_at(fps["J4"], W - 4.0, ROWS_L[1], 0.0)
+        center_at(fps["J5"], W - 4.0, H - ROWS_L[1], 0.0)
 
     # ---------------- printomtrek en montagegaten
     rect = P.PCB_SHAPE(board)
@@ -196,18 +225,20 @@ def netclasses(board) -> None:
     ds = board.GetDesignSettings()
     ns = ds.m_NetSettings
     default = ns.GetDefaultNetclass()
-    default.SetTrackWidth(mm(0.4))
-    default.SetClearance(mm(0.25))
+    default.SetTrackWidth(mm(TRACK))
+    default.SetClearance(mm(CLEAR))
     default.SetViaDiameter(mm(0.9))
     default.SetViaDrill(mm(0.45))
     pwr = P.NETCLASS("Power")
-    pwr.SetTrackWidth(mm(0.8))
+    pwr.SetTrackWidth(mm(PWR_TRACK))
     pwr.SetClearance(mm(0.3))
     pwr.SetViaDiameter(mm(1.0))
     pwr.SetViaDrill(mm(0.5))
     ns.SetNetclass("Power", pwr)
     for n in POWER_NETS:
         ns.SetNetclassPatternAssignment(n, "Power")
+    if SMD:  # één thermische spaak is genoeg voor kleine SMD-pads (bijv. ontkoppel-C's)
+        ds.m_MinResolvedSpokes = 1
     ns.RecomputeEffectiveNetclasses()
     board.SynchronizeNetsAndNetClasses(True)
 
@@ -266,10 +297,12 @@ def cmd_finish() -> None:
         raise RuntimeError("SES-import mislukt")
     add_zone(board, P.B_Cu, "GND")
     add_zone(board, P.F_Cu, "GND")
-    silk_text(board, "WARME OPAMP-VOORVERSTERKER  12AX7-karakter  rev 1.0", W / 2, MID, 1.4, P.B_SilkS, bold=True)
+    silk_text(board, "WARME OPAMP-VOORVERSTERKER  12AX7-karakter  rev 1.0" + (" SMD" if SMD else ""),
+              W / 2, MID, 1.4 if not SMD else 1.1, P.B_SilkS, bold=True)
     silk_text(board, "+15 GND -15", 9.0, MID - 10.0, 1.0)
-    for s, x, y in (("IN L", 4.5, ROWS_L[1] - 4.0), ("IN R", 4.5, H - ROWS_L[1] + 4.0),
-                    ("OUT L", W - 5.0, ROWS_L[1] - 4.0), ("OUT R", W - 5.0, H - ROWS_L[1] + 4.0),
+    dy = 7.0 if SMD else 4.0  # SMD: boven/onder de schroefklem
+    for s, x, y in (("IN L", 4.5, ROWS_L[1] - dy), ("IN R", 4.5, H - ROWS_L[1] + dy),
+                    ("OUT L", W - 5.0, ROWS_L[1] - dy), ("OUT R", W - 5.0, H - ROWS_L[1] + dy),
                     ("KANAAL L", W / 2, MID - 4.5), ("KANAAL R", W / 2, MID + 4.5)):
         silk_text(board, s, x, y, 1.2, bold=True)
     silk_text(board, "circuitbuilder - genetisch algoritme", W / 2, H - 2.5, 1.0, P.B_SilkS)

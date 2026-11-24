@@ -17,6 +17,7 @@ U3 = sommator; eenheid A = kanaal L, eenheid B = kanaal R.
 from __future__ import annotations
 
 import json
+import os
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -40,7 +41,13 @@ class Part:
     extra: dict = field(default_factory=dict)
 
 
-FP = {
+# Twee printvarianten met hetzelfde schema en dezelfde waarden:
+#   tht - through-hole, om zelf te solderen            -> hardware/kicad, hardware/export
+#   smd - SMD, om kant-en-klaar te laten monteren       -> hardware/kicad_smd, hardware/export_smd
+# Keuze via de omgevingsvariabele CB_VARIANT (standaard tht) of set_variant().
+VARIANT = os.environ.get("CB_VARIANT", "tht")
+
+FP_THT = {
     "R": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
     "R_POT": "Potentiometer_THT:Potentiometer_Bourns_3296W_Vertical",
     "C_FILM": "Capacitor_THT:C_Rect_L7.2mm_W5.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2",
@@ -54,6 +61,57 @@ FP = {
     "TERM3": "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-3-5.08_1x03_P5.08mm_Horizontal",
     "HDR2": "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical",
 }
+
+# SMD: alles machinaal te plaatsen, behalve de schroefklemmen (die monteert de fabrikant
+# als through-hole-onderdeel mee). In- en uitgangen ook op schroefklemmen: geen solderen nodig.
+FP_SMD = {
+    "R": "Resistor_SMD:R_0805_2012Metric",
+    "R_POT": "Potentiometer_SMD:Potentiometer_Bourns_3224W_Vertical",
+    "C_FILM": "Capacitor_SMD:C_1206_3216Metric",
+    "C_CER": "Capacitor_SMD:C_0805_2012Metric",
+    "CP_6": "Capacitor_SMD:CP_Elec_6.3x7.7",
+    "CNP_6": "Capacitor_SMD:C_Elec_6.3x7.7",
+    "CP_8": "Capacitor_SMD:CP_Elec_6.3x7.7",
+    "CP_10": "Capacitor_SMD:CP_Elec_10x10.5",
+    "D": "Diode_SMD:D_SOD-323",
+    "DIP8": "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm",
+    "TERM3": FP_THT["TERM3"],
+    "HDR2": "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal",
+}
+
+# onderdeeltypes die per variant anders heten (waarde, omschrijving)
+NAMES = {
+    "tht": {"opamp": "NE5532P", "opamp_d": "NE5532P dubbele low-noise opamp",
+            "diode": "1N4148", "diode_d": "1N4148 kleinsignaaldiode",
+            "pot_d": "trimpot 500R meerslagen (Bourns 3296W), H3-afregeling",
+            "res": "metaalfilm 1% 0,25 W", "cin": "2µ2 film",
+            "sig_d": "pinheader 1x2"},
+    "smd": {"opamp": "NE5532DR", "opamp_d": "NE5532 dubbele low-noise opamp (SOIC-8)",
+            "diode": "1N4148WS", "diode_d": "1N4148WS kleinsignaaldiode (SOD-323)",
+            "pot_d": "trimpot 500R meerslagen (Bourns 3224W), H3-afregeling",
+            "res": "dikfilm 1% 0805", "cin": "2µ2 X7R 50V",
+            "sig_d": "schroefklem 2-polig"},
+}
+
+
+def set_variant(v: str) -> None:
+    global VARIANT
+    assert v in ("tht", "smd"), v
+    VARIANT = v
+
+
+def fp(key: str) -> str:
+    return (FP_SMD if VARIANT == "smd" else FP_THT)[key]
+
+
+def name(key: str) -> str:
+    return NAMES[VARIANT][key]
+
+
+def hw_dirs() -> tuple[Path, Path]:
+    """(KiCad-projectmap, exportmap) van de actieve variant."""
+    suffix = "" if VARIANT == "tht" else "_smd"
+    return ROOT / "hardware" / f"kicad{suffix}", ROOT / "hardware" / f"export{suffix}"
 
 # vaste (niet door het GA gekozen) waarden
 FIXED_PARTS = {
@@ -91,18 +149,20 @@ def channel_parts(ch: str, values: dict, trim: dict, opamp_refs: dict) -> list[P
 
     def R(name, a, b, val=None, block=""):
         v = values[name] if val is None else val
-        parts.append(Part(ref("R"), eseries.fmt(v), "R", {"1": a, "2": b}, v, FP["R"],
-                          f"{name}, metaalfilm 1% 0,25 W", ch, block, {"role": name}))
+        parts.append(Part(ref("R"), eseries.fmt(v), "R", {"1": a, "2": b}, v, fp("R"),
+                          f"{name}, {NAMES[VARIANT]['res']}", ch, block, {"role": name}))
 
     def C(name, a, b, block=""):
-        v, label, fp, kind = FIXED_PARTS[name]
-        parts.append(Part(ref("C"), label, kind, {"1": a, "2": b}, v, FP[fp],
+        v, label, fpk, kind = FIXED_PARTS[name]
+        if name == "CIN":
+            label = NAMES[VARIANT]["cin"]
+        parts.append(Part(ref("C"), label, kind, {"1": a, "2": b}, v, fp(fpk),
                           name, ch, block, {"role": name}))
 
     def Rfix(name, a, b, block=""):
         v, label, _, _ = FIXED_PARTS[name]
-        parts.append(Part(ref("R"), label, "R", {"1": a, "2": b}, v, FP["R"],
-                          f"{name}, metaalfilm 1% 0,25 W", ch, block, {"role": name}))
+        parts.append(Part(ref("R"), label, "R", {"1": a, "2": b}, v, fp("R"),
+                          f"{name}, {NAMES[VARIANT]['res']}", ch, block, {"role": name}))
 
     # ingang + U1
     C("CIN", n("IN"), n("I1"), "ingang")
@@ -122,21 +182,21 @@ def channel_parts(ch: str, values: dict, trim: dict, opamp_refs: dict) -> list[P
     nd = int(values["N"])
     chain = [n("A")] + [n(f"A{i}") for i in range(1, nd)] + ["GND"]
     for i in range(nd):
-        parts.append(Part(ref("D"), "1N4148", "D", {"A": chain[i], "K": chain[i + 1]}, None,
-                          FP["D"], "1N4148 kleinsignaaldiode", ch, "tak A", {"role": f"DA{i}"}))
+        parts.append(Part(ref("D"), name("diode"), "D", {"A": chain[i], "K": chain[i + 1]}, None,
+                          fp("D"), name("diode_d"), ch, "tak A", {"role": f"DA{i}"}))
     C("CSA", n("A"), n("SA"), "tak A")
     R("RSA", n("SA"), n("S"), block="tak A")
     # tak B (RB = vast + trimpot als variabele weerstand)
     R("RB", n("V1N"), n("RB"), val=trim["fixed"], block="tak B")
     parts.append(Part(f"RV{base + 1}", eseries.fmt(trim["pot"]), "R_POT",
                       {"1": n("RB"), "2": n("B"), "3": n("B")}, trim["nominal"] - trim["fixed"],
-                      FP["R_POT"], "trimpot 500R meerslagen (Bourns 3296W), H3-afregeling",
+                      fp("R_POT"), name("pot_d"),
                       ch, "tak B", {"role": "RB_TRIM"}))
     R("RBB", n("VP"), n("B"), block="tak B")
     chain = [n("B")] + [n(f"B{i}") for i in range(1, nd)] + ["GND"]
     for i in range(nd):
-        parts.append(Part(ref("D"), "1N4148", "D", {"A": chain[i], "K": chain[i + 1]}, None,
-                          FP["D"], "1N4148 kleinsignaaldiode", ch, "tak B", {"role": f"DB{i}"}))
+        parts.append(Part(ref("D"), name("diode"), "D", {"A": chain[i], "K": chain[i + 1]}, None,
+                          fp("D"), name("diode_d"), ch, "tak B", {"role": f"DB{i}"}))
     C("CSB", n("B"), n("SB"), "tak B")
     R("RSB", n("SB"), n("S"), block="tak B")
     # sommator
@@ -152,16 +212,16 @@ def channel_parts(ch: str, values: dict, trim: dict, opamp_refs: dict) -> list[P
                                    "U2": ("GND", n("FB2"), n("V1N")),
                                    "U3": ("GND", n("S"), n("OUT0"))}.items():
         ic, unit = opamp_refs[stage]
-        parts.append(Part(f"{ic}{unit}", "NE5532P", "OPAMP", {"+": inp, "-": inn, "OUT": out},
-                          None, FP["DIP8"], "NE5532P dubbele low-noise opamp", ch,
+        parts.append(Part(f"{ic}{unit}", name("opamp"), "OPAMP", {"+": inp, "-": inn, "OUT": out},
+                          None, fp("DIP8"), name("opamp_d"), ch,
                           {"U1": "versterker", "U2": "inverter", "U3": "sommator"}[stage],
                           {"ic": ic, "unit": unit, "stage": stage}))
     # signaalaansluitingen
     parts.append(Part(f"J{2 if ch == 'L' else 3}", f"IN_{ch}", "SIG_CONN",
-                      {"1": n("IN"), "2": "GND"}, None, FP["HDR2"],
+                      {"1": n("IN"), "2": "GND"}, None, fp("HDR2"),
                       f"ingang kanaal {ch} (signaal, massa)", ch, "ingang"))
     parts.append(Part(f"J{4 if ch == 'L' else 5}", f"OUT_{ch}", "SIG_CONN",
-                      {"1": n("OUT"), "2": "GND"}, None, FP["HDR2"],
+                      {"1": n("OUT"), "2": "GND"}, None, fp("HDR2"),
                       f"uitgang kanaal {ch} (signaal, massa)", ch, "uitgang"))
     return parts
 
@@ -179,21 +239,21 @@ def all_parts() -> list[Part]:
     parts = channel_parts("L", values, trim, OPAMPS["L"]) + channel_parts("R", values, trim, OPAMPS["R"])
     # voeding
     parts.append(Part("J1", "+15V/GND/-15V", "PWR_CONN", {"1": "+15V", "2": "GND", "3": "-15V"},
-                      None, FP["TERM3"], "voedingsaansluiting +/-15 V (gestabiliseerd)", "", "voeding"))
-    parts.append(Part("C1", "100µ 25V", "CP", {"1": "+15V", "2": "GND"}, 100e-6, FP["CP_8"],
+                      None, fp("TERM3"), "voedingsaansluiting +/-15 V (gestabiliseerd)", "", "voeding"))
+    parts.append(Part("C1", "100µ 25V", "CP", {"1": "+15V", "2": "GND"}, 100e-6, fp("CP_8"),
                       "bulk +15 V", "", "voeding"))
-    parts.append(Part("C2", "100µ 25V", "CP", {"1": "GND", "2": "-15V"}, 100e-6, FP["CP_8"],
+    parts.append(Part("C2", "100µ 25V", "CP", {"1": "GND", "2": "-15V"}, 100e-6, fp("CP_8"),
                       "bulk -15 V", "", "voeding"))
     k = 3
     for ic in ("U1", "U2", "U3"):
-        parts.append(Part(f"C{k}", "100n", "C", {"1": "+15V", "2": "GND"}, 100e-9, FP["C_CER"],
+        parts.append(Part(f"C{k}", "100n", "C", {"1": "+15V", "2": "GND"}, 100e-9, fp("C_CER"),
                           f"ontkoppeling {ic} +15 V", "", "voeding", {"ic": ic}))
-        parts.append(Part(f"C{k + 1}", "100n", "C", {"1": "GND", "2": "-15V"}, 100e-9, FP["C_CER"],
+        parts.append(Part(f"C{k + 1}", "100n", "C", {"1": "GND", "2": "-15V"}, 100e-9, fp("C_CER"),
                           f"ontkoppeling {ic} -15 V", "", "voeding", {"ic": ic}))
         k += 2
         # voedingspinnen van de IC (pin 8 = V+, pin 4 = V-)
-        parts.append(Part(f"{ic}C", "NE5532P", "OPAMP_PWR", {"V+": "+15V", "V-": "-15V"}, None,
-                          FP["DIP8"], "voeding NE5532P", "", "voeding", {"ic": ic, "unit": "C"}))
+        parts.append(Part(f"{ic}C", name("opamp"), "OPAMP_PWR", {"V+": "+15V", "V-": "-15V"}, None,
+                          fp("DIP8"), "voeding " + name("opamp"), "", "voeding", {"ic": ic, "unit": "C"}))
     return parts
 
 

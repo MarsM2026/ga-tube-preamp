@@ -30,7 +30,8 @@ genetisch algoritme dat duizenden SPICE-simulaties vergeleek met een gesimuleerd
 | Werking van de schakeling | `docs/02_hoe_het_werkt.md` | sectie "Hoe werkt het" |
 | Genetisch algoritme, verhaal van de 3 runs | `docs/03_ontwerpproces.md` | sectie "Ontworpen door evolutie" |
 | Metingen, NE5532-controle, toleranties | `docs/04_resultaten.md` | sectie "Resultaten" |
-| Onderdelen, solderen, afregelen | `docs/05_bouwhandleiding.md` | sectie "Zelf bouwen" |
+| Onderdelen, solderen, afregelen (through-hole) | `docs/05_bouwhandleiding.md` | sectie "Zelf bouwen" |
+| Kant-en-klaar laten maken (SMD) | `docs/07_kant_en_klaar_smd.md` | sectie "Niet solderen? Laat hem maken" |
 | Reproduceren | `docs/06_software.md` | sectie "Open source / zelf draaien" (inklapbaar) |
 
 ### Afbeeldingen (`docs/img/`)
@@ -44,7 +45,16 @@ genetisch algoritme dat duizenden SPICE-simulaties vergeleek met een gesimuleerd
 | `ne5532_vs_generiek.png` | controle met NE5532-model | "Resultaten" |
 | `tolerantie_montecarlo.png` | spreiding met 1 %-onderdelen | "Resultaten" |
 
-### Hardware-afbeeldingen en downloads (`hardware/export/`)
+### Hardware-afbeeldingen en downloads
+
+Er zijn **twee printvarianten** met hetzelfde schema en dezelfde waarden:
+
+- **through-hole** (`hardware/export/`): om zelf te solderen, 178 × 100 mm;
+- **SMD** (`hardware/export_smd/`): om kant-en-klaar te laten maken en monteren
+  door een printfabrikant, 129 × 72 mm. Dit is de variant voor bezoekers die niet
+  solderen; de eigenaar van het project wil dat deze op de pagina staat.
+
+In beide mappen staan dezelfde soorten bestanden:
 
 | Bestand | Inhoud |
 |---|---|
@@ -54,6 +64,19 @@ genetisch algoritme dat duizenden SPICE-simulaties vergeleek met een gesimuleerd
 | `schema.pdf` / `warm_preamp.svg` | volledig KiCad-schema |
 | `warm_preamp_gerbers.zip` | Gerbers + boorbestanden (download voor printfabrikant) |
 | `bom.csv` | onderdelenlijst (download) |
+
+Alleen in `hardware/export_smd/`:
+
+| Bestand | Inhoud |
+|---|---|
+| `jlcpcb_bom.csv` | onderdelenlijst in fabrikantformaat (JLCPCB; LCSC-nummers bewust leeg) |
+| `jlcpcb_cpl.csv` | plaatsingsbestand (positie en draaiing per onderdeel) |
+
+Let op: in de SMD-renders ontbreken de trimpotten (geen 3D-model in KiCad); dat is
+geen fout in het ontwerp.
+
+Tip: zet de twee varianten naast elkaar (bijv. tabbladen of twee kaarten) met de
+vergelijkingstabel uit `07_kant_en_klaar_smd.md`.
 
 ### Data voor interactieve grafieken (`docs/data/`)
 
@@ -68,7 +91,8 @@ bestanden in plaats van de PNG's:
 | `ga_convergence.json` | `run1`/`run2`/`run3`: lijst `{gen, evals, best, median, seconds}` |
 | `montecarlo.json` | `stats.<grootheid>.untrimmed/trimmed.{mean,sd,min,max}` en alle samples |
 | `sensitivity.json` | per variant (onderdeel +1 %) de verandering van versterking/H2/H3 |
-| `bom.json` / `bom.csv` | onderdelenlijst gegroepeerd per waarde |
+| `bom.json` / `bom.csv` | onderdelenlijst through-hole, gegroepeerd per waarde |
+| `bom_smd.json` / `bom_smd.csv` | onderdelenlijst SMD-versie, zelfde structuur |
 | `final_design.json` | definitieve componentwaarden (GA-namen: RF1, RG1, RA, …) |
 
 Voorstel voor de hoofdgrafiek: log-x-as "uitgangsniveau [V rms]" (0,1 – 7), y-as
@@ -88,8 +112,12 @@ en van de buis (gestippeld), uit `verify_build.json`.
    maakt het geloofwaardig).
 5. **Resultaten** (uit 04): hoofdgrafiek, tabel kerncijfers, NE5532-controle,
    toleranties.
-6. **Zelf bouwen** (uit 05): onderdelenlijst, downloads (Gerbers, BOM, schema-PDF,
-   KiCad-project), soldeervolgorde, afregelen.
+6. **Zelf bouwen** (uit 05 en 07): twee routes naast elkaar.
+   - *Zelf solderen* (through-hole): onderdelenlijst, downloads (Gerbers, BOM,
+     schema-PDF, KiCad-project), soldeervolgorde, afregelen.
+   - *Kant-en-klaar laten maken* (SMD): render `export_smd/render_3d_schuin.png`,
+     bestelstappen, downloads (Gerbers, `jlcpcb_bom.csv`, `jlcpcb_cpl.csv`), aansluiten
+     met schroefklemmen. Benadruk: geen soldeerwerk nodig.
 7. **Status en disclaimer:** gesimuleerd, nog niet gebouwd; werken met ±15 V is veilig,
    maar de voeding zelf (230 V) alleen door wie daar ervaring mee heeft.
 8. **Open source** (uit 06): hoe je alles reproduceert.

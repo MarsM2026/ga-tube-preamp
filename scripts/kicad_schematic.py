@@ -5,7 +5,8 @@ Bron: circuitbuilder/build.py. Symbolen komen uit de geïnstalleerde KiCad-bibli
 en worden in het schema ingesloten. Componenten zijn verbonden via netlabels
 (korte draadstompjes op elke pin), gegroepeerd per functioneel blok en kanaal.
 
-Gebruik:  python scripts/kicad_schematic.py
+Gebruik:  python scripts/kicad_schematic.py [--variant tht|smd]
+          (smd schrijft naar hardware/kicad_smd/)
 """
 
 from __future__ import annotations
@@ -26,7 +27,6 @@ from circuitbuilder.sexpr import Q, dump, find, find_all, parse  # noqa: E402
 
 KICAD = Path(os.environ.get("KICAD_DIR", r"C:\Users\marce\AppData\Local\Programs\KiCad\10.0"))
 SYMLIB = KICAD / "share" / "kicad" / "symbols"
-OUTDIR = ROOT / "hardware" / "kicad"
 PROJECT = "warm_preamp"
 NS = uuid.UUID("6f1c3a52-6a7e-4d0e-9a51-1b2c3d4e5f60")
 ROOT_UUID = str(uuid.uuid5(NS, "root"))
@@ -210,6 +210,10 @@ def layout(parts):
 
 # ------------------------------------------------------------ hoofdprogramma
 def main() -> None:
+    if "--variant" in sys.argv:
+        build.set_variant(sys.argv[sys.argv.index("--variant") + 1])
+    OUTDIR = build.hw_dirs()[0]
+    smd = build.VARIANT == "smd"
     parts = build.all_parts()
     positions, titles = layout(parts)
     lib_ids = sorted(set(SYMBOL_OF[p.kind] for p in parts) | set(POWER_NETS.values()) | {"power:PWR_FLAG"})
@@ -276,14 +280,15 @@ def main() -> None:
     for t, xy in titles:
         items.append(text(t, (snap(xy[0]), snap(xy[1]))))
     items.append(text("Opamp-voorversterker met 12AX7-karakter (stereo). Ontwerp: genetisch algoritme "
-                      "(circuitbuilder). Alle weerstanden metaalfilm 1 %.", (25.4, 17.78), size=2.5))
+                      "(circuitbuilder). Alle weerstanden " + ("1 %." if smd else "metaalfilm 1 %."), (25.4, 17.78), size=2.5))
 
     today = dt.date.today().isoformat()
     sch = ["kicad_sch", ["version", "20250114"], ["generator", Q("circuitbuilder")],
            ["generator_version", Q("9.0")], ["uuid", Q(ROOT_UUID)], ["paper", Q("A1")],
            ["title_block", ["title", Q("Warme opamp-voorversterker (12AX7-karakter)")],
             ["date", Q(today)], ["rev", Q("1.0")], ["company", Q("circuitbuilder")],
-            ["comment", 1, Q("Stereo, 3x NE5532P, +/-15 V, versterking 10 dB")],
+            ["comment", 1, Q(f"Stereo, 3x {build.name('opamp')}, +/-15 V, versterking 10 dB"
+                             + ("  (SMD-variant)" if smd else ""))],
             ["comment", 2, Q("Waarden geoptimaliseerd met genetisch algoritme t.o.v. 12AX7-trap")]],
            ["lib_symbols"] + list(syms.values())] + items + [
            ["sheet_instances", ["path", Q("/"), ["page", Q("1")]]], ["embedded_fonts", "no"]]

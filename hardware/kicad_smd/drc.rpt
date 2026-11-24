@@ -1,0 +1,66 @@
+** Drc report for warm_preamp.kicad_pcb **
+** Created on 2026-11-24T15:44:02 **
+** Report includes: Errors, Warnings, Exclusions **
+
+** Found 12 DRC violations **
+[silk_edge_clearance]: Silkscreen clipped by board edge
+    Rule: board setup constraints silk; warning
+    @(100.0000 mm, 50.0000 mm): Rectangle on Edge.Cuts
+    @(229.6825 mm, 63.9950 mm): Reference field of J4
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(131.2850 mm, 86.2613 mm): Segment of C4 on F.Silkscreen
+    @(131.3700 mm, 86.0000 mm): Reference field of C5
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(128.8825 mm, 86.0000 mm): Reference field of U1
+    @(128.8700 mm, 86.0000 mm): Reference field of C4
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(141.3700 mm, 86.0000 mm): Reference field of C6
+    @(141.3825 mm, 86.0000 mm): Reference field of U2
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(224.0350 mm, 115.0000 mm): PCB text 'OUT R' on F.Silkscreen
+    @(225.5350 mm, 114.3500 mm): Reference field of H4
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(203.5050 mm, 86.0000 mm): Reference field of C8
+    @(203.5175 mm, 86.0000 mm): Reference field of U3
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(112.0900 mm, 77.1544 mm): Segment of C1 on F.Silkscreen
+    @(109.0000 mm, 76.0000 mm): PCB text '+15 GND -15' on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(111.0625 mm, 90.6525 mm): Segment of C2 on F.Silkscreen
+    @(110.3925 mm, 91.0850 mm): Polygon of J1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(104.5000 mm, 115.0000 mm): PCB text 'IN R' on F.Silkscreen
+    @(103.5000 mm, 114.3500 mm): Reference field of H3
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(113.1544 mm, 76.0900 mm): Segment of C1 on F.Silkscreen
+    @(109.0000 mm, 76.0000 mm): PCB text '+15 GND -15' on F.Silkscreen
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(131.3700 mm, 86.0000 mm): Reference field of C5
+    @(130.5500 mm, 86.9500 mm): Pad 1 [GND] of C4 on F.Cu
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(131.3700 mm, 86.0000 mm): Reference field of C5
+    @(130.5500 mm, 85.0500 mm): Pad 2 [-15V] of C4 on F.Cu
+
+** Found 0 unconnected pads **
+
+** Found 0 Footprint errors **
+
+** Ignored checks **
+    - Footprint has no courtyard defined
+    - Track endpoint not centered on via
+    - Tuning profile track geometries
+    - Footprint doesn't match symbol's footprint filters
+    - Footprint component type doesn't match footprint pads
+
+** End of Report **

@@ -25,7 +25,8 @@ python -m venv .venv
 | 6. Toleranties | `python scripts/montecarlo.py --n 24` | Monte-Carlo met en zonder afregelen |
 | 7. Gebouwde schakeling | `python scripts/verify_build.py` | versterking, ruis, PSRR, harmonischen |
 | 8. Documentatieschema | `python scripts/draw_schematic.py` | `docs/img/schema_kanaal.svg` |
-| 9. Hardware | `python scripts/make_hardware.py` | KiCad-schema, print, Gerbers, renders |
+| 9. Hardware | `python scripts/make_hardware.py` | through-hole: KiCad-schema, print, Gerbers, renders |
+| 9b. Hardware SMD | `python scripts/make_hardware.py --variant smd` | idem SMD-versie, plus montagebestanden (BOM + CPL) |
 | 10. Documentatiedata | `python scripts/make_docs_assets.py` | `docs/data/*`, `docs/img/*` |
 
 (Alle commando's met `.\.venv\Scripts\python`.)
@@ -39,7 +40,7 @@ python -m venv .venv
 | `circuitbuilder/reference.py` | 12AX7-referentietrap |
 | `circuitbuilder/candidate.py` | kandidaat-topologie voor het GA (genen → netlist) |
 | `circuitbuilder/fitness.py` | doelcurves en kostenfunctie |
-| `circuitbuilder/build.py` | **het gebouwde ontwerp**: één bron voor simulatie, schema, print en BOM |
+| `circuitbuilder/build.py` | **het gebouwde ontwerp**: één bron voor simulatie, schema, print en BOM; footprints per variant (tht/smd) |
 | `circuitbuilder/models/` | 12AX7 (Koren), 1N4148, generieke opamp, NE5532 (TI-macromodel) |
 | `scripts/kicad_schematic.py` | genereert het KiCad-schema |
 | `scripts/kicad_pcb.py` | plaatsing, routering-import, massavlakken (KiCad-Python) |

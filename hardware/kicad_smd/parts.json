@@ -1,0 +1,1011 @@
+[
+ {
+  "ref": "C1",
+  "value": "100µ 25V",
+  "footprint": "Capacitor_SMD:CP_Elec_6.3x7.7",
+  "pads": {
+   "1": "+15V",
+   "2": "GND"
+  },
+  "channel": "",
+  "block": "voeding",
+  "descr": "bulk +15 V",
+  "symbol_uuid": "737e6458-1dfa-5037-b360-70db6a537895"
+ },
+ {
+  "ref": "C101",
+  "value": "2µ2 X7R 50V",
+  "footprint": "Capacitor_SMD:C_1206_3216Metric",
+  "pads": {
+   "1": "IN_L",
+   "2": "I1_L"
+  },
+  "channel": "L",
+  "block": "ingang",
+  "descr": "CIN",
+  "symbol_uuid": "23b1212b-b367-5900-a7fd-d99de13dffa0"
+ },
+ {
+  "ref": "C102",
+  "value": "22µ bipolair",
+  "footprint": "Capacitor_SMD:C_Elec_6.3x7.7",
+  "pads": {
+   "1": "G1_L",
+   "2": "GND"
+  },
+  "channel": "L",
+  "block": "versterker",
+  "descr": "CG1",
+  "symbol_uuid": "c1012e82-6696-5f27-8bcb-bb5a78ad0db5"
+ },
+ {
+  "ref": "C103",
+  "value": "470µ 25V",
+  "footprint": "Capacitor_SMD:CP_Elec_10x10.5",
+  "pads": {
+   "1": "VP_L",
+   "2": "GND"
+  },
+  "channel": "L",
+  "block": "voorspanning",
+  "descr": "CFLT",
+  "symbol_uuid": "a3d4d748-86a5-5b86-9b50-ffad7df97d06"
+ },
+ {
+  "ref": "C104",
+  "value": "47µ 25V",
+  "footprint": "Capacitor_SMD:CP_Elec_6.3x7.7",
+  "pads": {
+   "1": "A_L",
+   "2": "SA_L"
+  },
+  "channel": "L",
+  "block": "tak A",
+  "descr": "CSA",
+  "symbol_uuid": "a947af87-58b4-50c2-9d38-ec13200c4c90"
+ },
+ {
+  "ref": "C105",
+  "value": "47µ 25V",
+  "footprint": "Capacitor_SMD:CP_Elec_6.3x7.7",
+  "pads": {
+   "1": "B_L",
+   "2": "SB_L"
+  },
+  "channel": "L",
+  "block": "tak B",
+  "descr": "CSB",
+  "symbol_uuid": "88da0ea0-cd8b-5bd1-9106-37486f383f58"
+ },
+ {
+  "ref": "C106",
+  "value": "22p C0G",
+  "footprint": "Capacitor_SMD:C_0805_2012Metric",
+  "pads": {
+   "1": "OUT0_L",
+   "2": "S_L"
+  },
+  "channel": "L",
+  "block": "sommator",
+  "descr": "CF2",
+  "symbol_uuid": "9af1f82b-49a3-5ada-9545-b53d50be0252"
+ },
+ {
+  "ref": "C107",
+  "value": "10µ bipolair",
+  "footprint": "Capacitor_SMD:C_Elec_6.3x7.7",
+  "pads": {
+   "1": "OUT1_L",
+   "2": "OUT_L"
+  },
+  "channel": "L",
+  "block": "uitgang",
+  "descr": "COUT",
+  "symbol_uuid": "96229762-703a-5105-a898-201f0f60db37"
+ },
+ {
+  "ref": "C2",
+  "value": "100µ 25V",
+  "footprint": "Capacitor_SMD:CP_Elec_6.3x7.7",
+  "pads": {
+   "1": "GND",
+   "2": "-15V"
+  },
+  "channel": "",
+  "block": "voeding",
+  "descr": "bulk -15 V",
+  "symbol_uuid": "7aa43db9-ecfd-5f8f-80a8-69bfe37e4830"
+ },
+ {
+  "ref": "C201",
+  "value": "2µ2 X7R 50V",
+  "footprint": "Capacitor_SMD:C_1206_3216Metric",
+  "pads": {
+   "1": "IN_R",
+   "2": "I1_R"
+  },
+  "channel": "R",
+  "block": "ingang",
+  "descr": "CIN",
+  "symbol_uuid": "3378cc72-7bea-5a88-b98d-0accdc876648"
+ },
+ {
+  "ref": "C202",
+  "value": "22µ bipolair",
+  "footprint": "Capacitor_SMD:C_Elec_6.3x7.7",
+  "pads": {
+   "1": "G1_R",
+   "2": "GND"
+  },
+  "channel": "R",
+  "block": "versterker",
+  "descr": "CG1",
+  "symbol_uuid": "aba5ed71-7aa0-5b7a-a65d-1e1638916c91"
+ },
+ {
+  "ref": "C203",
+  "value": "470µ 25V",
+  "footprint": "Capacitor_SMD:CP_Elec_10x10.5",
+  "pads": {
+   "1": "VP_R",
+   "2": "GND"
+  },
+  "channel": "R",
+  "block": "voorspanning",
+  "descr": "CFLT",
+  "symbol_uuid": "c859e409-88ae-5885-a031-227f178abd54"
+ },
+ {
+  "ref": "C204",
+  "value": "47µ 25V",
+  "footprint": "Capacitor_SMD:CP_Elec_6.3x7.7",
+  "pads": {
+   "1": "A_R",
+   "2": "SA_R"
+  },
+  "channel": "R",
+  "block": "tak A",
+  "descr": "CSA",
+  "symbol_uuid": "81edc4fe-b198-5861-8065-2b89bdcf8a5d"
+ },
+ {
+  "ref": "C205",
+  "value": "47µ 25V",
+  "footprint": "Capacitor_SMD:CP_Elec_6.3x7.7",
+  "pads": {
+   "1": "B_R",
+   "2": "SB_R"
+  },
+  "channel": "R",
+  "block": "tak B",
+  "descr": "CSB",
+  "symbol_uuid": "216be04a-5607-54fe-9409-a5b1ebf56019"
+ },
+ {
+  "ref": "C206",
+  "value": "22p C0G",
+  "footprint": "Capacitor_SMD:C_0805_2012Metric",
+  "pads": {
+   "1": "OUT0_R",
+   "2": "S_R"
+  },
+  "channel": "R",
+  "block": "sommator",
+  "descr": "CF2",
+  "symbol_uuid": "97e3b698-416c-5d8c-9e0f-e0b8bbb9ccd7"
+ },
+ {
+  "ref": "C207",
+  "value": "10µ bipolair",
+  "footprint": "Capacitor_SMD:C_Elec_6.3x7.7",
+  "pads": {
+   "1": "OUT1_R",
+   "2": "OUT_R"
+  },
+  "channel": "R",
+  "block": "uitgang",
+  "descr": "COUT",
+  "symbol_uuid": "967710f8-076e-59be-8c81-d26ee3635f41"
+ },
+ {
+  "ref": "C3",
+  "value": "100n",
+  "footprint": "Capacitor_SMD:C_0805_2012Metric",
+  "pads": {
+   "1": "+15V",
+   "2": "GND"
+  },
+  "channel": "",
+  "block": "voeding",
+  "descr": "ontkoppeling U1 +15 V",
+  "symbol_uuid": "3a3fff7d-86ac-5266-b6ad-0d4c2410ab5d"
+ },
+ {
+  "ref": "C4",
+  "value": "100n",
+  "footprint": "Capacitor_SMD:C_0805_2012Metric",
+  "pads": {
+   "1": "GND",
+   "2": "-15V"
+  },
+  "channel": "",
+  "block": "voeding",
+  "descr": "ontkoppeling U1 -15 V",
+  "symbol_uuid": "8d2e8fc0-56d8-5efb-852f-62023af0ed45"
+ },
+ {
+  "ref": "C5",
+  "value": "100n",
+  "footprint": "Capacitor_SMD:C_0805_2012Metric",
+  "pads": {
+   "1": "+15V",
+   "2": "GND"
+  },
+  "channel": "",
+  "block": "voeding",
+  "descr": "ontkoppeling U2 +15 V",
+  "symbol_uuid": "ad043781-1fa1-5154-b46a-d20a0b0e0a13"
+ },
+ {
+  "ref": "C6",
+  "value": "100n",
+  "footprint": "Capacitor_SMD:C_0805_2012Metric",
+  "pads": {
+   "1": "GND",
+   "2": "-15V"
+  },
+  "channel": "",
+  "block": "voeding",
+  "descr": "ontkoppeling U2 -15 V",
+  "symbol_uuid": "a7ce1a88-1b3d-5498-b47f-5c3629dace9c"
+ },
+ {
+  "ref": "C7",
+  "value": "100n",
+  "footprint": "Capacitor_SMD:C_0805_2012Metric",
+  "pads": {
+   "1": "+15V",
+   "2": "GND"
+  },
+  "channel": "",
+  "block": "voeding",
+  "descr": "ontkoppeling U3 +15 V",
+  "symbol_uuid": "5acdd85b-fac4-5370-8693-dc03e25c206b"
+ },
+ {
+  "ref": "C8",
+  "value": "100n",
+  "footprint": "Capacitor_SMD:C_0805_2012Metric",
+  "pads": {
+   "1": "GND",
+   "2": "-15V"
+  },
+  "channel": "",
+  "block": "voeding",
+  "descr": "ontkoppeling U3 -15 V",
+  "symbol_uuid": "9ec9e162-b20e-55f4-8a85-7440e372da64"
+ },
+ {
+  "ref": "D101",
+  "value": "1N4148WS",
+  "footprint": "Diode_SMD:D_SOD-323",
+  "pads": {
+   "2": "A_L",
+   "1": "A1_L"
+  },
+  "channel": "L",
+  "block": "tak A",
+  "descr": "1N4148WS kleinsignaaldiode (SOD-323)",
+  "symbol_uuid": "1cae16e8-f8b6-53cd-8501-949f3c99ff75"
+ },
+ {
+  "ref": "D102",
+  "value": "1N4148WS",
+  "footprint": "Diode_SMD:D_SOD-323",
+  "pads": {
+   "2": "A1_L",
+   "1": "A2_L"
+  },
+  "channel": "L",
+  "block": "tak A",
+  "descr": "1N4148WS kleinsignaaldiode (SOD-323)",
+  "symbol_uuid": "b8d6db74-ad4f-5730-9e88-3aab1dadf1c6"
+ },
+ {
+  "ref": "D103",
+  "value": "1N4148WS",
+  "footprint": "Diode_SMD:D_SOD-323",
+  "pads": {
+   "2": "A2_L",
+   "1": "GND"
+  },
+  "channel": "L",
+  "block": "tak A",
+  "descr": "1N4148WS kleinsignaaldiode (SOD-323)",
+  "symbol_uuid": "4763f220-8e20-5871-a977-0cc9314243aa"
+ },
+ {
+  "ref": "D104",
+  "value": "1N4148WS",
+  "footprint": "Diode_SMD:D_SOD-323",
+  "pads": {
+   "2": "B_L",
+   "1": "B1_L"
+  },
+  "channel": "L",
+  "block": "tak B",
+  "descr": "1N4148WS kleinsignaaldiode (SOD-323)",
+  "symbol_uuid": "ff9b5f8f-c2a2-5c09-996b-14b489525079"
+ },
+ {
+  "ref": "D105",
+  "value": "1N4148WS",
+  "footprint": "Diode_SMD:D_SOD-323",
+  "pads": {
+   "2": "B1_L",
+   "1": "B2_L"
+  },
+  "channel": "L",
+  "block": "tak B",
+  "descr": "1N4148WS kleinsignaaldiode (SOD-323)",
+  "symbol_uuid": "e83f66ae-2a52-559a-9890-e921315fe134"
+ },
+ {
+  "ref": "D106",
+  "value": "1N4148WS",
+  "footprint": "Diode_SMD:D_SOD-323",
+  "pads": {
+   "2": "B2_L",
+   "1": "GND"
+  },
+  "channel": "L",
+  "block": "tak B",
+  "descr": "1N4148WS kleinsignaaldiode (SOD-323)",
+  "symbol_uuid": "a13a9687-db7e-5ad5-88f4-bbb396186fac"
+ },
+ {
+  "ref": "D201",
+  "value": "1N4148WS",
+  "footprint": "Diode_SMD:D_SOD-323",
+  "pads": {
+   "2": "A_R",
+   "1": "A1_R"
+  },
+  "channel": "R",
+  "block": "tak A",
+  "descr": "1N4148WS kleinsignaaldiode (SOD-323)",
+  "symbol_uuid": "547b5ab1-107c-5c12-b7cc-3ff58718b0bb"
+ },
+ {
+  "ref": "D202",
+  "value": "1N4148WS",
+  "footprint": "Diode_SMD:D_SOD-323",
+  "pads": {
+   "2": "A1_R",
+   "1": "A2_R"
+  },
+  "channel": "R",
+  "block": "tak A",
+  "descr": "1N4148WS kleinsignaaldiode (SOD-323)",
+  "symbol_uuid": "99611696-dc52-523b-bdcd-088e4cb47efe"
+ },
+ {
+  "ref": "D203",
+  "value": "1N4148WS",
+  "footprint": "Diode_SMD:D_SOD-323",
+  "pads": {
+   "2": "A2_R",
+   "1": "GND"
+  },
+  "channel": "R",
+  "block": "tak A",
+  "descr": "1N4148WS kleinsignaaldiode (SOD-323)",
+  "symbol_uuid": "1dfd0518-8812-5368-963f-db182f09eb7a"
+ },
+ {
+  "ref": "D204",
+  "value": "1N4148WS",
+  "footprint": "Diode_SMD:D_SOD-323",
+  "pads": {
+   "2": "B_R",
+   "1": "B1_R"
+  },
+  "channel": "R",
+  "block": "tak B",
+  "descr": "1N4148WS kleinsignaaldiode (SOD-323)",
+  "symbol_uuid": "3c843ac9-d029-5046-aad6-ffd82f0e01aa"
+ },
+ {
+  "ref": "D205",
+  "value": "1N4148WS",
+  "footprint": "Diode_SMD:D_SOD-323",
+  "pads": {
+   "2": "B1_R",
+   "1": "B2_R"
+  },
+  "channel": "R",
+  "block": "tak B",
+  "descr": "1N4148WS kleinsignaaldiode (SOD-323)",
+  "symbol_uuid": "49e4edbb-78ff-5760-a8bf-eca579773618"
+ },
+ {
+  "ref": "D206",
+  "value": "1N4148WS",
+  "footprint": "Diode_SMD:D_SOD-323",
+  "pads": {
+   "2": "B2_R",
+   "1": "GND"
+  },
+  "channel": "R",
+  "block": "tak B",
+  "descr": "1N4148WS kleinsignaaldiode (SOD-323)",
+  "symbol_uuid": "98dc8696-7408-5aca-b510-7b525695785f"
+ },
+ {
+  "ref": "J1",
+  "value": "+15V/GND/-15V",
+  "footprint": "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-3-5.08_1x03_P5.08mm_Horizontal",
+  "pads": {
+   "1": "+15V",
+   "2": "GND",
+   "3": "-15V"
+  },
+  "channel": "",
+  "block": "voeding",
+  "descr": "voedingsaansluiting +/-15 V (gestabiliseerd)",
+  "symbol_uuid": "016256af-5ad3-5b3a-9454-4cd42f49e5f6"
+ },
+ {
+  "ref": "J2",
+  "value": "IN_L",
+  "footprint": "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal",
+  "pads": {
+   "1": "IN_L",
+   "2": "GND"
+  },
+  "channel": "L",
+  "block": "ingang",
+  "descr": "ingang kanaal L (signaal, massa)",
+  "symbol_uuid": "36327488-689e-554a-930f-e50b981969e3"
+ },
+ {
+  "ref": "J3",
+  "value": "IN_R",
+  "footprint": "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal",
+  "pads": {
+   "1": "IN_R",
+   "2": "GND"
+  },
+  "channel": "R",
+  "block": "ingang",
+  "descr": "ingang kanaal R (signaal, massa)",
+  "symbol_uuid": "df22816b-c23f-5479-a057-615d79936412"
+ },
+ {
+  "ref": "J4",
+  "value": "OUT_L",
+  "footprint": "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal",
+  "pads": {
+   "1": "OUT_L",
+   "2": "GND"
+  },
+  "channel": "L",
+  "block": "uitgang",
+  "descr": "uitgang kanaal L (signaal, massa)",
+  "symbol_uuid": "a7ba0c33-3eea-5e58-8bdc-3edab8913774"
+ },
+ {
+  "ref": "J5",
+  "value": "OUT_R",
+  "footprint": "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal",
+  "pads": {
+   "1": "OUT_R",
+   "2": "GND"
+  },
+  "channel": "R",
+  "block": "uitgang",
+  "descr": "uitgang kanaal R (signaal, massa)",
+  "symbol_uuid": "34e01f9b-5770-5664-912c-2e65d0728fed"
+ },
+ {
+  "ref": "R101",
+  "value": "100k",
+  "footprint": "Resistor_SMD:R_0805_2012Metric",
+  "pads": {
+   "1": "I1_L",
+   "2": "GND"
+  },
+  "channel": "L",
+  "block": "ingang",
+  "descr": "RIN, dikfilm 1% 0805",
+  "symbol_uuid": "ec7e8148-2587-50a3-b021-470340784e71"
+ },
+ {
+  "ref": "R102",
+  "value": "39k",
+  "footprint": "Resistor_SMD:R_0805_2012Metric",
+  "pads": {
+   "1": "V1_L",
+   "2": "FB1_L"
+  },
+  "channel": "L",
+  "block": "versterker",
+  "descr": "RF1, dikfilm 1% 0805",
+  "symbol_uuid": "ed80641a-0dd6-56fb-9689-07eedd590773"
+ },
+ {
+  "ref": "R103",
+  "value": "20k",
+  "footprint": "Resistor_SMD:R_0805_2012Metric",
+  "pads": {
+   "1": "FB1_L",
+   "2": "G1_L"
+  },
+  "channel": "L",
+  "block": "versterker",
+  "descr": "RG1, dikfilm 1% 0805",
+  "symbol_uuid": "f40af20c-e23f-5571-931e-214bd7be9c15"
+ },
+ {
+  "ref": "R104",
+  "value": "10k",
+  "footprint": "Resistor_SMD:R_0805_2012Metric",
+  "pads": {
+   "1": "V1_L",
+   "2": "FB2_L"
+  },
+  "channel": "L",
+  "block": "inverter",
+  "descr": "RI1, dikfilm 1% 0805",
+  "symbol_uuid": "0d63260f-faa4-5562-917c-7520a5f9bafe"
+ },
+ {
+  "ref": "R105",
+  "value": "10k",
+  "footprint": "Resistor_SMD:R_0805_2012Metric",
+  "pads": {
+   "1": "V1N_L",
+   "2": "FB2_L"
+  },
+  "channel": "L",
+  "block": "inverter",
+  "descr": "RI2, dikfilm 1% 0805",
+  "symbol_uuid": "3e13e336-8a7b-559b-b009-79f8266d2635"
+ },
+ {
+  "ref": "R106",
+  "value": "47R",
+  "footprint": "Resistor_SMD:R_0805_2012Metric",
+  "pads": {
+   "1": "+15V",
+   "2": "VP_L"
+  },
+  "channel": "L",
+  "block": "voorspanning",
+  "descr": "RFLT, dikfilm 1% 0805",
+  "symbol_uuid": "d0988191-b06c-5683-b530-e2bf6477108c"
+ },
+ {
+  "ref": "R107",
+  "value": "6k2",
+  "footprint": "Resistor_SMD:R_0805_2012Metric",
+  "pads": {
+   "1": "V1_L",
+   "2": "A_L"
+  },
+  "channel": "L",
+  "block": "tak A",
+  "descr": "RA, dikfilm 1% 0805",
+  "symbol_uuid": "b6f68f37-e667-52b1-8a70-96130a12a62c"
+ },
+ {
+  "ref": "R108",
+  "value": "9k1",
+  "footprint": "Resistor_SMD:R_0805_2012Metric",
+  "pads": {
+   "1": "VP_L",
+   "2": "A_L"
+  },
+  "channel": "L",
+  "block": "tak A",
+  "descr": "RBA, dikfilm 1% 0805",
+  "symbol_uuid": "77327ac6-c520-528e-bead-eb07df7b3b69"
+ },
+ {
+  "ref": "R109",
+  "value": "180R",
+  "footprint": "Resistor_SMD:R_0805_2012Metric",
+  "pads": {
+   "1": "SA_L",
+   "2": "S_L"
+  },
+  "channel": "L",
+  "block": "tak A",
+  "descr": "RSA, dikfilm 1% 0805",
+  "symbol_uuid": "22604240-e589-5b7a-96e0-4c9a8b16802c"
+ },
+ {
+  "ref": "R110",
+  "value": "4k42",
+  "footprint": "Resistor_SMD:R_0805_2012Metric",
+  "pads": {
+   "1": "V1N_L",
+   "2": "RB_L"
+  },
+  "channel": "L",
+  "block": "tak B",
+  "descr": "RB, dikfilm 1% 0805",
+  "symbol_uuid": "07f7f196-e5fb-5163-a3e3-cfa286fa618f"
+ },
+ {
+  "ref": "R111",
+  "value": "8k2",
+  "footprint": "Resistor_SMD:R_0805_2012Metric",
+  "pads": {
+   "1": "VP_L",
+   "2": "B_L"
+  },
+  "channel": "L",
+  "block": "tak B",
+  "descr": "RBB, dikfilm 1% 0805",
+  "symbol_uuid": "5907e902-ca21-504a-b244-41555c5b9179"
+ },
+ {
+  "ref": "R112",
+  "value": "160R",
+  "footprint": "Resistor_SMD:R_0805_2012Metric",
+  "pads": {
+   "1": "SB_L",
+   "2": "S_L"
+  },
+  "channel": "L",
+  "block": "tak B",
+  "descr": "RSB, dikfilm 1% 0805",
+  "symbol_uuid": "a706ca2b-e881-5d7d-9476-1059622164c8"
+ },
+ {
+  "ref": "R113",
+  "value": "1k2",
+  "footprint": "Resistor_SMD:R_0805_2012Metric",
+  "pads": {
+   "1": "V1N_L",
+   "2": "S_L"
+  },
+  "channel": "L",
+  "block": "sommator",
+  "descr": "RS0, dikfilm 1% 0805",
+  "symbol_uuid": "8716a5ab-0905-5171-b884-c9764d39b885"
+ },
+ {
+  "ref": "R114",
+  "value": "1k27",
+  "footprint": "Resistor_SMD:R_0805_2012Metric",
+  "pads": {
+   "1": "OUT0_L",
+   "2": "S_L"
+  },
+  "channel": "L",
+  "block": "sommator",
+  "descr": "RF2, dikfilm 1% 0805",
+  "symbol_uuid": "e293de81-42d6-5faf-b400-9494da1d2624"
+ },
+ {
+  "ref": "R115",
+  "value": "100R",
+  "footprint": "Resistor_SMD:R_0805_2012Metric",
+  "pads": {
+   "1": "OUT0_L",
+   "2": "OUT1_L"
+  },
+  "channel": "L",
+  "block": "uitgang",
+  "descr": "ROUT, dikfilm 1% 0805",
+  "symbol_uuid": "9c014378-7920-5f0d-a3bb-95e47f9fd16a"
+ },
+ {
+  "ref": "R116",
+  "value": "100k",
+  "footprint": "Resistor_SMD:R_0805_2012Metric",
+  "pads": {
+   "1": "OUT_L",
+   "2": "GND"
+  },
+  "channel": "L",
+  "block": "uitgang",
+  "descr": "RBLEED, dikfilm 1% 0805",
+  "symbol_uuid": "60c89729-c914-5ca6-b830-c3d981763613"
+ },
+ {
+  "ref": "R201",
+  "value": "100k",
+  "footprint": "Resistor_SMD:R_0805_2012Metric",
+  "pads": {
+   "1": "I1_R",
+   "2": "GND"
+  },
+  "channel": "R",
+  "block": "ingang",
+  "descr": "RIN, dikfilm 1% 0805",
+  "symbol_uuid": "8491f5b5-168d-5bf4-bee9-1eddd05c702f"
+ },
+ {
+  "ref": "R202",
+  "value": "39k",
+  "footprint": "Resistor_SMD:R_0805_2012Metric",
+  "pads": {
+   "1": "V1_R",
+   "2": "FB1_R"
+  },
+  "channel": "R",
+  "block": "versterker",
+  "descr": "RF1, dikfilm 1% 0805",
+  "symbol_uuid": "a7d823d9-06ef-5c4c-a2ca-90505389882b"
+ },
+ {
+  "ref": "R203",
+  "value": "20k",
+  "footprint": "Resistor_SMD:R_0805_2012Metric",
+  "pads": {
+   "1": "FB1_R",
+   "2": "G1_R"
+  },
+  "channel": "R",
+  "block": "versterker",
+  "descr": "RG1, dikfilm 1% 0805",
+  "symbol_uuid": "500a4bd7-5021-53e4-8e35-79abb46287f8"
+ },
+ {
+  "ref": "R204",
+  "value": "10k",
+  "footprint": "Resistor_SMD:R_0805_2012Metric",
+  "pads": {
+   "1": "V1_R",
+   "2": "FB2_R"
+  },
+  "channel": "R",
+  "block": "inverter",
+  "descr": "RI1, dikfilm 1% 0805",
+  "symbol_uuid": "ef6db5a2-6b09-5dbf-8522-5bdeef51b504"
+ },
+ {
+  "ref": "R205",
+  "value": "10k",
+  "footprint": "Resistor_SMD:R_0805_2012Metric",
+  "pads": {
+   "1": "V1N_R",
+   "2": "FB2_R"
+  },
+  "channel": "R",
+  "block": "inverter",
+  "descr": "RI2, dikfilm 1% 0805",
+  "symbol_uuid": "d7d55134-aba0-50f2-ae4e-e5fb4dcac061"
+ },
+ {
+  "ref": "R206",
+  "value": "47R",
+  "footprint": "Resistor_SMD:R_0805_2012Metric",
+  "pads": {
+   "1": "+15V",
+   "2": "VP_R"
+  },
+  "channel": "R",
+  "block": "voorspanning",
+  "descr": "RFLT, dikfilm 1% 0805",
+  "symbol_uuid": "30d0a56d-dfab-548a-bf38-cc57e32377d8"
+ },
+ {
+  "ref": "R207",
+  "value": "6k2",
+  "footprint": "Resistor_SMD:R_0805_2012Metric",
+  "pads": {
+   "1": "V1_R",
+   "2": "A_R"
+  },
+  "channel": "R",
+  "block": "tak A",
+  "descr": "RA, dikfilm 1% 0805",
+  "symbol_uuid": "861a4ae1-0fd2-52d5-96d2-f6df85db4976"
+ },
+ {
+  "ref": "R208",
+  "value": "9k1",
+  "footprint": "Resistor_SMD:R_0805_2012Metric",
+  "pads": {
+   "1": "VP_R",
+   "2": "A_R"
+  },
+  "channel": "R",
+  "block": "tak A",
+  "descr": "RBA, dikfilm 1% 0805",
+  "symbol_uuid": "5ce1abae-cf9d-5f8c-892a-04999df4a62f"
+ },
+ {
+  "ref": "R209",
+  "value": "180R",
+  "footprint": "Resistor_SMD:R_0805_2012Metric",
+  "pads": {
+   "1": "SA_R",
+   "2": "S_R"
+  },
+  "channel": "R",
+  "block": "tak A",
+  "descr": "RSA, dikfilm 1% 0805",
+  "symbol_uuid": "8b6c353b-49cc-54aa-a306-a93c4286f427"
+ },
+ {
+  "ref": "R210",
+  "value": "4k42",
+  "footprint": "Resistor_SMD:R_0805_2012Metric",
+  "pads": {
+   "1": "V1N_R",
+   "2": "RB_R"
+  },
+  "channel": "R",
+  "block": "tak B",
+  "descr": "RB, dikfilm 1% 0805",
+  "symbol_uuid": "976da5cf-2165-5e02-89c5-b055630d664b"
+ },
+ {
+  "ref": "R211",
+  "value": "8k2",
+  "footprint": "Resistor_SMD:R_0805_2012Metric",
+  "pads": {
+   "1": "VP_R",
+   "2": "B_R"
+  },
+  "channel": "R",
+  "block": "tak B",
+  "descr": "RBB, dikfilm 1% 0805",
+  "symbol_uuid": "e6a09986-4539-5ffd-918b-c9a5dcc0ab08"
+ },
+ {
+  "ref": "R212",
+  "value": "160R",
+  "footprint": "Resistor_SMD:R_0805_2012Metric",
+  "pads": {
+   "1": "SB_R",
+   "2": "S_R"
+  },
+  "channel": "R",
+  "block": "tak B",
+  "descr": "RSB, dikfilm 1% 0805",
+  "symbol_uuid": "042f8607-d713-567c-ae40-04efb704bd8d"
+ },
+ {
+  "ref": "R213",
+  "value": "1k2",
+  "footprint": "Resistor_SMD:R_0805_2012Metric",
+  "pads": {
+   "1": "V1N_R",
+   "2": "S_R"
+  },
+  "channel": "R",
+  "block": "sommator",
+  "descr": "RS0, dikfilm 1% 0805",
+  "symbol_uuid": "1147e620-3e02-5b27-a2df-69574dd218ac"
+ },
+ {
+  "ref": "R214",
+  "value": "1k27",
+  "footprint": "Resistor_SMD:R_0805_2012Metric",
+  "pads": {
+   "1": "OUT0_R",
+   "2": "S_R"
+  },
+  "channel": "R",
+  "block": "sommator",
+  "descr": "RF2, dikfilm 1% 0805",
+  "symbol_uuid": "6982bc19-d33d-5b02-a765-4ae4cddb7289"
+ },
+ {
+  "ref": "R215",
+  "value": "100R",
+  "footprint": "Resistor_SMD:R_0805_2012Metric",
+  "pads": {
+   "1": "OUT0_R",
+   "2": "OUT1_R"
+  },
+  "channel": "R",
+  "block": "uitgang",
+  "descr": "ROUT, dikfilm 1% 0805",
+  "symbol_uuid": "f18695b9-cee5-5aaa-8584-76967d542eed"
+ },
+ {
+  "ref": "R216",
+  "value": "100k",
+  "footprint": "Resistor_SMD:R_0805_2012Metric",
+  "pads": {
+   "1": "OUT_R",
+   "2": "GND"
+  },
+  "channel": "R",
+  "block": "uitgang",
+  "descr": "RBLEED, dikfilm 1% 0805",
+  "symbol_uuid": "4251c0e9-0501-588f-99ca-cb3a25f01821"
+ },
+ {
+  "ref": "RV101",
+  "value": "500R",
+  "footprint": "Potentiometer_SMD:Potentiometer_Bourns_3224W_Vertical",
+  "pads": {
+   "1": "RB_L",
+   "2": "B_L",
+   "3": "B_L"
+  },
+  "channel": "L",
+  "block": "tak B",
+  "descr": "trimpot 500R meerslagen (Bourns 3224W), H3-afregeling",
+  "symbol_uuid": "8088a12d-130c-59cd-9d05-e165910cca5f"
+ },
+ {
+  "ref": "RV201",
+  "value": "500R",
+  "footprint": "Potentiometer_SMD:Potentiometer_Bourns_3224W_Vertical",
+  "pads": {
+   "1": "RB_R",
+   "2": "B_R",
+   "3": "B_R"
+  },
+  "channel": "R",
+  "block": "tak B",
+  "descr": "trimpot 500R meerslagen (Bourns 3224W), H3-afregeling",
+  "symbol_uuid": "b7f6e440-0d9d-56b0-b499-caf2b145cb4a"
+ },
+ {
+  "ref": "U1",
+  "value": "NE5532DR",
+  "footprint": "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm",
+  "pads": {
+   "3": "I1_L",
+   "2": "FB1_L",
+   "1": "V1_L",
+   "5": "I1_R",
+   "6": "FB1_R",
+   "7": "V1_R",
+   "8": "+15V",
+   "4": "-15V"
+  },
+  "channel": "L",
+  "block": "opamp",
+  "descr": "NE5532 dubbele low-noise opamp (SOIC-8)",
+  "symbol_uuid": "f707572f-c60c-5201-8e9f-4b34ffe00a7a"
+ },
+ {
+  "ref": "U2",
+  "value": "NE5532DR",
+  "footprint": "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm",
+  "pads": {
+   "3": "GND",
+   "2": "FB2_L",
+   "1": "V1N_L",
+   "5": "GND",
+   "6": "FB2_R",
+   "7": "V1N_R",
+   "8": "+15V",
+   "4": "-15V"
+  },
+  "channel": "L",
+  "block": "opamp",
+  "descr": "NE5532 dubbele low-noise opamp (SOIC-8)",
+  "symbol_uuid": "e895df8f-1f1d-55b5-b2ff-6fb890910d9e"
+ },
+ {
+  "ref": "U3",
+  "value": "NE5532DR",
+  "footprint": "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm",
+  "pads": {
+   "3": "GND",
+   "2": "S_L",
+   "1": "OUT0_L",
+   "5": "GND",
+   "6": "S_R",
+   "7": "OUT0_R",
+   "8": "+15V",
+   "4": "-15V"
+  },
+  "channel": "L",
+  "block": "opamp",
+  "descr": "NE5532 dubbele low-noise opamp (SOIC-8)",
+  "symbol_uuid": "96510bb3-cc6a-548a-9eec-3d138bdc5a6e"
+ }
+]

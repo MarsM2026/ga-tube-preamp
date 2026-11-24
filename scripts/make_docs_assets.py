@@ -50,8 +50,9 @@ def ga_logs() -> dict:
     return runs
 
 
-def bom_rows():
-    """Onderdelenlijst gegroepeerd per waarde/footprint."""
+def bom_rows(variant: str = "tht"):
+    """Onderdelenlijst gegroepeerd per waarde/footprint, voor printvariant tht of smd."""
+    build.set_variant(variant)
     groups = defaultdict(list)
     info = {}
     for p in build.all_parts():
@@ -66,6 +67,13 @@ def bom_rows():
                  "C": "Condensator", "CP": "Elco (gepolariseerd)", "C_NP": "Elco bipolair (NP)",
                  "D": "Diode", "OPAMP": "Opamp NE5532P (DIP-8) + IC-voet",
                  "SIG_CONN": "Pinheader 1x2 2,54 mm", "PWR_CONN": "Schroefklem 3-polig 5,08 mm"}
+    if variant == "smd":
+        kind_name.update({"R": "Weerstand dikfilm 1% 0805", "R_POT": "Trimpot meerslagen SMD (Bourns 3224W)",
+                          "C": "Condensator SMD", "CP": "Elco SMD (gepolariseerd)",
+                          "C_NP": "Elco SMD bipolair (NP)", "D": "Diode SMD (SOD-323)",
+                          "OPAMP": "Opamp NE5532 (SOIC-8)",
+                          "SIG_CONN": "Schroefklem 2-polig 5,08 mm (through-hole)",
+                          "PWR_CONN": "Schroefklem 3-polig 5,08 mm (through-hole)"})
     order = ["OPAMP", "D", "R", "R_POT", "C", "CP", "C_NP", "PWR_CONN", "SIG_CONN"]
     rows = []
     for key in sorted(groups, key=lambda k: (order.index(k[0]), k[1])):
@@ -113,14 +121,16 @@ def main() -> None:
             shutil.copy(OUT / src, IMG / dst)
 
     # --- onderdelenlijst
-    rows = bom_rows()
-    with open(DATA / "bom.csv", "w", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=list(rows[0]), delimiter=";")
-        w.writeheader()
-        w.writerows(rows)
-    (DATA / "bom.json").write_text(json.dumps(rows, indent=1, ensure_ascii=False), encoding="utf-8")
     hw = ROOT / "hardware"
-    shutil.copy(DATA / "bom.csv", hw / "bom.csv")
+    for variant, stem in (("tht", "bom"), ("smd", "bom_smd")):
+        rows = bom_rows(variant)
+        with open(DATA / f"{stem}.csv", "w", newline="", encoding="utf-8") as f:
+            w = csv.DictWriter(f, fieldnames=list(rows[0]), delimiter=";")
+            w.writeheader()
+            w.writerows(rows)
+        (DATA / f"{stem}.json").write_text(json.dumps(rows, indent=1, ensure_ascii=False), encoding="utf-8")
+        shutil.copy(DATA / f"{stem}.csv", hw / f"{stem}.csv")
+    build.set_variant("tht")
 
     # --- kerncijfers in één bestand (voor de webpagina)
     vb = json.loads((OUT / "verify_build.json").read_text())
@@ -143,6 +153,11 @@ def main() -> None:
         "tolerantie_gain_sd_db": round(mc["stats"]["gain"]["untrimmed"]["sd"], 2),
         "ga_evaluaties_totaal": sum(r[-1]["evals"] for r in runs.values() if r),
     }
+    for variant, d in (("tht", "kicad"), ("smd", "kicad_smd")):
+        f = ROOT / "hardware" / d / "board_size.json"
+        if f.exists():
+            bs = json.loads(f.read_text())
+            key[f"print_{variant}_mm"] = f"{bs['W']:.0f} x {bs['H']:.0f}"
     (DATA / "key_figures.json").write_text(json.dumps(key, indent=1, ensure_ascii=False), encoding="utf-8")
     print(json.dumps(key, indent=1, ensure_ascii=False))
     print(f"\nData: {DATA}\nAfbeeldingen: {IMG}")

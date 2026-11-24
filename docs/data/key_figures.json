@@ -14,5 +14,7 @@
  "tolerantie_h3_sd_onafgeregeld_db": 0.43,
  "tolerantie_h2_sd_db": 0.09,
  "tolerantie_gain_sd_db": 0.13,
- "ga_evaluaties_totaal": 5758
+ "ga_evaluaties_totaal": 5758,
+ "print_tht_mm": "178 x 100",
+ "print_smd_mm": "129 x 72"
 }

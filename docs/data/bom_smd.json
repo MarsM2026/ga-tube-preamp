@@ -1,0 +1,212 @@
+[
+ {
+  "aantal": 3,
+  "waarde": "NE5532DR",
+  "soort": "Opamp NE5532 (SOIC-8)",
+  "referenties": "U1 U2 U3",
+  "footprint": "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm"
+ },
+ {
+  "aantal": 12,
+  "waarde": "1N4148WS",
+  "soort": "Diode SMD (SOD-323)",
+  "referenties": "D101 D102 D103 D104 D105 D106 D201 D202 D203 D204 D205 D206",
+  "footprint": "Diode_SMD:D_SOD-323"
+ },
+ {
+  "aantal": 2,
+  "waarde": "100R",
+  "soort": "Weerstand dikfilm 1% 0805",
+  "referenties": "R115 R215",
+  "footprint": "Resistor_SMD:R_0805_2012Metric"
+ },
+ {
+  "aantal": 4,
+  "waarde": "100k",
+  "soort": "Weerstand dikfilm 1% 0805",
+  "referenties": "R101 R116 R201 R216",
+  "footprint": "Resistor_SMD:R_0805_2012Metric"
+ },
+ {
+  "aantal": 4,
+  "waarde": "10k",
+  "soort": "Weerstand dikfilm 1% 0805",
+  "referenties": "R104 R105 R204 R205",
+  "footprint": "Resistor_SMD:R_0805_2012Metric"
+ },
+ {
+  "aantal": 2,
+  "waarde": "160R",
+  "soort": "Weerstand dikfilm 1% 0805",
+  "referenties": "R112 R212",
+  "footprint": "Resistor_SMD:R_0805_2012Metric"
+ },
+ {
+  "aantal": 2,
+  "waarde": "180R",
+  "soort": "Weerstand dikfilm 1% 0805",
+  "referenties": "R109 R209",
+  "footprint": "Resistor_SMD:R_0805_2012Metric"
+ },
+ {
+  "aantal": 2,
+  "waarde": "1k2",
+  "soort": "Weerstand dikfilm 1% 0805",
+  "referenties": "R113 R213",
+  "footprint": "Resistor_SMD:R_0805_2012Metric"
+ },
+ {
+  "aantal": 2,
+  "waarde": "1k27",
+  "soort": "Weerstand dikfilm 1% 0805",
+  "referenties": "R114 R214",
+  "footprint": "Resistor_SMD:R_0805_2012Metric"
+ },
+ {
+  "aantal": 2,
+  "waarde": "20k",
+  "soort": "Weerstand dikfilm 1% 0805",
+  "referenties": "R103 R203",
+  "footprint": "Resistor_SMD:R_0805_2012Metric"
+ },
+ {
+  "aantal": 2,
+  "waarde": "39k",
+  "soort": "Weerstand dikfilm 1% 0805",
+  "referenties": "R102 R202",
+  "footprint": "Resistor_SMD:R_0805_2012Metric"
+ },
+ {
+  "aantal": 2,
+  "waarde": "47R",
+  "soort": "Weerstand dikfilm 1% 0805",
+  "referenties": "R106 R206",
+  "footprint": "Resistor_SMD:R_0805_2012Metric"
+ },
+ {
+  "aantal": 2,
+  "waarde": "4k42",
+  "soort": "Weerstand dikfilm 1% 0805",
+  "referenties": "R110 R210",
+  "footprint": "Resistor_SMD:R_0805_2012Metric"
+ },
+ {
+  "aantal": 2,
+  "waarde": "6k2",
+  "soort": "Weerstand dikfilm 1% 0805",
+  "referenties": "R107 R207",
+  "footprint": "Resistor_SMD:R_0805_2012Metric"
+ },
+ {
+  "aantal": 2,
+  "waarde": "8k2",
+  "soort": "Weerstand dikfilm 1% 0805",
+  "referenties": "R111 R211",
+  "footprint": "Resistor_SMD:R_0805_2012Metric"
+ },
+ {
+  "aantal": 2,
+  "waarde": "9k1",
+  "soort": "Weerstand dikfilm 1% 0805",
+  "referenties": "R108 R208",
+  "footprint": "Resistor_SMD:R_0805_2012Metric"
+ },
+ {
+  "aantal": 2,
+  "waarde": "500R",
+  "soort": "Trimpot meerslagen SMD (Bourns 3224W)",
+  "referenties": "RV101 RV201",
+  "footprint": "Potentiometer_SMD:Potentiometer_Bourns_3224W_Vertical"
+ },
+ {
+  "aantal": 6,
+  "waarde": "100n",
+  "soort": "Condensator SMD",
+  "referenties": "C3 C4 C5 C6 C7 C8",
+  "footprint": "Capacitor_SMD:C_0805_2012Metric"
+ },
+ {
+  "aantal": 2,
+  "waarde": "22p C0G",
+  "soort": "Condensator SMD",
+  "referenties": "C106 C206",
+  "footprint": "Capacitor_SMD:C_0805_2012Metric"
+ },
+ {
+  "aantal": 2,
+  "waarde": "2µ2 X7R 50V",
+  "soort": "Condensator SMD",
+  "referenties": "C101 C201",
+  "footprint": "Capacitor_SMD:C_1206_3216Metric"
+ },
+ {
+  "aantal": 2,
+  "waarde": "100µ 25V",
+  "soort": "Elco SMD (gepolariseerd)",
+  "referenties": "C1 C2",
+  "footprint": "Capacitor_SMD:CP_Elec_6.3x7.7"
+ },
+ {
+  "aantal": 2,
+  "waarde": "470µ 25V",
+  "soort": "Elco SMD (gepolariseerd)",
+  "referenties": "C103 C203",
+  "footprint": "Capacitor_SMD:CP_Elec_10x10.5"
+ },
+ {
+  "aantal": 4,
+  "waarde": "47µ 25V",
+  "soort": "Elco SMD (gepolariseerd)",
+  "referenties": "C104 C105 C204 C205",
+  "footprint": "Capacitor_SMD:CP_Elec_6.3x7.7"
+ },
+ {
+  "aantal": 2,
+  "waarde": "10µ bipolair",
+  "soort": "Elco SMD bipolair (NP)",
+  "referenties": "C107 C207",
+  "footprint": "Capacitor_SMD:C_Elec_6.3x7.7"
+ },
+ {
+  "aantal": 2,
+  "waarde": "22µ bipolair",
+  "soort": "Elco SMD bipolair (NP)",
+  "referenties": "C102 C202",
+  "footprint": "Capacitor_SMD:C_Elec_6.3x7.7"
+ },
+ {
+  "aantal": 1,
+  "waarde": "+15V/GND/-15V",
+  "soort": "Schroefklem 3-polig 5,08 mm (through-hole)",
+  "referenties": "J1",
+  "footprint": "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-3-5.08_1x03_P5.08mm_Horizontal"
+ },
+ {
+  "aantal": 1,
+  "waarde": "IN_L",
+  "soort": "Schroefklem 2-polig 5,08 mm (through-hole)",
+  "referenties": "J2",
+  "footprint": "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal"
+ },
+ {
+  "aantal": 1,
+  "waarde": "IN_R",
+  "soort": "Schroefklem 2-polig 5,08 mm (through-hole)",
+  "referenties": "J3",
+  "footprint": "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal"
+ },
+ {
+  "aantal": 1,
+  "waarde": "OUT_L",
+  "soort": "Schroefklem 2-polig 5,08 mm (through-hole)",
+  "referenties": "J4",
+  "footprint": "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal"
+ },
+ {
+  "aantal": 1,
+  "waarde": "OUT_R",
+  "soort": "Schroefklem 2-polig 5,08 mm (through-hole)",
+  "referenties": "J5",
+  "footprint": "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal"
+ }
+]
