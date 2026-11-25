@@ -1,7 +1,7 @@
-"""Dunne koppeling met ngspice in batchmode.
+"""Thin wrapper around ngspice in batch mode.
 
-Een netlist wordt als tekst aangeleverd; we voegen een .control-blok toe dat de
-gevraagde analyses draait en de vectoren met `wrdata` naar tekstbestanden schrijft.
+A netlist is passed in as text; we append a .control block that runs the requested
+analyses and writes the vectors to text files with `wrdata`.
 """
 
 from __future__ import annotations
@@ -33,16 +33,16 @@ def find_ngspice() -> str:
         found = shutil.which(name)
         if found:
             return found
-    raise SpiceError("ngspice niet gevonden (zet NGSPICE of installeer in tools/Spice64)")
+    raise SpiceError("ngspice not found (set NGSPICE or install it in tools/Spice64)")
 
 
 def run_multi(netlist: str, jobs: list[tuple[str, list[str]]],
               timeout: float = 120.0) -> list[np.ndarray]:
-    """Draai meerdere analyses in één ngspice-proces.
+    """Run several analyses in a single ngspice process.
 
-    `jobs` is een lijst van (commando's, vectoren). Het commando mag uit meerdere
-    regels bestaan (bijv. "noise ...\\nsetplot noise2"). Per job komt een array terug:
-    kolom 0 = x-as, daarna de vectoren (complexe vectoren als re/im-paren).
+    `jobs` is a list of (commands, vectors). A command may span several lines
+    (e.g. "noise ...\\nsetplot noise2"). One array is returned per job:
+    column 0 = x axis, followed by the vectors (complex vectors as re/im pairs).
     """
     with tempfile.TemporaryDirectory(prefix="cb_") as tmp:
         tmp = Path(tmp)
@@ -66,10 +66,10 @@ def run_multi(netlist: str, jobs: list[tuple[str, list[str]]],
         results = []
         for out in outs:
             if not out.exists():
-                raise SpiceError(f"ngspice faalde:\n{proc.stdout[-2000:]}\n{proc.stderr[-2000:]}")
+                raise SpiceError(f"ngspice failed:\n{proc.stdout[-2000:]}\n{proc.stderr[-2000:]}")
             data = np.loadtxt(out, skiprows=1, ndmin=2)
             if data.size == 0:
-                raise SpiceError("ngspice gaf geen data terug")
+                raise SpiceError("ngspice returned no data")
             results.append(data)
         return results
 

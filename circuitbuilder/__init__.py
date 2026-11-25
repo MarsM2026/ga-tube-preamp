@@ -1,1 +1,1 @@
-"""circuitbuilder: GA-optimalisatie van een opamp-voorversterker met buizenkarakter."""
+"""circuitbuilder: GA optimisation of an opamp preamp with tube character."""

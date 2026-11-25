@@ -8,7 +8,7 @@
    "2": "GND"
   },
   "channel": "",
-  "block": "voeding",
+  "block": "supply",
   "descr": "bulk +15 V",
   "symbol_uuid": "737e6458-1dfa-5037-b360-70db6a537895"
  },
@@ -21,20 +21,20 @@
    "2": "I1_L"
   },
   "channel": "L",
-  "block": "ingang",
+  "block": "input",
   "descr": "CIN",
   "symbol_uuid": "23b1212b-b367-5900-a7fd-d99de13dffa0"
  },
  {
   "ref": "C102",
-  "value": "22µ bipolair",
+  "value": "22µ bipolar",
   "footprint": "Capacitor_THT:C_Radial_D6.3mm_H11.0mm_P2.50mm",
   "pads": {
    "1": "G1_L",
    "2": "GND"
   },
   "channel": "L",
-  "block": "versterker",
+  "block": "amplifier",
   "descr": "CG1",
   "symbol_uuid": "c1012e82-6696-5f27-8bcb-bb5a78ad0db5"
  },
@@ -47,7 +47,7 @@
    "2": "GND"
   },
   "channel": "L",
-  "block": "voorspanning",
+  "block": "bias",
   "descr": "CFLT",
   "symbol_uuid": "a3d4d748-86a5-5b86-9b50-ffad7df97d06"
  },
@@ -60,7 +60,7 @@
    "2": "SA_L"
   },
   "channel": "L",
-  "block": "tak A",
+  "block": "branch A",
   "descr": "CSA",
   "symbol_uuid": "a947af87-58b4-50c2-9d38-ec13200c4c90"
  },
@@ -73,7 +73,7 @@
    "2": "SB_L"
   },
   "channel": "L",
-  "block": "tak B",
+  "block": "branch B",
   "descr": "CSB",
   "symbol_uuid": "88da0ea0-cd8b-5bd1-9106-37486f383f58"
  },
@@ -86,20 +86,20 @@
    "2": "S_L"
   },
   "channel": "L",
-  "block": "sommator",
+  "block": "summer",
   "descr": "CF2",
   "symbol_uuid": "9af1f82b-49a3-5ada-9545-b53d50be0252"
  },
  {
   "ref": "C107",
-  "value": "10µ bipolair",
+  "value": "10µ bipolar",
   "footprint": "Capacitor_THT:C_Radial_D6.3mm_H11.0mm_P2.50mm",
   "pads": {
    "1": "OUT1_L",
    "2": "OUT_L"
   },
   "channel": "L",
-  "block": "uitgang",
+  "block": "output",
   "descr": "COUT",
   "symbol_uuid": "96229762-703a-5105-a898-201f0f60db37"
  },
@@ -112,7 +112,7 @@
    "2": "-15V"
   },
   "channel": "",
-  "block": "voeding",
+  "block": "supply",
   "descr": "bulk -15 V",
   "symbol_uuid": "7aa43db9-ecfd-5f8f-80a8-69bfe37e4830"
  },
@@ -125,20 +125,20 @@
    "2": "I1_R"
   },
   "channel": "R",
-  "block": "ingang",
+  "block": "input",
   "descr": "CIN",
   "symbol_uuid": "3378cc72-7bea-5a88-b98d-0accdc876648"
  },
  {
   "ref": "C202",
-  "value": "22µ bipolair",
+  "value": "22µ bipolar",
   "footprint": "Capacitor_THT:C_Radial_D6.3mm_H11.0mm_P2.50mm",
   "pads": {
    "1": "G1_R",
    "2": "GND"
   },
   "channel": "R",
-  "block": "versterker",
+  "block": "amplifier",
   "descr": "CG1",
   "symbol_uuid": "aba5ed71-7aa0-5b7a-a65d-1e1638916c91"
  },
@@ -151,7 +151,7 @@
    "2": "GND"
   },
   "channel": "R",
-  "block": "voorspanning",
+  "block": "bias",
   "descr": "CFLT",
   "symbol_uuid": "c859e409-88ae-5885-a031-227f178abd54"
  },
@@ -164,7 +164,7 @@
    "2": "SA_R"
   },
   "channel": "R",
-  "block": "tak A",
+  "block": "branch A",
   "descr": "CSA",
   "symbol_uuid": "81edc4fe-b198-5861-8065-2b89bdcf8a5d"
  },
@@ -177,7 +177,7 @@
    "2": "SB_R"
   },
   "channel": "R",
-  "block": "tak B",
+  "block": "branch B",
   "descr": "CSB",
   "symbol_uuid": "216be04a-5607-54fe-9409-a5b1ebf56019"
  },
@@ -190,20 +190,20 @@
    "2": "S_R"
   },
   "channel": "R",
-  "block": "sommator",
+  "block": "summer",
   "descr": "CF2",
   "symbol_uuid": "97e3b698-416c-5d8c-9e0f-e0b8bbb9ccd7"
  },
  {
   "ref": "C207",
-  "value": "10µ bipolair",
+  "value": "10µ bipolar",
   "footprint": "Capacitor_THT:C_Radial_D6.3mm_H11.0mm_P2.50mm",
   "pads": {
    "1": "OUT1_R",
    "2": "OUT_R"
   },
   "channel": "R",
-  "block": "uitgang",
+  "block": "output",
   "descr": "COUT",
   "symbol_uuid": "967710f8-076e-59be-8c81-d26ee3635f41"
  },
@@ -216,8 +216,8 @@
    "2": "GND"
   },
   "channel": "",
-  "block": "voeding",
-  "descr": "ontkoppeling U1 +15 V",
+  "block": "supply",
+  "descr": "decoupling U1 +15 V",
   "symbol_uuid": "3a3fff7d-86ac-5266-b6ad-0d4c2410ab5d"
  },
  {
@@ -229,8 +229,8 @@
    "2": "-15V"
   },
   "channel": "",
-  "block": "voeding",
-  "descr": "ontkoppeling U1 -15 V",
+  "block": "supply",
+  "descr": "decoupling U1 -15 V",
   "symbol_uuid": "8d2e8fc0-56d8-5efb-852f-62023af0ed45"
  },
  {
@@ -242,8 +242,8 @@
    "2": "GND"
   },
   "channel": "",
-  "block": "voeding",
-  "descr": "ontkoppeling U2 +15 V",
+  "block": "supply",
+  "descr": "decoupling U2 +15 V",
   "symbol_uuid": "ad043781-1fa1-5154-b46a-d20a0b0e0a13"
  },
  {
@@ -255,8 +255,8 @@
    "2": "-15V"
   },
   "channel": "",
-  "block": "voeding",
-  "descr": "ontkoppeling U2 -15 V",
+  "block": "supply",
+  "descr": "decoupling U2 -15 V",
   "symbol_uuid": "a7ce1a88-1b3d-5498-b47f-5c3629dace9c"
  },
  {
@@ -268,8 +268,8 @@
    "2": "GND"
   },
   "channel": "",
-  "block": "voeding",
-  "descr": "ontkoppeling U3 +15 V",
+  "block": "supply",
+  "descr": "decoupling U3 +15 V",
   "symbol_uuid": "5acdd85b-fac4-5370-8693-dc03e25c206b"
  },
  {
@@ -281,8 +281,8 @@
    "2": "-15V"
   },
   "channel": "",
-  "block": "voeding",
-  "descr": "ontkoppeling U3 -15 V",
+  "block": "supply",
+  "descr": "decoupling U3 -15 V",
   "symbol_uuid": "9ec9e162-b20e-55f4-8a85-7440e372da64"
  },
  {
@@ -294,8 +294,8 @@
    "1": "A1_L"
   },
   "channel": "L",
-  "block": "tak A",
-  "descr": "1N4148 kleinsignaaldiode",
+  "block": "branch A",
+  "descr": "1N4148 small-signal diode",
   "symbol_uuid": "1cae16e8-f8b6-53cd-8501-949f3c99ff75"
  },
  {
@@ -307,8 +307,8 @@
    "1": "A2_L"
   },
   "channel": "L",
-  "block": "tak A",
-  "descr": "1N4148 kleinsignaaldiode",
+  "block": "branch A",
+  "descr": "1N4148 small-signal diode",
   "symbol_uuid": "b8d6db74-ad4f-5730-9e88-3aab1dadf1c6"
  },
  {
@@ -320,8 +320,8 @@
    "1": "GND"
   },
   "channel": "L",
-  "block": "tak A",
-  "descr": "1N4148 kleinsignaaldiode",
+  "block": "branch A",
+  "descr": "1N4148 small-signal diode",
   "symbol_uuid": "4763f220-8e20-5871-a977-0cc9314243aa"
  },
  {
@@ -333,8 +333,8 @@
    "1": "B1_L"
   },
   "channel": "L",
-  "block": "tak B",
-  "descr": "1N4148 kleinsignaaldiode",
+  "block": "branch B",
+  "descr": "1N4148 small-signal diode",
   "symbol_uuid": "ff9b5f8f-c2a2-5c09-996b-14b489525079"
  },
  {
@@ -346,8 +346,8 @@
    "1": "B2_L"
   },
   "channel": "L",
-  "block": "tak B",
-  "descr": "1N4148 kleinsignaaldiode",
+  "block": "branch B",
+  "descr": "1N4148 small-signal diode",
   "symbol_uuid": "e83f66ae-2a52-559a-9890-e921315fe134"
  },
  {
@@ -359,8 +359,8 @@
    "1": "GND"
   },
   "channel": "L",
-  "block": "tak B",
-  "descr": "1N4148 kleinsignaaldiode",
+  "block": "branch B",
+  "descr": "1N4148 small-signal diode",
   "symbol_uuid": "a13a9687-db7e-5ad5-88f4-bbb396186fac"
  },
  {
@@ -372,8 +372,8 @@
    "1": "A1_R"
   },
   "channel": "R",
-  "block": "tak A",
-  "descr": "1N4148 kleinsignaaldiode",
+  "block": "branch A",
+  "descr": "1N4148 small-signal diode",
   "symbol_uuid": "547b5ab1-107c-5c12-b7cc-3ff58718b0bb"
  },
  {
@@ -385,8 +385,8 @@
    "1": "A2_R"
   },
   "channel": "R",
-  "block": "tak A",
-  "descr": "1N4148 kleinsignaaldiode",
+  "block": "branch A",
+  "descr": "1N4148 small-signal diode",
   "symbol_uuid": "99611696-dc52-523b-bdcd-088e4cb47efe"
  },
  {
@@ -398,8 +398,8 @@
    "1": "GND"
   },
   "channel": "R",
-  "block": "tak A",
-  "descr": "1N4148 kleinsignaaldiode",
+  "block": "branch A",
+  "descr": "1N4148 small-signal diode",
   "symbol_uuid": "1dfd0518-8812-5368-963f-db182f09eb7a"
  },
  {
@@ -411,8 +411,8 @@
    "1": "B1_R"
   },
   "channel": "R",
-  "block": "tak B",
-  "descr": "1N4148 kleinsignaaldiode",
+  "block": "branch B",
+  "descr": "1N4148 small-signal diode",
   "symbol_uuid": "3c843ac9-d029-5046-aad6-ffd82f0e01aa"
  },
  {
@@ -424,8 +424,8 @@
    "1": "B2_R"
   },
   "channel": "R",
-  "block": "tak B",
-  "descr": "1N4148 kleinsignaaldiode",
+  "block": "branch B",
+  "descr": "1N4148 small-signal diode",
   "symbol_uuid": "49e4edbb-78ff-5760-a8bf-eca579773618"
  },
  {
@@ -437,8 +437,8 @@
    "1": "GND"
   },
   "channel": "R",
-  "block": "tak B",
-  "descr": "1N4148 kleinsignaaldiode",
+  "block": "branch B",
+  "descr": "1N4148 small-signal diode",
   "symbol_uuid": "98dc8696-7408-5aca-b510-7b525695785f"
  },
  {
@@ -451,8 +451,8 @@
    "3": "-15V"
   },
   "channel": "",
-  "block": "voeding",
-  "descr": "voedingsaansluiting +/-15 V (gestabiliseerd)",
+  "block": "supply",
+  "descr": "power input +/-15 V (regulated)",
   "symbol_uuid": "016256af-5ad3-5b3a-9454-4cd42f49e5f6"
  },
  {
@@ -464,8 +464,8 @@
    "2": "GND"
   },
   "channel": "L",
-  "block": "ingang",
-  "descr": "ingang kanaal L (signaal, massa)",
+  "block": "input",
+  "descr": "input channel L (signal, ground)",
   "symbol_uuid": "36327488-689e-554a-930f-e50b981969e3"
  },
  {
@@ -477,8 +477,8 @@
    "2": "GND"
   },
   "channel": "R",
-  "block": "ingang",
-  "descr": "ingang kanaal R (signaal, massa)",
+  "block": "input",
+  "descr": "input channel R (signal, ground)",
   "symbol_uuid": "df22816b-c23f-5479-a057-615d79936412"
  },
  {
@@ -490,8 +490,8 @@
    "2": "GND"
   },
   "channel": "L",
-  "block": "uitgang",
-  "descr": "uitgang kanaal L (signaal, massa)",
+  "block": "output",
+  "descr": "output channel L (signal, ground)",
   "symbol_uuid": "a7ba0c33-3eea-5e58-8bdc-3edab8913774"
  },
  {
@@ -503,8 +503,8 @@
    "2": "GND"
   },
   "channel": "R",
-  "block": "uitgang",
-  "descr": "uitgang kanaal R (signaal, massa)",
+  "block": "output",
+  "descr": "output channel R (signal, ground)",
   "symbol_uuid": "34e01f9b-5770-5664-912c-2e65d0728fed"
  },
  {
@@ -516,8 +516,8 @@
    "2": "GND"
   },
   "channel": "L",
-  "block": "ingang",
-  "descr": "RIN, metaalfilm 1% 0,25 W",
+  "block": "input",
+  "descr": "RIN, metal film 1% 0.25 W",
   "symbol_uuid": "ec7e8148-2587-50a3-b021-470340784e71"
  },
  {
@@ -529,8 +529,8 @@
    "2": "FB1_L"
   },
   "channel": "L",
-  "block": "versterker",
-  "descr": "RF1, metaalfilm 1% 0,25 W",
+  "block": "amplifier",
+  "descr": "RF1, metal film 1% 0.25 W",
   "symbol_uuid": "ed80641a-0dd6-56fb-9689-07eedd590773"
  },
  {
@@ -542,8 +542,8 @@
    "2": "G1_L"
   },
   "channel": "L",
-  "block": "versterker",
-  "descr": "RG1, metaalfilm 1% 0,25 W",
+  "block": "amplifier",
+  "descr": "RG1, metal film 1% 0.25 W",
   "symbol_uuid": "f40af20c-e23f-5571-931e-214bd7be9c15"
  },
  {
@@ -556,7 +556,7 @@
   },
   "channel": "L",
   "block": "inverter",
-  "descr": "RI1, metaalfilm 1% 0,25 W",
+  "descr": "RI1, metal film 1% 0.25 W",
   "symbol_uuid": "0d63260f-faa4-5562-917c-7520a5f9bafe"
  },
  {
@@ -569,7 +569,7 @@
   },
   "channel": "L",
   "block": "inverter",
-  "descr": "RI2, metaalfilm 1% 0,25 W",
+  "descr": "RI2, metal film 1% 0.25 W",
   "symbol_uuid": "3e13e336-8a7b-559b-b009-79f8266d2635"
  },
  {
@@ -581,8 +581,8 @@
    "2": "VP_L"
   },
   "channel": "L",
-  "block": "voorspanning",
-  "descr": "RFLT, metaalfilm 1% 0,25 W",
+  "block": "bias",
+  "descr": "RFLT, metal film 1% 0.25 W",
   "symbol_uuid": "d0988191-b06c-5683-b530-e2bf6477108c"
  },
  {
@@ -594,8 +594,8 @@
    "2": "A_L"
   },
   "channel": "L",
-  "block": "tak A",
-  "descr": "RA, metaalfilm 1% 0,25 W",
+  "block": "branch A",
+  "descr": "RA, metal film 1% 0.25 W",
   "symbol_uuid": "b6f68f37-e667-52b1-8a70-96130a12a62c"
  },
  {
@@ -607,8 +607,8 @@
    "2": "A_L"
   },
   "channel": "L",
-  "block": "tak A",
-  "descr": "RBA, metaalfilm 1% 0,25 W",
+  "block": "branch A",
+  "descr": "RBA, metal film 1% 0.25 W",
   "symbol_uuid": "77327ac6-c520-528e-bead-eb07df7b3b69"
  },
  {
@@ -620,8 +620,8 @@
    "2": "S_L"
   },
   "channel": "L",
-  "block": "tak A",
-  "descr": "RSA, metaalfilm 1% 0,25 W",
+  "block": "branch A",
+  "descr": "RSA, metal film 1% 0.25 W",
   "symbol_uuid": "22604240-e589-5b7a-96e0-4c9a8b16802c"
  },
  {
@@ -633,8 +633,8 @@
    "2": "RB_L"
   },
   "channel": "L",
-  "block": "tak B",
-  "descr": "RB, metaalfilm 1% 0,25 W",
+  "block": "branch B",
+  "descr": "RB, metal film 1% 0.25 W",
   "symbol_uuid": "07f7f196-e5fb-5163-a3e3-cfa286fa618f"
  },
  {
@@ -646,8 +646,8 @@
    "2": "B_L"
   },
   "channel": "L",
-  "block": "tak B",
-  "descr": "RBB, metaalfilm 1% 0,25 W",
+  "block": "branch B",
+  "descr": "RBB, metal film 1% 0.25 W",
   "symbol_uuid": "5907e902-ca21-504a-b244-41555c5b9179"
  },
  {
@@ -659,8 +659,8 @@
    "2": "S_L"
   },
   "channel": "L",
-  "block": "tak B",
-  "descr": "RSB, metaalfilm 1% 0,25 W",
+  "block": "branch B",
+  "descr": "RSB, metal film 1% 0.25 W",
   "symbol_uuid": "a706ca2b-e881-5d7d-9476-1059622164c8"
  },
  {
@@ -672,8 +672,8 @@
    "2": "S_L"
   },
   "channel": "L",
-  "block": "sommator",
-  "descr": "RS0, metaalfilm 1% 0,25 W",
+  "block": "summer",
+  "descr": "RS0, metal film 1% 0.25 W",
   "symbol_uuid": "8716a5ab-0905-5171-b884-c9764d39b885"
  },
  {
@@ -685,8 +685,8 @@
    "2": "S_L"
   },
   "channel": "L",
-  "block": "sommator",
-  "descr": "RF2, metaalfilm 1% 0,25 W",
+  "block": "summer",
+  "descr": "RF2, metal film 1% 0.25 W",
   "symbol_uuid": "e293de81-42d6-5faf-b400-9494da1d2624"
  },
  {
@@ -698,8 +698,8 @@
    "2": "OUT1_L"
   },
   "channel": "L",
-  "block": "uitgang",
-  "descr": "ROUT, metaalfilm 1% 0,25 W",
+  "block": "output",
+  "descr": "ROUT, metal film 1% 0.25 W",
   "symbol_uuid": "9c014378-7920-5f0d-a3bb-95e47f9fd16a"
  },
  {
@@ -711,8 +711,8 @@
    "2": "GND"
   },
   "channel": "L",
-  "block": "uitgang",
-  "descr": "RBLEED, metaalfilm 1% 0,25 W",
+  "block": "output",
+  "descr": "RBLEED, metal film 1% 0.25 W",
   "symbol_uuid": "60c89729-c914-5ca6-b830-c3d981763613"
  },
  {
@@ -724,8 +724,8 @@
    "2": "GND"
   },
   "channel": "R",
-  "block": "ingang",
-  "descr": "RIN, metaalfilm 1% 0,25 W",
+  "block": "input",
+  "descr": "RIN, metal film 1% 0.25 W",
   "symbol_uuid": "8491f5b5-168d-5bf4-bee9-1eddd05c702f"
  },
  {
@@ -737,8 +737,8 @@
    "2": "FB1_R"
   },
   "channel": "R",
-  "block": "versterker",
-  "descr": "RF1, metaalfilm 1% 0,25 W",
+  "block": "amplifier",
+  "descr": "RF1, metal film 1% 0.25 W",
   "symbol_uuid": "a7d823d9-06ef-5c4c-a2ca-90505389882b"
  },
  {
@@ -750,8 +750,8 @@
    "2": "G1_R"
   },
   "channel": "R",
-  "block": "versterker",
-  "descr": "RG1, metaalfilm 1% 0,25 W",
+  "block": "amplifier",
+  "descr": "RG1, metal film 1% 0.25 W",
   "symbol_uuid": "500a4bd7-5021-53e4-8e35-79abb46287f8"
  },
  {
@@ -764,7 +764,7 @@
   },
   "channel": "R",
   "block": "inverter",
-  "descr": "RI1, metaalfilm 1% 0,25 W",
+  "descr": "RI1, metal film 1% 0.25 W",
   "symbol_uuid": "ef6db5a2-6b09-5dbf-8522-5bdeef51b504"
  },
  {
@@ -777,7 +777,7 @@
   },
   "channel": "R",
   "block": "inverter",
-  "descr": "RI2, metaalfilm 1% 0,25 W",
+  "descr": "RI2, metal film 1% 0.25 W",
   "symbol_uuid": "d7d55134-aba0-50f2-ae4e-e5fb4dcac061"
  },
  {
@@ -789,8 +789,8 @@
    "2": "VP_R"
   },
   "channel": "R",
-  "block": "voorspanning",
-  "descr": "RFLT, metaalfilm 1% 0,25 W",
+  "block": "bias",
+  "descr": "RFLT, metal film 1% 0.25 W",
   "symbol_uuid": "30d0a56d-dfab-548a-bf38-cc57e32377d8"
  },
  {
@@ -802,8 +802,8 @@
    "2": "A_R"
   },
   "channel": "R",
-  "block": "tak A",
-  "descr": "RA, metaalfilm 1% 0,25 W",
+  "block": "branch A",
+  "descr": "RA, metal film 1% 0.25 W",
   "symbol_uuid": "861a4ae1-0fd2-52d5-96d2-f6df85db4976"
  },
  {
@@ -815,8 +815,8 @@
    "2": "A_R"
   },
   "channel": "R",
-  "block": "tak A",
-  "descr": "RBA, metaalfilm 1% 0,25 W",
+  "block": "branch A",
+  "descr": "RBA, metal film 1% 0.25 W",
   "symbol_uuid": "5ce1abae-cf9d-5f8c-892a-04999df4a62f"
  },
  {
@@ -828,8 +828,8 @@
    "2": "S_R"
   },
   "channel": "R",
-  "block": "tak A",
-  "descr": "RSA, metaalfilm 1% 0,25 W",
+  "block": "branch A",
+  "descr": "RSA, metal film 1% 0.25 W",
   "symbol_uuid": "8b6c353b-49cc-54aa-a306-a93c4286f427"
  },
  {
@@ -841,8 +841,8 @@
    "2": "RB_R"
   },
   "channel": "R",
-  "block": "tak B",
-  "descr": "RB, metaalfilm 1% 0,25 W",
+  "block": "branch B",
+  "descr": "RB, metal film 1% 0.25 W",
   "symbol_uuid": "976da5cf-2165-5e02-89c5-b055630d664b"
  },
  {
@@ -854,8 +854,8 @@
    "2": "B_R"
   },
   "channel": "R",
-  "block": "tak B",
-  "descr": "RBB, metaalfilm 1% 0,25 W",
+  "block": "branch B",
+  "descr": "RBB, metal film 1% 0.25 W",
   "symbol_uuid": "e6a09986-4539-5ffd-918b-c9a5dcc0ab08"
  },
  {
@@ -867,8 +867,8 @@
    "2": "S_R"
   },
   "channel": "R",
-  "block": "tak B",
-  "descr": "RSB, metaalfilm 1% 0,25 W",
+  "block": "branch B",
+  "descr": "RSB, metal film 1% 0.25 W",
   "symbol_uuid": "042f8607-d713-567c-ae40-04efb704bd8d"
  },
  {
@@ -880,8 +880,8 @@
    "2": "S_R"
   },
   "channel": "R",
-  "block": "sommator",
-  "descr": "RS0, metaalfilm 1% 0,25 W",
+  "block": "summer",
+  "descr": "RS0, metal film 1% 0.25 W",
   "symbol_uuid": "1147e620-3e02-5b27-a2df-69574dd218ac"
  },
  {
@@ -893,8 +893,8 @@
    "2": "S_R"
   },
   "channel": "R",
-  "block": "sommator",
-  "descr": "RF2, metaalfilm 1% 0,25 W",
+  "block": "summer",
+  "descr": "RF2, metal film 1% 0.25 W",
   "symbol_uuid": "6982bc19-d33d-5b02-a765-4ae4cddb7289"
  },
  {
@@ -906,8 +906,8 @@
    "2": "OUT1_R"
   },
   "channel": "R",
-  "block": "uitgang",
-  "descr": "ROUT, metaalfilm 1% 0,25 W",
+  "block": "output",
+  "descr": "ROUT, metal film 1% 0.25 W",
   "symbol_uuid": "f18695b9-cee5-5aaa-8584-76967d542eed"
  },
  {
@@ -919,8 +919,8 @@
    "2": "GND"
   },
   "channel": "R",
-  "block": "uitgang",
-  "descr": "RBLEED, metaalfilm 1% 0,25 W",
+  "block": "output",
+  "descr": "RBLEED, metal film 1% 0.25 W",
   "symbol_uuid": "4251c0e9-0501-588f-99ca-cb3a25f01821"
  },
  {
@@ -933,8 +933,8 @@
    "3": "B_L"
   },
   "channel": "L",
-  "block": "tak B",
-  "descr": "trimpot 500R meerslagen (Bourns 3296W), H3-afregeling",
+  "block": "branch B",
+  "descr": "trimmer 500R multi-turn (Bourns 3296W), H3 adjustment",
   "symbol_uuid": "8088a12d-130c-59cd-9d05-e165910cca5f"
  },
  {
@@ -947,8 +947,8 @@
    "3": "B_R"
   },
   "channel": "R",
-  "block": "tak B",
-  "descr": "trimpot 500R meerslagen (Bourns 3296W), H3-afregeling",
+  "block": "branch B",
+  "descr": "trimmer 500R multi-turn (Bourns 3296W), H3 adjustment",
   "symbol_uuid": "b7f6e440-0d9d-56b0-b499-caf2b145cb4a"
  },
  {
@@ -967,7 +967,7 @@
   },
   "channel": "L",
   "block": "opamp",
-  "descr": "NE5532P dubbele low-noise opamp",
+  "descr": "NE5532P dual low-noise opamp",
   "symbol_uuid": "f707572f-c60c-5201-8e9f-4b34ffe00a7a"
  },
  {
@@ -986,7 +986,7 @@
   },
   "channel": "L",
   "block": "opamp",
-  "descr": "NE5532P dubbele low-noise opamp",
+  "descr": "NE5532P dual low-noise opamp",
   "symbol_uuid": "e895df8f-1f1d-55b5-b2ff-6fb890910d9e"
  },
  {
@@ -1005,7 +1005,7 @@
   },
   "channel": "L",
   "block": "opamp",
-  "descr": "NE5532P dubbele low-noise opamp",
+  "descr": "NE5532P dual low-noise opamp",
   "symbol_uuid": "96510bb3-cc6a-548a-9eec-3d138bdc5a6e"
  }
 ]

@@ -1,15 +1,16 @@
-"""Monte-Carlo-tolerantieanalyse van het definitieve ontwerp.
+"""Monte Carlo tolerance analysis of the final design.
 
-Elke virtuele print krijgt willekeurige afwijkingen:
-  - weerstanden: uniform +/-1 % (metaalfilm), behalve de trimpot-keten RB
-  - diodes: verzadigingsstroom lognormaal (sigma 0,25, ca. +/-11 mV drempelspanning)
-Per print berekenen we H2/H3 en versterking twee keer:
-  1. "onafgeregeld": trimpot zo dat RB = 4,70 kOhm (met multimeter ingesteld)
-  2. "afgeregeld":   trimpot zo dat H3 bij 4 V rms weer op het nominale niveau ligt
-                     (zoals bij afregelen met geluidskaart + REW)
+Every virtual board gets random deviations:
+  - resistors: uniform +/-1 % (metal film), except the trimmer chain RB
+  - diodes: saturation current lognormal (sigma 0.25, approx. +/-11 mV threshold voltage)
+For each board we compute H2/H3 and gain twice:
+  1. "untrimmed": trimmer set so that RB = 4.70 kOhm (set with a multimeter)
+  2. "trimmed":   trimmer set so that H3 at 4 V rms is back at the nominal level
+                  (as when adjusting with a sound card + REW)
 
-Gebruik:  python scripts/montecarlo.py [--n 24] [--workers 4]
-Resultaat: out/montecarlo.json en out/montecarlo.png
+Usage:   python scripts/montecarlo.py [--n 24] [--workers 4] [--plot-only]
+Output:  out/montecarlo.json and out/montecarlo.png
+         (--plot-only redraws the plot from an existing out/montecarlo.json)
 """
 
 from __future__ import annotations
@@ -59,7 +60,7 @@ def sample(seed: int) -> dict:
     out = {"seed": seed, "untrimmed": untrimmed, "trimmed": None, "rb_trim": None}
     if untrimmed is None:
         return out
-    # afregelen: H3@4V is vrijwel lineair in RB -> secant-stap(pen) naar nominaal
+    # trimming: H3@4V is nearly linear in RB -> secant step towards nominal
     target = NOMINAL["h3_4v"]
     rb0, h0 = TRIM["nominal"], untrimmed["h3_4v"]
     rb1 = rb0 * 0.98
@@ -73,7 +74,7 @@ def sample(seed: int) -> dict:
     return out
 
 
-NOMINAL: dict | None = None  # wordt per werkproces gezet via init_worker
+NOMINAL: dict | None = None  # set per worker process via init_worker
 
 
 def init_worker(nominal):
@@ -81,20 +82,43 @@ def init_worker(nominal):
     NOMINAL = nominal
 
 
+def plot(summary: dict) -> None:
+    ok = [r for r in summary["samples"] if r["untrimmed"] and r["trimmed"]]
+    nominal = summary["nominal"]
+    fig, ax = plt.subplots(1, 3, figsize=(13, 4))
+    for a, k, title in zip(ax, ["gain", "h2_1v", "h3_4v"],
+                           ["Gain [dB]", "H2 at 1 V rms [dB]", "H3 at 4 V rms [dB]"]):
+        u = [r["untrimmed"][k] for r in ok]
+        t = [r["trimmed"][k] for r in ok]
+        a.hist([u, t], bins=10, label=["untrimmed (RB = 4k70)", "trimmed"])
+        a.axvline(nominal[k], color="k", ls="--", lw=1, label="nominal")
+        a.set(title=title)
+        a.grid(alpha=0.3)
+    ax[0].legend(fontsize=8)
+    fig.suptitle(f"Monte Carlo: {len(ok)} boards, 1 % resistors, diode spread")
+    fig.tight_layout()
+    fig.savefig(ROOT / "out" / "montecarlo.png", dpi=120)
+    print(f"Plot: {ROOT / 'out' / 'montecarlo.png'}")
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--n", type=int, default=24)
     ap.add_argument("--workers", type=int, default=4)
+    ap.add_argument("--plot-only", action="store_true")
     args = ap.parse_args()
+    if args.plot_only:
+        plot(json.loads((ROOT / "out" / "montecarlo.json").read_text()))
+        return
     nominal = measure({**FIXED, **FINAL["values"]})
-    print("nominaal:", {k: round(v, 2) for k, v in nominal.items()})
+    print("nominal:", {k: round(v, 2) for k, v in nominal.items()})
     with Pool(args.workers, initializer=init_worker, initargs=(nominal,)) as pool:
         res = pool.map(sample, range(args.n))
     ok = [r for r in res if r["untrimmed"] and r["trimmed"]]
-    print(f"{len(ok)}/{len(res)} printen geslaagd")
+    print(f"{len(ok)}/{len(res)} boards succeeded")
     summary = {"nominal": nominal, "n": len(ok), "samples": res, "stats": {}}
     keys = ["gain", "h2_1v", "h3_1v", "h2_4v", "h3_4v"]
-    print(f"\n{'grootheid':8s} {'nominaal':>9s} | onafgeregeld: gem  +/-sd   min..max | afgeregeld: gem  +/-sd   min..max")
+    print(f"\n{'quantity':8s} {'nominal':>9s} | untrimmed: mean  +/-sd   min..max | trimmed: mean  +/-sd   min..max")
     for k in keys:
         st = {}
         line = f"{k:8s} {nominal[k]:9.2f} |"
@@ -106,25 +130,11 @@ def main() -> None:
         summary["stats"][k] = st
         print(line)
     rbs = np.array([r["rb_trim"] for r in ok])
-    print(f"\nTrimpotstand RB: {rbs.min():.0f}..{rbs.max():.0f} Ohm (bereik {TRIM['fixed']:.0f}.."
+    print(f"\nTrimmer setting RB: {rbs.min():.0f}..{rbs.max():.0f} Ohm (range {TRIM['fixed']:.0f}.."
           f"{TRIM['fixed'] + TRIM['pot']:.0f})")
     summary["rb_trim_range"] = [float(rbs.min()), float(rbs.max())]
     (ROOT / "out" / "montecarlo.json").write_text(json.dumps(summary, indent=1))
-
-    fig, ax = plt.subplots(1, 3, figsize=(13, 4))
-    for a, k, title in zip(ax, ["gain", "h2_1v", "h3_4v"],
-                           ["Versterking [dB]", "H2 bij 1 V rms [dB]", "H3 bij 4 V rms [dB]"]):
-        u = [r["untrimmed"][k] for r in ok]
-        t = [r["trimmed"][k] for r in ok]
-        a.hist([u, t], bins=10, label=["onafgeregeld (RB = 4k70)", "afgeregeld"])
-        a.axvline(nominal[k], color="k", ls="--", lw=1, label="nominaal")
-        a.set(title=title)
-        a.grid(alpha=0.3)
-    ax[0].legend(fontsize=8)
-    fig.suptitle(f"Monte Carlo: {len(ok)} printen, 1 % weerstanden, diodespreiding")
-    fig.tight_layout()
-    fig.savefig(ROOT / "out" / "montecarlo.png", dpi=120)
-    print(f"Plot: {ROOT / 'out' / 'montecarlo.png'}")
+    plot(summary)
 
 
 if __name__ == "__main__":

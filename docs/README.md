@@ -1,28 +1,28 @@
-# Documentatie: warme opamp-voorversterker
+# Documentation: warm opamp preamp
 
-Lees in deze volgorde:
+Read in this order:
 
-1. [Overzicht](01_overzicht.md): wat het is, kerncijfers
-2. [Hoe de schakeling werkt](02_hoe_het_werkt.md)
-3. [Ontwerpproces met een genetisch algoritme](03_ontwerpproces.md)
-4. [Resultaten en controles](04_resultaten.md)
-5. [Bouwhandleiding](05_bouwhandleiding.md)
-6. [Software zelf draaien](06_software.md)
-7. [Kant-en-klaar laten maken (SMD-versie)](07_kant_en_klaar_smd.md)
+1. [Overview](01_overview.md): what it is, key figures
+2. [How the circuit works](02_how_it_works.md)
+3. [Design process with a genetic algorithm](03_design_process.md)
+4. [Results and checks](04_results.md)
+5. [Build guide](05_build_guide.md)
+6. [Running the software yourself](06_software.md)
+7. [Having it made ready-to-use (SMD version)](07_assembled_smd.md)
 
-**Bouw je hier een webpagina van?** Begin dan met
-[WEBPAGINA_OVERDRACHT.md](WEBPAGINA_OVERDRACHT.md): daarin staat waar alle teksten,
-afbeeldingen, data en downloads staan en welke paginaopbouw wordt voorgesteld.
+**Building a web page from this?** Start with
+[WEBPAGE_HANDOFF.md](WEBPAGE_HANDOFF.md): it lists where all texts, images, data and
+downloads are and proposes a page structure.
 
-## Mappen
+## Folders
 
-| Map | Inhoud |
+| Folder | Content |
 |---|---|
-| `docs/` | teksten (Markdown) |
-| `docs/img/` | grafieken en het leesbare schema |
-| `docs/data/` | ruwe cijfers als JSON/CSV (voor interactieve grafieken) |
-| `hardware/kicad/` | KiCad 10-project through-hole (schema, print, ERC/DRC-rapporten) |
-| `hardware/export/` | through-hole: Gerbers (zip), schema-PDF, printlagen (SVG), 3D-renders, BOM |
-| `hardware/kicad_smd/` | KiCad 10-project SMD-versie |
-| `hardware/export_smd/` | SMD: Gerbers, montagebestanden (BOM + CPL), schema-PDF, printlagen, 3D-renders |
-| `designs/` | ontwerpwaarden per GA-run en het definitieve ontwerp |
+| `docs/` | texts (Markdown) |
+| `docs/img/` | charts and the readable schematic |
+| `docs/data/` | raw numbers as JSON/CSV (for interactive charts) |
+| `hardware/kicad/` | KiCad 10 project, through-hole (schematic, PCB, ERC/DRC reports) |
+| `hardware/export/` | through-hole: Gerbers (zip), schematic PDF, PCB layers (SVG), 3D renders, BOM |
+| `hardware/kicad_smd/` | KiCad 10 project, SMD version |
+| `hardware/export_smd/` | SMD: Gerbers, assembly files (BOM + CPL), schematic PDF, PCB layers, 3D renders |
+| `designs/` | design values per GA run and the final design |

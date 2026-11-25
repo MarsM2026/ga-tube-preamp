@@ -1,19 +1,19 @@
-"""Genereer de print (hardware/kicad/warm_preamp.kicad_pcb) met de KiCad-Python-API.
+"""Generate the PCB (hardware/kicad/warm_preamp.kicad_pcb) with the KiCad Python API.
 
-Draaien met de Python van KiCad (niet de venv), in drie stappen:
+Run with KiCad's own Python (not the venv), in three steps:
 
-  python.exe scripts/kicad_pcb.py place [smd]   # plaatsing + nets -> .kicad_pcb en .dsn
-  java -jar tools/freerouting/freerouting.jar -de ... -do ...   (zie scripts/make_hardware.py)
-  python.exe scripts/kicad_pcb.py finish [smd]  # .ses importeren, massavlakken, tekst
+  python.exe scripts/kicad_pcb.py place [smd]   # placement + nets -> .kicad_pcb and .dsn
+  java -jar tools/freerouting/freerouting.jar -de ... -do ...   (see scripts/make_hardware.py)
+  python.exe scripts/kicad_pcb.py finish [smd]  # import .ses, ground pours, text
 
-Zonder 'smd': through-hole-variant in hardware/kicad/; met 'smd': hardware/kicad_smd/.
+Without 'smd': through-hole variant in hardware/kicad/; with 'smd': hardware/kicad_smd/.
 
-Indeling (bovenaanzicht, ca. 178 x 100 mm; breedte volgt uit de plaatsing):
-  - IC's U1 (ingangstrap), U2 (inverter), U3 (sommator) op de middenlijn;
-    eenheid A (pinnen 1-3) wijst naar kanaal L (boven), eenheid B (5-7) naar kanaal R (onder)
-  - kanaal L in de bovenste helft, kanaal R gespiegeld in de onderste helft
-  - signaalstroom van links (ingangen J2/J3) naar rechts (uitgangen J4/J5)
-  - voeding J1 links in het midden, ontkoppeling direct naast elk IC
+Layout (top view, approx. 178 x 100 mm; the width follows from the placement):
+  - ICs U1 (input stage), U2 (inverter), U3 (summer) on the centre line;
+    unit A (pins 1-3) faces channel L (top), unit B (5-7) faces channel R (bottom)
+  - channel L in the top half, channel R mirrored in the bottom half
+  - signal flows from left (inputs J2/J3) to right (outputs J4/J5)
+  - power J1 on the left in the middle, decoupling right next to each IC
 """
 
 from __future__ import annotations
@@ -31,33 +31,34 @@ HW = ROOT / "hardware" / ("kicad_smd" if SMD else "kicad")
 BOARD_FILE = HW / "warm_preamp.kicad_pcb"
 DSN_FILE = HW / "warm_preamp.dsn"
 SES_FILE = HW / "warm_preamp.ses"
-KICAD = Path(os.environ.get("KICAD_DIR", r"C:\Users\marce\AppData\Local\Programs\KiCad\10.0"))
+KICAD = Path(os.environ.get("KICAD_DIR",
+                          Path(os.environ.get("LOCALAPPDATA", "")) / "Programs/KiCad/10.0"))
 FPLIB = KICAD / "share" / "kicad" / "footprints"
 
 if SMD:
     W, H = 60.0, 72.0
-    ROWS_L = [7.5, 14.0, 20.5, 27.0]  # max. één elco per blok, dus 6,5 mm steek volstaat
+    ROWS_L = [7.5, 14.0, 20.5, 27.0]  # at most one electrolytic per block, so a 6.5 mm pitch is enough
     IC_BLOCK_MIN_W = 11.0
     COL_GAP, BLOCK_GAP = 0.8, 1.5
-    DEC_DX = 5.0             # ontkoppel-C naast het IC
+    DEC_DX = 5.0             # decoupling cap next to the IC
     TRACK, CLEAR, PWR_TRACK = 0.3, 0.2, 0.6
 else:
-    W, H = 100.0, 100.0      # printafmetingen [mm]; W groeit mee met de plaatsing
-    ROWS_L = [8.0, 18.0, 28.0, 38.0]  # rij-middens kanaal L (gespiegeld voor R)
-    IC_BLOCK_MIN_W = 18.0    # minimale blokbreedte rond een IC (socket + ontkoppeling)
+    W, H = 100.0, 100.0      # board size [mm]; W grows with the placement
+    ROWS_L = [8.0, 18.0, 28.0, 38.0]  # row centres of channel L (mirrored for R)
+    IC_BLOCK_MIN_W = 18.0    # minimum block width around an IC (socket + decoupling)
     DEC_DX = 7.5
     COL_GAP, BLOCK_GAP = 1.2, 2.5
     TRACK, CLEAR, PWR_TRACK = 0.4, 0.25, 0.8
-OX, OY = 100.0, 50.0         # oorsprong op het KiCad-canvas
+OX, OY = 100.0, 50.0         # origin on the KiCad canvas
 MID = H / 2
-BLOCKS = ["ingang", "versterker", "inverter", "voorspanning", "tak A", "tak B", "sommator", "uitgang"]
-IC_OF_BLOCK = {"versterker": "U1", "inverter": "U2", "sommator": "U3"}
-SUPPLY_NETS = {"+15V", "-15V", "GND"}              # netten van voedingssymbolen
-POWER_NETS = {"+15V", "-15V", "GND", "/VP_L", "/VP_R"}  # brede sporen
+BLOCKS = ["input", "amplifier", "inverter", "bias", "branch A", "branch B", "summer", "output"]
+IC_OF_BLOCK = {"amplifier": "U1", "inverter": "U2", "summer": "U3"}
+SUPPLY_NETS = {"+15V", "-15V", "GND"}              # nets of power symbols
+POWER_NETS = {"+15V", "-15V", "GND", "/VP_L", "/VP_R"}  # wide tracks
 
 
 def pcb_net_name(n: str) -> str:
-    """Netnaam zoals KiCad hem uit het schema afleidt (lokale labels: '/NAAM')."""
+    """Net name as KiCad derives it from the schematic (local labels: '/NAME')."""
     return n if n in SUPPLY_NETS else "/" + n
 
 
@@ -73,20 +74,20 @@ def load_fp(fpid: str):
     lib, name = fpid.split(":")
     fp = P.FootprintLoad(str(FPLIB / f"{lib}.pretty"), name)
     if fp is None:
-        raise RuntimeError(f"footprint niet gevonden: {fpid}")
+        raise RuntimeError(f"footprint not found: {fpid}")
     fp.SetFPID(P.LIB_ID(lib, name))
     return fp
 
 
 def center_at(fp, x: float, y: float, angle: float = 0.0) -> None:
     fp.SetOrientationDegrees(angle)
-    bb = fp.GetBoundingBox(False)  # zonder tekst
+    bb = fp.GetBoundingBox(False)  # without text
     c = bb.GetCenter()
     target = pt(x, y)
     fp.Move(P.VECTOR2I(target.x - c.x, target.y - c.y))
 
 
-MEASURED_W: dict = {}         # SMD: gemeten breedte per referentie (na draaien)
+MEASURED_W: dict = {}         # SMD: measured width per reference (after rotation)
 
 
 def column_width(part) -> float:
@@ -137,11 +138,11 @@ def place(board, parts) -> None:
         fp.SetField("Description", p["descr"])
         fp.SetField("Datasheet", "~")
         fps[p["ref"]] = fp
-        if SMD:  # breedte van de footprint zoals hij straks gedraaid staat, plus marge
+        if SMD:  # width of the footprint as it will be rotated, plus margin
             fp.SetOrientationDegrees(90.0 if is_vertical(p) else 0.0)
             MEASURED_W[p["ref"]] = P.ToMM(fp.GetBoundingBox(False).GetWidth()) + 0.4
 
-    # ---------------- kanaalcomponenten in kolommen per blok
+    # ---------------- channel components in columns per block
     block_span = {}
     x_start = 15.0
     for ch, rows in (("L", ROWS_L), ("R", [H - r for r in ROWS_L])):
@@ -154,7 +155,7 @@ def place(board, parts) -> None:
             x0 = x
             col, colw = [], 0.0
             for p in items + [None]:
-                big = p is not None and column_width(p) > 10.0  # grote elco: eigen kolom
+                big = p is not None and column_width(p) > 10.0  # large electrolytic: own column
                 if p is not None and not big and len(col) < len(rows) and not (
                         col and column_width(col[0]) > 10.0):
                     col.append(p)
@@ -165,7 +166,7 @@ def place(board, parts) -> None:
                 x += colw + COL_GAP
                 col, colw = ([p], column_width(p)) if p is not None else ([], 0.0)
             if blk in IC_OF_BLOCK and x - x0 < IC_BLOCK_MIN_W:
-                shift = (IC_BLOCK_MIN_W - (x - x0)) / 2  # kolommen centreren in het blok
+                shift = (IC_BLOCK_MIN_W - (x - x0)) / 2  # centre the columns in the block
                 for q in items:
                     fps[q["ref"]].Move(P.VECTOR2I(mm(shift), 0))
                 x = x0 + IC_BLOCK_MIN_W
@@ -174,25 +175,25 @@ def place(board, parts) -> None:
         global W
         W = max(W, x + (12.0 if SMD else 8.0))
 
-    # ---------------- IC's op de middenlijn, onder het midden van hun blok
+    # ---------------- ICs on the centre line, below the middle of their block
     for blk, ic in IC_OF_BLOCK.items():
         spans = block_span[blk]
         cx = sum((a + b) / 2 for a, b in spans) / len(spans)
-        # pin 1 linksboven: rij 1-4 boven (eenheid A -> L), 5-8 onder (eenheid B -> R)
+        # pin 1 top left: pins 1-4 on top (unit A -> L), 5-8 at the bottom (unit B -> R)
         center_at(fps[ic], cx, MID, 90.0)
         pin1 = [pd for pd in fps[ic].Pads() if pd.GetNumber() == "1"][0].GetPosition()
-        if pin1.y > pt(0, MID).y:  # zorg dat pin 1 boven ligt
+        if pin1.y > pt(0, MID).y:  # make sure pin 1 is on top
             center_at(fps[ic], cx, MID, 270.0)
-        # ontkoppeling links/rechts van het IC
-        dec = [p for p in parts if p["descr"].startswith(f"ontkoppeling {ic} ")]
+        # decoupling left/right of the IC
+        dec = [p for p in parts if p["descr"].startswith(f"decoupling {ic} ")]
         for p, dx in zip(sorted(dec, key=lambda q: q["ref"]), (-DEC_DX, DEC_DX)):
             center_at(fps[p["ref"]], cx + dx, MID, 90.0)
 
-    # ---------------- aansluitingen en bulkcondensatoren
+    # ---------------- connectors and bulk capacitors
     center_at(fps["J1"], 5.5, MID, 90.0)
     center_at(fps["C1"], 15.5, MID - 6.5, 0.0)
     center_at(fps["C2"], 15.5, MID + 6.5, 0.0)
-    if SMD:  # schroefklemmen, draadinvoer naar de rand
+    if SMD:  # screw terminals, wire entry towards the edge
         center_at(fps["J2"], 5.5, ROWS_L[1], 90.0)
         center_at(fps["J3"], 5.5, H - ROWS_L[1], 90.0)
         center_at(fps["J4"], W - 5.5, ROWS_L[1], 270.0)
@@ -203,7 +204,7 @@ def place(board, parts) -> None:
         center_at(fps["J4"], W - 4.0, ROWS_L[1], 0.0)
         center_at(fps["J5"], W - 4.0, H - ROWS_L[1], 0.0)
 
-    # ---------------- printomtrek en montagegaten
+    # ---------------- board outline and mounting holes
     rect = P.PCB_SHAPE(board)
     rect.SetShape(P.SHAPE_T_RECT)
     rect.SetStart(pt(0, 0))
@@ -237,7 +238,7 @@ def netclasses(board) -> None:
     ns.SetNetclass("Power", pwr)
     for n in POWER_NETS:
         ns.SetNetclassPatternAssignment(n, "Power")
-    if SMD:  # één thermische spaak is genoeg voor kleine SMD-pads (bijv. ontkoppel-C's)
+    if SMD:  # one thermal spoke is enough for small SMD pads (e.g. decoupling caps)
         ds.m_MinResolvedSpokes = 1
     ns.RecomputeEffectiveNetclasses()
     board.SynchronizeNetsAndNetClasses(True)
@@ -284,7 +285,7 @@ def cmd_place() -> None:
     board = P.LoadBoard(str(BOARD_FILE))
     netclasses(board)
     ok = P.ExportSpecctraDSN(board, str(DSN_FILE))
-    print(f"geplaatst: {len(parts)} componenten; DSN-export {'ok' if ok else 'MISLUKT'}")
+    print(f"placed: {len(parts)} components; DSN export {'ok' if ok else 'FAILED'}")
 
 
 def cmd_finish() -> None:
@@ -294,24 +295,24 @@ def cmd_finish() -> None:
     board = P.LoadBoard(str(BOARD_FILE))
     netclasses(board)
     if not P.ImportSpecctraSES(board, str(SES_FILE)):
-        raise RuntimeError("SES-import mislukt")
+        raise RuntimeError("SES import failed")
     add_zone(board, P.B_Cu, "GND")
     add_zone(board, P.F_Cu, "GND")
-    silk_text(board, "WARME OPAMP-VOORVERSTERKER  12AX7-karakter  rev 1.0" + (" SMD" if SMD else ""),
+    silk_text(board, "WARM OPAMP PREAMP  12AX7 character  rev 1.0" + (" SMD" if SMD else ""),
               W / 2, MID, 1.4 if not SMD else 1.1, P.B_SilkS, bold=True)
     silk_text(board, "+15 GND -15", 9.0, MID - 10.0, 1.0)
-    dy = 7.0 if SMD else 4.0  # SMD: boven/onder de schroefklem
+    dy = 7.0 if SMD else 4.0  # SMD: above/below the screw terminal
     for s, x, y in (("IN L", 4.5, ROWS_L[1] - dy), ("IN R", 4.5, H - ROWS_L[1] + dy),
                     ("OUT L", W - 5.0, ROWS_L[1] - dy), ("OUT R", W - 5.0, H - ROWS_L[1] + dy),
-                    ("KANAAL L", W / 2, MID - 4.5), ("KANAAL R", W / 2, MID + 4.5)):
+                    ("CHANNEL L", W / 2, MID - 4.5), ("CHANNEL R", W / 2, MID + 4.5)):
         silk_text(board, s, x, y, 1.2, bold=True)
-    silk_text(board, "circuitbuilder - genetisch algoritme", W / 2, H - 2.5, 1.0, P.B_SilkS)
+    silk_text(board, "KyntoSoftware - designed by a genetic algorithm", W / 2, H - 2.5, 1.0, P.B_SilkS)
     filler = P.ZONE_FILLER(board)
     filler.Fill(board.Zones())
     P.SaveBoard(str(BOARD_FILE), board)
     tracks = [t for t in board.GetTracks() if t.GetClass() == "PCB_TRACK"]
     vias = [t for t in board.GetTracks() if t.GetClass() == "PCB_VIA"]
-    print(f"geroute: {len(tracks)} sporen, {len(vias)} vias; massavlakken gevuld")
+    print(f"routed: {len(tracks)} tracks, {len(vias)} vias; ground pours filled")
 
 
 if __name__ == "__main__":

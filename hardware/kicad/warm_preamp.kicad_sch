@@ -5,12 +5,12 @@
 	(uuid "05023bab-bcee-5b9e-bed3-cb10442ee17c")
 	(paper "A1")
 	(title_block
-		(title "Warme opamp-voorversterker (12AX7-karakter)")
-		(date "2026-11-24")
+		(title "Warm opamp preamp (12AX7 character)")
+		(date "2026-11-25")
 		(rev "1.0")
-		(company "circuitbuilder")
-		(comment 1 "Stereo, 3x NE5532P, +/-15 V, versterking 10 dB")
-		(comment 2 "Waarden geoptimaliseerd met genetisch algoritme t.o.v. 12AX7-trap")
+		(company "KyntoSoftware")
+		(comment 1 "Stereo, 3x NE5532P, +/-15 V, gain 10 dB")
+		(comment 2 "Values optimised by a genetic algorithm against a 12AX7 stage")
 	)
 	(lib_symbols
 		(symbol "Amplifier_Operational:NE5532"
@@ -2179,7 +2179,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RIN, metaalfilm 1% 0,25 W"
+		(property "Description" "RIN, metal film 1% 0.25 W"
 			(at 50.8 45.72 0)
 			(effects
 				(font
@@ -2347,7 +2347,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RF1, metaalfilm 1% 0,25 W"
+		(property "Description" "RF1, metal film 1% 0.25 W"
 			(at 33.02 86.36 0)
 			(effects
 				(font
@@ -2458,7 +2458,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RG1, metaalfilm 1% 0,25 W"
+		(property "Description" "RG1, metal film 1% 0.25 W"
 			(at 50.8 86.36 0)
 			(effects
 				(font
@@ -2542,7 +2542,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "22µ bipolair"
+		(property "Value" "22µ bipolar"
 			(at 71.12 87.63 0)
 			(effects
 				(font
@@ -2737,7 +2737,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RI1, metaalfilm 1% 0,25 W"
+		(property "Description" "RI1, metal film 1% 0.25 W"
 			(at 33.02 127.0 0)
 			(effects
 				(font
@@ -2848,7 +2848,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RI2, metaalfilm 1% 0,25 W"
+		(property "Description" "RI2, metal film 1% 0.25 W"
 			(at 50.8 127.0 0)
 			(effects
 				(font
@@ -2959,7 +2959,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RFLT, metaalfilm 1% 0,25 W"
+		(property "Description" "RFLT, metal film 1% 0.25 W"
 			(at 33.02 167.64 0)
 			(effects
 				(font
@@ -3295,7 +3295,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RA, metaalfilm 1% 0,25 W"
+		(property "Description" "RA, metal film 1% 0.25 W"
 			(at 33.02 208.28 0)
 			(effects
 				(font
@@ -3406,7 +3406,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RBA, metaalfilm 1% 0,25 W"
+		(property "Description" "RBA, metal film 1% 0.25 W"
 			(at 50.8 208.28 0)
 			(effects
 				(font
@@ -3517,7 +3517,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "1N4148 kleinsignaaldiode"
+		(property "Description" "1N4148 small-signal diode"
 			(at 81.28 208.28 0)
 			(effects
 				(font
@@ -3628,7 +3628,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "1N4148 kleinsignaaldiode"
+		(property "Description" "1N4148 small-signal diode"
 			(at 114.3 208.28 0)
 			(effects
 				(font
@@ -3739,7 +3739,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "1N4148 kleinsignaaldiode"
+		(property "Description" "1N4148 small-signal diode"
 			(at 45.72 241.3 0)
 			(effects
 				(font
@@ -4018,7 +4018,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RSA, metaalfilm 1% 0,25 W"
+		(property "Description" "RSA, metal film 1% 0.25 W"
 			(at 83.82 241.3 0)
 			(effects
 				(font
@@ -4129,7 +4129,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RB, metaalfilm 1% 0,25 W"
+		(property "Description" "RB, metal film 1% 0.25 W"
 			(at 33.02 281.94 0)
 			(effects
 				(font
@@ -4240,7 +4240,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "trimpot 500R meerslagen (Bourns 3296W), H3-afregeling"
+		(property "Description" "trimmer 500R multi-turn (Bourns 3296W), H3 adjustment"
 			(at 50.8 281.94 0)
 			(effects
 				(font
@@ -4375,7 +4375,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RBB, metaalfilm 1% 0,25 W"
+		(property "Description" "RBB, metal film 1% 0.25 W"
 			(at 68.58 281.94 0)
 			(effects
 				(font
@@ -4486,7 +4486,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "1N4148 kleinsignaaldiode"
+		(property "Description" "1N4148 small-signal diode"
 			(at 99.06 281.94 0)
 			(effects
 				(font
@@ -4597,7 +4597,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "1N4148 kleinsignaaldiode"
+		(property "Description" "1N4148 small-signal diode"
 			(at 132.08 281.94 0)
 			(effects
 				(font
@@ -4708,7 +4708,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "1N4148 kleinsignaaldiode"
+		(property "Description" "1N4148 small-signal diode"
 			(at 45.72 314.96 0)
 			(effects
 				(font
@@ -4987,7 +4987,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RSB, metaalfilm 1% 0,25 W"
+		(property "Description" "RSB, metal film 1% 0.25 W"
 			(at 83.82 314.96 0)
 			(effects
 				(font
@@ -5098,7 +5098,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RS0, metaalfilm 1% 0,25 W"
+		(property "Description" "RS0, metal film 1% 0.25 W"
 			(at 33.02 355.6 0)
 			(effects
 				(font
@@ -5209,7 +5209,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RF2, metaalfilm 1% 0,25 W"
+		(property "Description" "RF2, metal film 1% 0.25 W"
 			(at 50.8 355.6 0)
 			(effects
 				(font
@@ -5431,7 +5431,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "ROUT, metaalfilm 1% 0,25 W"
+		(property "Description" "ROUT, metal film 1% 0.25 W"
 			(at 33.02 396.24 0)
 			(effects
 				(font
@@ -5515,7 +5515,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "10µ bipolair"
+		(property "Value" "10µ bipolar"
 			(at 53.339999999999996 397.51 0)
 			(effects
 				(font
@@ -5653,7 +5653,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RBLEED, metaalfilm 1% 0,25 W"
+		(property "Description" "RBLEED, metal film 1% 0.25 W"
 			(at 68.58 396.24 0)
 			(effects
 				(font
@@ -5821,7 +5821,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "NE5532P dubbele low-noise opamp"
+		(property "Description" "NE5532P dual low-noise opamp"
 			(at 99.06 86.36 0)
 			(effects
 				(font
@@ -5956,7 +5956,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "NE5532P dubbele low-noise opamp"
+		(property "Description" "NE5532P dual low-noise opamp"
 			(at 81.28 127.0 0)
 			(effects
 				(font
@@ -6148,7 +6148,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "NE5532P dubbele low-noise opamp"
+		(property "Description" "NE5532P dual low-noise opamp"
 			(at 99.06 355.6 0)
 			(effects
 				(font
@@ -6340,7 +6340,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "ingang kanaal L (signaal, massa)"
+		(property "Description" "input channel L (signal, ground)"
 			(at 81.28 45.72 0)
 			(effects
 				(font
@@ -6508,7 +6508,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "uitgang kanaal L (signaal, massa)"
+		(property "Description" "output channel L (signal, ground)"
 			(at 99.06 396.24 0)
 			(effects
 				(font
@@ -6787,7 +6787,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RIN, metaalfilm 1% 0,25 W"
+		(property "Description" "RIN, metal film 1% 0.25 W"
 			(at 215.9 45.72 0)
 			(effects
 				(font
@@ -6955,7 +6955,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RF1, metaalfilm 1% 0,25 W"
+		(property "Description" "RF1, metal film 1% 0.25 W"
 			(at 198.12 86.36 0)
 			(effects
 				(font
@@ -7066,7 +7066,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RG1, metaalfilm 1% 0,25 W"
+		(property "Description" "RG1, metal film 1% 0.25 W"
 			(at 215.9 86.36 0)
 			(effects
 				(font
@@ -7150,7 +7150,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "22µ bipolair"
+		(property "Value" "22µ bipolar"
 			(at 236.22 87.63 0)
 			(effects
 				(font
@@ -7345,7 +7345,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RI1, metaalfilm 1% 0,25 W"
+		(property "Description" "RI1, metal film 1% 0.25 W"
 			(at 198.12 127.0 0)
 			(effects
 				(font
@@ -7456,7 +7456,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RI2, metaalfilm 1% 0,25 W"
+		(property "Description" "RI2, metal film 1% 0.25 W"
 			(at 215.9 127.0 0)
 			(effects
 				(font
@@ -7567,7 +7567,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RFLT, metaalfilm 1% 0,25 W"
+		(property "Description" "RFLT, metal film 1% 0.25 W"
 			(at 198.12 167.64 0)
 			(effects
 				(font
@@ -7903,7 +7903,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RA, metaalfilm 1% 0,25 W"
+		(property "Description" "RA, metal film 1% 0.25 W"
 			(at 198.12 208.28 0)
 			(effects
 				(font
@@ -8014,7 +8014,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RBA, metaalfilm 1% 0,25 W"
+		(property "Description" "RBA, metal film 1% 0.25 W"
 			(at 215.9 208.28 0)
 			(effects
 				(font
@@ -8125,7 +8125,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "1N4148 kleinsignaaldiode"
+		(property "Description" "1N4148 small-signal diode"
 			(at 246.38 208.28 0)
 			(effects
 				(font
@@ -8236,7 +8236,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "1N4148 kleinsignaaldiode"
+		(property "Description" "1N4148 small-signal diode"
 			(at 279.4 208.28 0)
 			(effects
 				(font
@@ -8347,7 +8347,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "1N4148 kleinsignaaldiode"
+		(property "Description" "1N4148 small-signal diode"
 			(at 210.82 241.3 0)
 			(effects
 				(font
@@ -8626,7 +8626,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RSA, metaalfilm 1% 0,25 W"
+		(property "Description" "RSA, metal film 1% 0.25 W"
 			(at 248.92 241.3 0)
 			(effects
 				(font
@@ -8737,7 +8737,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RB, metaalfilm 1% 0,25 W"
+		(property "Description" "RB, metal film 1% 0.25 W"
 			(at 198.12 281.94 0)
 			(effects
 				(font
@@ -8848,7 +8848,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "trimpot 500R meerslagen (Bourns 3296W), H3-afregeling"
+		(property "Description" "trimmer 500R multi-turn (Bourns 3296W), H3 adjustment"
 			(at 215.9 281.94 0)
 			(effects
 				(font
@@ -8983,7 +8983,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RBB, metaalfilm 1% 0,25 W"
+		(property "Description" "RBB, metal film 1% 0.25 W"
 			(at 233.68 281.94 0)
 			(effects
 				(font
@@ -9094,7 +9094,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "1N4148 kleinsignaaldiode"
+		(property "Description" "1N4148 small-signal diode"
 			(at 264.16 281.94 0)
 			(effects
 				(font
@@ -9205,7 +9205,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "1N4148 kleinsignaaldiode"
+		(property "Description" "1N4148 small-signal diode"
 			(at 297.18 281.94 0)
 			(effects
 				(font
@@ -9316,7 +9316,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "1N4148 kleinsignaaldiode"
+		(property "Description" "1N4148 small-signal diode"
 			(at 210.82 314.96 0)
 			(effects
 				(font
@@ -9595,7 +9595,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RSB, metaalfilm 1% 0,25 W"
+		(property "Description" "RSB, metal film 1% 0.25 W"
 			(at 248.92 314.96 0)
 			(effects
 				(font
@@ -9706,7 +9706,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RS0, metaalfilm 1% 0,25 W"
+		(property "Description" "RS0, metal film 1% 0.25 W"
 			(at 198.12 355.6 0)
 			(effects
 				(font
@@ -9817,7 +9817,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RF2, metaalfilm 1% 0,25 W"
+		(property "Description" "RF2, metal film 1% 0.25 W"
 			(at 215.9 355.6 0)
 			(effects
 				(font
@@ -10039,7 +10039,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "ROUT, metaalfilm 1% 0,25 W"
+		(property "Description" "ROUT, metal film 1% 0.25 W"
 			(at 198.12 396.24 0)
 			(effects
 				(font
@@ -10123,7 +10123,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "10µ bipolair"
+		(property "Value" "10µ bipolar"
 			(at 218.44 397.51 0)
 			(effects
 				(font
@@ -10261,7 +10261,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "RBLEED, metaalfilm 1% 0,25 W"
+		(property "Description" "RBLEED, metal film 1% 0.25 W"
 			(at 233.68 396.24 0)
 			(effects
 				(font
@@ -10429,7 +10429,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "NE5532P dubbele low-noise opamp"
+		(property "Description" "NE5532P dual low-noise opamp"
 			(at 264.16 86.36 0)
 			(effects
 				(font
@@ -10564,7 +10564,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "NE5532P dubbele low-noise opamp"
+		(property "Description" "NE5532P dual low-noise opamp"
 			(at 246.38 127.0 0)
 			(effects
 				(font
@@ -10756,7 +10756,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "NE5532P dubbele low-noise opamp"
+		(property "Description" "NE5532P dual low-noise opamp"
 			(at 264.16 355.6 0)
 			(effects
 				(font
@@ -10948,7 +10948,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "ingang kanaal R (signaal, massa)"
+		(property "Description" "input channel R (signal, ground)"
 			(at 246.38 45.72 0)
 			(effects
 				(font
@@ -11116,7 +11116,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "uitgang kanaal R (signaal, massa)"
+		(property "Description" "output channel R (signal, ground)"
 			(at 264.16 396.24 0)
 			(effects
 				(font
@@ -11284,7 +11284,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "voedingsaansluiting +/-15 V (gestabiliseerd)"
+		(property "Description" "power input +/-15 V (regulated)"
 			(at 375.92 45.72 0)
 			(effects
 				(font
@@ -12040,7 +12040,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "ontkoppeling U1 +15 V"
+		(property "Description" "decoupling U1 +15 V"
 			(at 452.12 45.72 0)
 			(effects
 				(font
@@ -12265,7 +12265,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "ontkoppeling U1 -15 V"
+		(property "Description" "decoupling U1 -15 V"
 			(at 363.22 78.74 0)
 			(effects
 				(font
@@ -12490,7 +12490,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "voeding NE5532P"
+		(property "Description" "supply NE5532P"
 			(at 391.16 78.74 0)
 			(effects
 				(font
@@ -12715,7 +12715,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "ontkoppeling U2 +15 V"
+		(property "Description" "decoupling U2 +15 V"
 			(at 414.02 78.74 0)
 			(effects
 				(font
@@ -12940,7 +12940,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "ontkoppeling U2 -15 V"
+		(property "Description" "decoupling U2 -15 V"
 			(at 441.96 78.74 0)
 			(effects
 				(font
@@ -13165,7 +13165,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "voeding NE5532P"
+		(property "Description" "supply NE5532P"
 			(at 363.22 111.76 0)
 			(effects
 				(font
@@ -13390,7 +13390,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "ontkoppeling U3 +15 V"
+		(property "Description" "decoupling U3 +15 V"
 			(at 386.08 111.76 0)
 			(effects
 				(font
@@ -13615,7 +13615,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "ontkoppeling U3 -15 V"
+		(property "Description" "decoupling U3 -15 V"
 			(at 414.02 111.76 0)
 			(effects
 				(font
@@ -13840,7 +13840,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "voeding NE5532P"
+		(property "Description" "supply NE5532P"
 			(at 441.96 111.76 0)
 			(effects
 				(font
@@ -14455,7 +14455,7 @@
 			)
 		)
 	)
-	(text "Ingang  (kanaal L)"
+	(text "Input  (channel L)"
 		(exclude_from_sim no)
 		(at 25.4 30.48 0)
 		(effects
@@ -14465,9 +14465,9 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "6198af75-f9e2-5431-b9c4-799b4a824844")
+		(uuid "029f3f52-e446-57c9-be0b-6471ea7360c6")
 	)
-	(text "U1: versterker (x2,5)  (kanaal L)"
+	(text "U1: amplifier (x2.5)  (channel L)"
 		(exclude_from_sim no)
 		(at 25.4 71.12 0)
 		(effects
@@ -14477,9 +14477,9 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "a47a902a-f7cf-50fb-a2a9-e878862d3a8e")
+		(uuid "f5e7c0e0-5123-581e-b424-645327c70ead")
 	)
-	(text "U2: inverter  (kanaal L)"
+	(text "U2: inverter  (channel L)"
 		(exclude_from_sim no)
 		(at 25.4 111.76 0)
 		(effects
@@ -14489,9 +14489,9 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "1af1774c-2c60-5312-b030-a1fc13a005d5")
+		(uuid "2270463a-e881-5448-9d49-eaf7e52cc2ac")
 	)
-	(text "Voorspanning diodes (gefilterde +15 V)  (kanaal L)"
+	(text "Diode bias (filtered +15 V)  (channel L)"
 		(exclude_from_sim no)
 		(at 25.4 152.4 0)
 		(effects
@@ -14501,9 +14501,9 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "13178767-8323-5abd-ad5f-5e0ad84ad22d")
+		(uuid "49a56587-35f5-5882-bec1-839697e33f4e")
 	)
-	(text "Tak A: diodeketen (+V1)  (kanaal L)"
+	(text "Branch A: diode chain (+V1)  (channel L)"
 		(exclude_from_sim no)
 		(at 25.4 193.04 0)
 		(effects
@@ -14513,9 +14513,9 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "4f40c1eb-05f6-5fa3-9556-c01cb82df6db")
+		(uuid "b366a7f0-eaf0-5f2a-81e4-6a960cf134c7")
 	)
-	(text "Tak B: diodeketen (-V1) met trimpot  (kanaal L)"
+	(text "Branch B: diode chain (-V1) with trimmer  (channel L)"
 		(exclude_from_sim no)
 		(at 25.4 266.7 0)
 		(effects
@@ -14525,9 +14525,9 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "16af814f-5010-5f0c-bb1c-6aece07e870c")
+		(uuid "bf524e59-9c21-5399-84ca-10d385590f7a")
 	)
-	(text "U3: sommator  (kanaal L)"
+	(text "U3: summer  (channel L)"
 		(exclude_from_sim no)
 		(at 25.4 340.36 0)
 		(effects
@@ -14537,9 +14537,9 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "83196f98-b699-5585-8b0c-1121a8ab9db4")
+		(uuid "2dc43644-0fac-5754-b179-9a84b630383d")
 	)
-	(text "Uitgang  (kanaal L)"
+	(text "Output  (channel L)"
 		(exclude_from_sim no)
 		(at 25.4 381.0 0)
 		(effects
@@ -14549,9 +14549,9 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "1c91c661-d105-51ea-adaf-0b6ee2ee3cb2")
+		(uuid "dde9d94c-d228-513a-9f95-68995ce682b6")
 	)
-	(text "Ingang  (kanaal R)"
+	(text "Input  (channel R)"
 		(exclude_from_sim no)
 		(at 190.5 30.48 0)
 		(effects
@@ -14561,9 +14561,9 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "b3f7ebc4-ef07-5123-b441-ffd97c7a7a32")
+		(uuid "3e6e15be-eb75-500d-ad7c-d26c5ed16e9e")
 	)
-	(text "U1: versterker (x2,5)  (kanaal R)"
+	(text "U1: amplifier (x2.5)  (channel R)"
 		(exclude_from_sim no)
 		(at 190.5 71.12 0)
 		(effects
@@ -14573,9 +14573,9 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "fbd03f0c-ba0c-5345-bd5b-6f625c9baced")
+		(uuid "8df5a7c5-fa41-5284-b831-aab3ca0887cd")
 	)
-	(text "U2: inverter  (kanaal R)"
+	(text "U2: inverter  (channel R)"
 		(exclude_from_sim no)
 		(at 190.5 111.76 0)
 		(effects
@@ -14585,9 +14585,9 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "fc4739bc-9d79-51e1-945a-40a30c20a70d")
+		(uuid "1b013e5a-09fc-5848-8c3e-d86d94957d98")
 	)
-	(text "Voorspanning diodes (gefilterde +15 V)  (kanaal R)"
+	(text "Diode bias (filtered +15 V)  (channel R)"
 		(exclude_from_sim no)
 		(at 190.5 152.4 0)
 		(effects
@@ -14597,9 +14597,9 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "3ad352f2-4b93-541e-949d-1b6098f4abde")
+		(uuid "2f577d73-ecdd-5f6a-862b-b35950474709")
 	)
-	(text "Tak A: diodeketen (+V1)  (kanaal R)"
+	(text "Branch A: diode chain (+V1)  (channel R)"
 		(exclude_from_sim no)
 		(at 190.5 193.04 0)
 		(effects
@@ -14609,9 +14609,9 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "b2433d57-16ac-5dd3-a85e-c46fccfaf206")
+		(uuid "ecbfdd10-598a-5a84-a7c8-e95a365a28d8")
 	)
-	(text "Tak B: diodeketen (-V1) met trimpot  (kanaal R)"
+	(text "Branch B: diode chain (-V1) with trimmer  (channel R)"
 		(exclude_from_sim no)
 		(at 190.5 266.7 0)
 		(effects
@@ -14621,9 +14621,9 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "63870ff1-d22b-54ff-aa0e-4c4268aa7f13")
+		(uuid "db6ca984-2df3-5f1d-abee-5370343a8274")
 	)
-	(text "U3: sommator  (kanaal R)"
+	(text "U3: summer  (channel R)"
 		(exclude_from_sim no)
 		(at 190.5 340.36 0)
 		(effects
@@ -14633,9 +14633,9 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "45e1c3a2-d0a9-552f-8171-3d50e12308ac")
+		(uuid "2f2dc379-8b45-53ff-8606-2bd43319e495")
 	)
-	(text "Uitgang  (kanaal R)"
+	(text "Output  (channel R)"
 		(exclude_from_sim no)
 		(at 190.5 381.0 0)
 		(effects
@@ -14645,9 +14645,9 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "af55eade-708c-5e87-a6cb-5028b8faad8d")
+		(uuid "893d74af-7132-559d-94e3-67cb3ef80486")
 	)
-	(text "Voeding en ontkoppeling"
+	(text "Power supply and decoupling"
 		(exclude_from_sim no)
 		(at 355.6 30.48 0)
 		(effects
@@ -14657,9 +14657,9 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "c27ef9ef-14b1-57eb-9943-68d53716a898")
+		(uuid "38196375-2b8c-546a-a2d7-539ea16beb50")
 	)
-	(text "Opamp-voorversterker met 12AX7-karakter (stereo). Ontwerp: genetisch algoritme (circuitbuilder). Alle weerstanden metaalfilm 1 %."
+	(text "Opamp preamp with 12AX7 character (stereo). Values found by a genetic algorithm. KyntoSoftware. All resistors metal film 1 %."
 		(exclude_from_sim no)
 		(at 25.4 17.78 0)
 		(effects
@@ -14669,7 +14669,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "bdb96fe3-caa7-5a8b-a396-3c19665e8002")
+		(uuid "74a40874-f4a8-5453-98f9-a5fcba9e6b27")
 	)
 	(sheet_instances
 		(path "/"

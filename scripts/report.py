@@ -1,7 +1,7 @@
-"""Rapport van het beste ontwerp (out/best.json): onderdelenlijst, vergelijking met de
-12AX7-referentie en een losse netlist (out/best.cir).
+"""Report on the best design (out/best.json): parts list, comparison with the
+12AX7 reference and a standalone netlist (out/best.cir).
 
-Gebruik:  python scripts/report.py [pad/naar/ontwerp.json]
+Usage:  python scripts/report.py [path/to/design.json]
 """
 
 from __future__ import annotations
@@ -28,7 +28,7 @@ def main() -> None:
     design = Design(json.loads(src.read_text())["values"])
     tgt = fitness.load_target()
 
-    # dichter raster van niveaus voor de plot
+    # denser grid of levels for the plot
     levels = np.geomspace(0.05, 9, 14)
     amps = levels * np.sqrt(2) / 10 ** (fitness.GAIN_DB / 20)
     tran, ac, nz = spice.run_multi(design.netlist(amps), [
@@ -45,11 +45,11 @@ def main() -> None:
     snr = 20 * np.log10(1 / nz[0, 1])
 
     r = fitness.evaluate(design, tgt)
-    print("Onderdelen:\n" + design.bom())
-    print(f"\nKosten {r.cost:.2f}   versterking {r.gain_db:.2f} dB   vlakheid 20 Hz-20 kHz "
-          f"+/-{r.flat_db:.2f} dB   S/R {snr:.1f} dB (t.o.v. 1 V rms, 20 kHz)")
-    print("Kostendelen:", {k: round(float(v), 2) for k, v in r.parts.items()})
-    print("\n  Vout(rms)   THD%    H2     H3     H4     H5   | buis H2   H3")
+    print("Parts:\n" + design.bom())
+    print(f"\nCost {r.cost:.2f}   gain {r.gain_db:.2f} dB   flatness 20 Hz-20 kHz "
+          f"+/-{r.flat_db:.2f} dB   SNR {snr:.1f} dB (re 1 V rms, 20 kHz)")
+    print("Cost terms:", {k: round(float(v), 2) for k, v in r.parts.items()})
+    print("\n  Vout(rms)   THD%    H2     H3     H4     H5   | tube H2   H3")
     tv = fitness.target_at(tgt, vout)
     for v, t, h, ht in zip(vout, thd, meas, tv):
         print(f"  {v:7.2f}  {t * 100:6.3f}" + "".join(f" {x:6.1f}" for x in h)
@@ -62,12 +62,12 @@ def main() -> None:
     for k in range(3):
         ax[0].semilogx(tx, th[:, k], "--", color=colors[k], alpha=0.7, label=f"12AX7 H{k + 2}")
         ax[0].semilogx(vout, meas[:, k], "o-", color=colors[k], label=f"opamp H{k + 2}")
-    ax[0].set(title="Harmonischen t.o.v. grondtoon (1 kHz)", xlabel="Vout [V rms]",
+    ax[0].set(title="Harmonics relative to fundamental (1 kHz)", xlabel="Vout [V rms]",
               ylabel="dB", ylim=(-110, -10), xlim=(0.05, 10))
     ax[0].grid(True, which="both", alpha=0.3)
     ax[0].legend(fontsize=8, ncol=2)
     ax[1].semilogx(f, mag)
-    ax[1].set(title="Frequentierespons opamp-voorversterker", xlabel="Hz", ylabel="dB",
+    ax[1].set(title="Frequency response of the opamp preamp", xlabel="Hz", ylabel="dB",
               ylim=(fitness.GAIN_DB - 6, fitness.GAIN_DB + 2))
     ax[1].axvspan(20, 20e3, color="C2", alpha=0.08)
     ax[1].grid(True, which="both", alpha=0.3)

@@ -1,11 +1,11 @@
-"""Doel (12AX7-karakter) en kostenfunctie voor kandidaat-ontwerpen.
+"""Target (12AX7 character) and cost function for candidate designs.
 
-Lagere kosten = beter. Onderdelen:
-  - versterking bij 1 kHz moet 10 dB zijn
-  - H2 en H3 als functie van het uitgangsniveau gelijk aan de buizentrap
-  - H4/H5 niet boven die van de buis
-  - frequentierespons vlak (20 Hz - 20 kHz)
-  - ruis: signaal/ruis t.o.v. 1 V rms minstens 100 dB (A-weging niet toegepast)
+Lower cost = better. Terms:
+  - gain at 1 kHz must be 10 dB
+  - H2 and H3 versus output level equal to the tube stage
+  - H4/H5 not above those of the tube
+  - flat frequency response (20 Hz - 20 kHz)
+  - noise: signal-to-noise ratio re 1 V rms at least 100 dB (unweighted)
 """
 
 from __future__ import annotations
@@ -25,12 +25,12 @@ TARGET_FILE = ROOT / "out" / "target.json"
 
 GAIN_DB = 10.0
 F0 = 1000.0
-VOUT_LEVELS = np.array([0.1, 0.3, 1.0, 2.0, 4.0, 7.0])  # V rms aan de uitgang
+VOUT_LEVELS = np.array([0.1, 0.3, 1.0, 2.0, 4.0, 7.0])  # V rms at the output
 SNR_MIN_DB = 100.0
-H_FLOOR = -100.0  # harmonischen onder dit niveau tellen als gelijk
+H_FLOOR = -100.0  # harmonics below this level count as equal
 
 
-# ---------------------------------------------------------------- doel -------
+# -------------------------------------------------------------- target -------
 def build_target(path: Path = TARGET_FILE) -> dict:
     stage = TubeStage()
     amps = np.geomspace(0.002, 1.5, 24)
@@ -51,22 +51,22 @@ def load_target() -> dict:
 
 
 def target_at(tgt: dict, vout_rms: np.ndarray) -> np.ndarray:
-    """Doel-H2..H5 (dB) bij gegeven uitgangsniveaus, logaritmisch geïnterpoleerd."""
+    """Target H2..H5 (dB) at the given output levels, interpolated on a log axis."""
     x = np.log10(tgt["vout_rms"])
     h = np.array(tgt["h"])
     xi = np.log10(vout_rms)
     return np.column_stack([np.interp(xi, x, h[:, k]) for k in range(h.shape[1])])
 
 
-# ---------------------------------------------------------- evaluatie -------
+# ---------------------------------------------------------- evaluation -------
 @dataclass
 class Result:
     cost: float
     gain_db: float = np.nan
     vout_rms: list = field(default_factory=list)
-    h: list = field(default_factory=list)          # gemeten H2..H5 per niveau
+    h: list = field(default_factory=list)          # measured H2..H5 per level
     h_target: list = field(default_factory=list)
-    flat_db: float = np.nan                          # max afwijking 20 Hz-20 kHz
+    flat_db: float = np.nan                          # max deviation 20 Hz-20 kHz
     snr_db: float = np.nan
     parts: dict = field(default_factory=dict)
     error: str = ""
@@ -77,12 +77,12 @@ class Result:
 
 
 FAIL = 1e6
-GAIN_SCREEN_DB = 4.0  # verder dan dit van 10 dB af: geen transiëntsimulatie
+GAIN_SCREEN_DB = 4.0  # further than this from 10 dB: skip the transient simulation
 
 
 def evaluate(design: Design, tgt: dict, opamp: str = "generic") -> Result:
     amps = VOUT_LEVELS * np.sqrt(2) / 10 ** (GAIN_DB / 20)
-    # snelle voorselectie op kleinsignaalversterking
+    # quick pre-screen on small-signal gain
     try:
         f, mag, _ = analysis.ac_from_data(
             spice.run(design.netlist([], opamp=opamp), "ac dec 10 10 50k",
@@ -92,7 +92,7 @@ def evaluate(design: Design, tgt: dict, opamp: str = "generic") -> Result:
     except Exception as exc:  # noqa: BLE001
         return Result(cost=FAIL, error=str(exc)[:300])
     if abs(g - GAIN_DB) > GAIN_SCREEN_DB:
-        return Result(cost=100 + 10 * abs(g - GAIN_DB), gain_db=g, error="versterking buiten bereik")
+        return Result(cost=100 + 10 * abs(g - GAIN_DB), gain_db=g, error="gain out of range")
     try:
         tran, ac, nz = spice.run_multi(
             design.netlist(amps, F0, opamp=opamp),
@@ -103,7 +103,7 @@ def evaluate(design: Design, tgt: dict, opamp: str = "generic") -> Result:
             ],
             timeout=45,
         )
-    except Exception as exc:  # noqa: BLE001 - elke simulatiefout = slechte kandidaat
+    except Exception as exc:  # noqa: BLE001 - any simulation error = bad candidate
         return Result(cost=FAIL, error=str(exc)[:300])
 
     harms = [analysis.harmonics_from_wave(tran[:, 0], tran[:, 1 + i], F0, 10, amplitude_in=a)
@@ -130,7 +130,7 @@ def evaluate(design: Design, tgt: dict, opamp: str = "generic") -> Result:
         "noise": 0.5 * max(0.0, SNR_MIN_DB - snr),
     }
     if not np.all(np.isfinite(list(parts.values()))):
-        return Result(cost=FAIL, error="niet-eindige meting")
+        return Result(cost=FAIL, error="non-finite measurement")
     return Result(
         cost=float(sum(parts.values())), gain_db=gain_db, vout_rms=vout.tolist(),
         h=meas.tolist(), h_target=target.tolist(), flat_db=flat, snr_db=snr, parts=parts,

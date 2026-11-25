@@ -1,31 +1,31 @@
-aantal;waarde;soort;referenties;footprint
+qty;value;type;references;footprint
 3;NE5532DR;Opamp NE5532 (SOIC-8);U1 U2 U3;Package_SO:SOIC-8_3.9x4.9mm_P1.27mm
 12;1N4148WS;Diode SMD (SOD-323);D101 D102 D103 D104 D105 D106 D201 D202 D203 D204 D205 D206;Diode_SMD:D_SOD-323
-2;100R;Weerstand dikfilm 1% 0805;R115 R215;Resistor_SMD:R_0805_2012Metric
-4;100k;Weerstand dikfilm 1% 0805;R101 R116 R201 R216;Resistor_SMD:R_0805_2012Metric
-4;10k;Weerstand dikfilm 1% 0805;R104 R105 R204 R205;Resistor_SMD:R_0805_2012Metric
-2;160R;Weerstand dikfilm 1% 0805;R112 R212;Resistor_SMD:R_0805_2012Metric
-2;180R;Weerstand dikfilm 1% 0805;R109 R209;Resistor_SMD:R_0805_2012Metric
-2;1k2;Weerstand dikfilm 1% 0805;R113 R213;Resistor_SMD:R_0805_2012Metric
-2;1k27;Weerstand dikfilm 1% 0805;R114 R214;Resistor_SMD:R_0805_2012Metric
-2;20k;Weerstand dikfilm 1% 0805;R103 R203;Resistor_SMD:R_0805_2012Metric
-2;39k;Weerstand dikfilm 1% 0805;R102 R202;Resistor_SMD:R_0805_2012Metric
-2;47R;Weerstand dikfilm 1% 0805;R106 R206;Resistor_SMD:R_0805_2012Metric
-2;4k42;Weerstand dikfilm 1% 0805;R110 R210;Resistor_SMD:R_0805_2012Metric
-2;6k2;Weerstand dikfilm 1% 0805;R107 R207;Resistor_SMD:R_0805_2012Metric
-2;8k2;Weerstand dikfilm 1% 0805;R111 R211;Resistor_SMD:R_0805_2012Metric
-2;9k1;Weerstand dikfilm 1% 0805;R108 R208;Resistor_SMD:R_0805_2012Metric
-2;500R;Trimpot meerslagen SMD (Bourns 3224W);RV101 RV201;Potentiometer_SMD:Potentiometer_Bourns_3224W_Vertical
-6;100n;Condensator SMD;C3 C4 C5 C6 C7 C8;Capacitor_SMD:C_0805_2012Metric
-2;22p C0G;Condensator SMD;C106 C206;Capacitor_SMD:C_0805_2012Metric
-2;2µ2 X7R 50V;Condensator SMD;C101 C201;Capacitor_SMD:C_1206_3216Metric
-2;100µ 25V;Elco SMD (gepolariseerd);C1 C2;Capacitor_SMD:CP_Elec_6.3x7.7
-2;470µ 25V;Elco SMD (gepolariseerd);C103 C203;Capacitor_SMD:CP_Elec_10x10.5
-4;47µ 25V;Elco SMD (gepolariseerd);C104 C105 C204 C205;Capacitor_SMD:CP_Elec_6.3x7.7
-2;10µ bipolair;Elco SMD bipolair (NP);C107 C207;Capacitor_SMD:C_Elec_6.3x7.7
-2;22µ bipolair;Elco SMD bipolair (NP);C102 C202;Capacitor_SMD:C_Elec_6.3x7.7
-1;+15V/GND/-15V;Schroefklem 3-polig 5,08 mm (through-hole);J1;TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-3-5.08_1x03_P5.08mm_Horizontal
-1;IN_L;Schroefklem 2-polig 5,08 mm (through-hole);J2;TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal
-1;IN_R;Schroefklem 2-polig 5,08 mm (through-hole);J3;TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal
-1;OUT_L;Schroefklem 2-polig 5,08 mm (through-hole);J4;TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal
-1;OUT_R;Schroefklem 2-polig 5,08 mm (through-hole);J5;TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal
+2;100R;Resistor thick film 1% 0805;R115 R215;Resistor_SMD:R_0805_2012Metric
+4;100k;Resistor thick film 1% 0805;R101 R116 R201 R216;Resistor_SMD:R_0805_2012Metric
+4;10k;Resistor thick film 1% 0805;R104 R105 R204 R205;Resistor_SMD:R_0805_2012Metric
+2;160R;Resistor thick film 1% 0805;R112 R212;Resistor_SMD:R_0805_2012Metric
+2;180R;Resistor thick film 1% 0805;R109 R209;Resistor_SMD:R_0805_2012Metric
+2;1k2;Resistor thick film 1% 0805;R113 R213;Resistor_SMD:R_0805_2012Metric
+2;1k27;Resistor thick film 1% 0805;R114 R214;Resistor_SMD:R_0805_2012Metric
+2;20k;Resistor thick film 1% 0805;R103 R203;Resistor_SMD:R_0805_2012Metric
+2;39k;Resistor thick film 1% 0805;R102 R202;Resistor_SMD:R_0805_2012Metric
+2;47R;Resistor thick film 1% 0805;R106 R206;Resistor_SMD:R_0805_2012Metric
+2;4k42;Resistor thick film 1% 0805;R110 R210;Resistor_SMD:R_0805_2012Metric
+2;6k2;Resistor thick film 1% 0805;R107 R207;Resistor_SMD:R_0805_2012Metric
+2;8k2;Resistor thick film 1% 0805;R111 R211;Resistor_SMD:R_0805_2012Metric
+2;9k1;Resistor thick film 1% 0805;R108 R208;Resistor_SMD:R_0805_2012Metric
+2;500R;Trimmer multi-turn SMD (Bourns 3224W);RV101 RV201;Potentiometer_SMD:Potentiometer_Bourns_3224W_Vertical
+6;100n;Capacitor SMD;C3 C4 C5 C6 C7 C8;Capacitor_SMD:C_0805_2012Metric
+2;22p C0G;Capacitor SMD;C106 C206;Capacitor_SMD:C_0805_2012Metric
+2;2µ2 X7R 50V;Capacitor SMD;C101 C201;Capacitor_SMD:C_1206_3216Metric
+2;100µ 25V;Electrolytic SMD (polarised);C1 C2;Capacitor_SMD:CP_Elec_6.3x7.7
+2;470µ 25V;Electrolytic SMD (polarised);C103 C203;Capacitor_SMD:CP_Elec_10x10.5
+4;47µ 25V;Electrolytic SMD (polarised);C104 C105 C204 C205;Capacitor_SMD:CP_Elec_6.3x7.7
+2;10µ bipolar;Electrolytic SMD bipolar (NP);C107 C207;Capacitor_SMD:C_Elec_6.3x7.7
+2;22µ bipolar;Electrolytic SMD bipolar (NP);C102 C202;Capacitor_SMD:C_Elec_6.3x7.7
+1;+15V/GND/-15V;Screw terminal 3-pin 5.08 mm (through-hole);J1;TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-3-5.08_1x03_P5.08mm_Horizontal
+1;IN_L;Screw terminal 2-pin 5.08 mm (through-hole);J2;TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal
+1;IN_R;Screw terminal 2-pin 5.08 mm (through-hole);J3;TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal
+1;OUT_L;Screw terminal 2-pin 5.08 mm (through-hole);J4;TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal
+1;OUT_R;Screw terminal 2-pin 5.08 mm (through-hole);J5;TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2-5.08_1x02_P5.08mm_Horizontal

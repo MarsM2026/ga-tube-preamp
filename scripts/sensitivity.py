@@ -1,8 +1,8 @@
-"""Gevoeligheidsanalyse: hoeveel veranderen versterking, H2 en H3 als één onderdeel
-afwijkt? Bepaalt waar een trimpotmeter het meeste effect heeft.
+"""Sensitivity analysis: how much do gain, H2 and H3 change when one part
+deviates? Shows where a trimmer has the most effect.
 
-Gebruik:  python scripts/sensitivity.py [ontwerp.json]
-Resultaat: tabel + out/sensitivity.json
+Usage:   python scripts/sensitivity.py [design.json]
+Output:  table + out/sensitivity.json
 """
 
 from __future__ import annotations
@@ -20,7 +20,7 @@ from circuitbuilder import fitness  # noqa: E402
 from circuitbuilder.candidate import FIXED, Design  # noqa: E402
 
 RESISTORS = ["RF1", "RG1", "RA", "RB", "RBA", "RBB", "RS0", "RSA", "RSB", "RF2", "RI1", "RI2"]
-I1V, I4V = 2, 4  # indices in fitness.VOUT_LEVELS (1 V en 4 V rms)
+I1V, I4V = 2, 4  # indices into fitness.VOUT_LEVELS (1 V and 4 V rms)
 
 
 def metrics(values: dict) -> dict:
@@ -31,14 +31,14 @@ def metrics(values: dict) -> dict:
 
 
 def variants(base: dict) -> list[tuple[str, dict]]:
-    out = [("nominaal", dict(base))]
+    out = [("nominal", dict(base))]
     full = {**FIXED, **base}
     for name in RESISTORS:
         out.append((f"{name} +1%", {**base, name: full[name] * 1.01}))
     n = int(base["N"])
-    out.append(("diodes tak A IS x1.5", {**base, **{f"IS_a{i}": 1.5 for i in range(n)}}))
-    out.append(("diodes tak B IS x1.5", {**base, **{f"IS_b{i}": 1.5 for i in range(n)}}))
-    out.append(("1 diode tak B IS x1.5", {**base, "IS_b0": 1.5}))
+    out.append(("diodes branch A IS x1.5", {**base, **{f"IS_a{i}": 1.5 for i in range(n)}}))
+    out.append(("diodes branch B IS x1.5", {**base, **{f"IS_b{i}": 1.5 for i in range(n)}}))
+    out.append(("1 diode branch B IS x1.5", {**base, "IS_b0": 1.5}))
     return out
 
 
@@ -50,7 +50,7 @@ def main() -> None:
         res = pool.map(metrics, [v for _, v in vs])
     nom = res[0]
     keys = ["gain", "h2_1v", "h3_1v", "h2_4v", "h3_4v"]
-    print(f"{'variant':24s}  dGain   dH2@1V  dH3@1V  dH2@4V  dH3@4V   kosten")
+    print(f"{'variant':24s}  dGain   dH2@1V  dH3@1V  dH2@4V  dH3@4V   cost")
     table = []
     for (name, _), m in zip(vs, res):
         d = {k: m[k] - nom[k] for k in keys}

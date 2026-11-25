@@ -1,28 +1,28 @@
-* Onderdelen voor de opamp-schakeling.
+* Parts for the opamp circuit.
 
-* 1N4148 kleinsignaaldiode (gangbaar model)
+* 1N4148 small-signal diode (common model)
 .model D1N4148 D(IS=2.52n RS=0.568 N=1.752 CJO=4p M=0.4 TT=20n BV=100 IBV=100u)
 
-* Generieke opamp in de klasse NE5532/OPA2134, gevoed uit +/-15 V.
-* - DC-versterking 100 dB, GBW ca. 10 MHz (enkele pool)
-* - uitgangszwaai begrensd tot ca. +/-13.5 V (zachte begrenzing met tanh)
-* - ingangsruis ca. 5 nV/rtHz via een equivalente ruisweerstand van 1.5k
-*   (ngspice rekent geen ruis voor gedragsbronnen, een weerstand wel)
-* Pinnen: niet-inverterend, inverterend, uitgang
+* Generic opamp in the NE5532/OPA2134 class, powered from +/-15 V.
+* - DC gain 100 dB, GBW approx. 10 MHz (single pole)
+* - output swing limited to approx. +/-13.5 V (soft limiting with tanh)
+* - input noise approx. 5 nV/rtHz via an equivalent noise resistor of 1.5k
+*   (ngspice computes no noise for behavioural sources, but does for a resistor)
+* Pins: non-inverting, inverting, output
 .subckt OPAMP inp inn out
 RN inp inp2 1.5k
 RIN inp2 inn 10Meg
-* transconductantie -> integrator: A0 = gm*R1 = 1e5, pool op 100 Hz -> GBW 10 MHz
+* transconductance -> integrator: A0 = gm*R1 = 1e5, pole at 100 Hz -> GBW 10 MHz
 G1 0 n1 inp2 inn 1m
 R1 n1 0 100Meg
 C1 n1 0 15.9p
-* klemdiodes: voorkomt dat de integrator bij verzadiging wegloopt (windup)
+* clamp diodes: keep the integrator from running away when saturated (windup)
 VCP cp 0 DC 14
 VCN cn 0 DC -14
 DCP n1 cp DCLAMP
 DCN cn n1 DCLAMP
 .model DCLAMP D(IS=1e-14 N=1)
-* uitgangsbegrenzing en lage uitgangsimpedantie
+* output limiting and low output impedance
 BO o1 0 V={ 13.5*tanh(V(n1)/13.5) }
 RO o1 out 10
 .ends OPAMP

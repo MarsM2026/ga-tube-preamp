@@ -1,7 +1,7 @@
-"""Referentie: klassieke 12AX7-versterkertrap met gemeenschappelijke kathode.
+"""Reference: classic common-cathode 12AX7 amplifier stage.
 
-Dit is het doelgedrag dat de opamp-schakeling straks moet nabootsen.
-Standaardwaarden zijn gangbaar voor een hifi-voortrap.
+This is the target behaviour the opamp circuit has to imitate.
+The default values are typical for a hi-fi preamp stage.
 """
 
 from __future__ import annotations
@@ -13,18 +13,18 @@ from . import spice
 
 @dataclass
 class TubeStage:
-    b_plus: float = 250.0     # voedingsspanning [V]
-    r_plate: float = 100e3    # plaatweerstand
-    r_cathode: float = 1.5e3  # kathodeweerstand
-    c_cathode: float = 22e-6  # ontkoppel-C over Rk (0 = niet ontkoppeld)
-    r_grid: float = 1e6       # roosterlek
-    c_in: float = 100e-9      # ingangscondensator
-    c_out: float = 100e-9     # uitgangscondensator
-    r_load: float = 100e3     # belasting (ingang volgende trap/versterker)
+    b_plus: float = 250.0     # supply voltage [V]
+    r_plate: float = 100e3    # plate resistor
+    r_cathode: float = 1.5e3  # cathode resistor
+    c_cathode: float = 22e-6  # bypass capacitor across Rk (0 = unbypassed)
+    r_grid: float = 1e6       # grid leak
+    c_in: float = 100e-9      # input capacitor
+    c_out: float = 100e-9     # output capacitor
+    r_load: float = 100e3     # load (input of the next stage/amplifier)
 
     def netlist(self, source: str) -> str:
         ck = (f"CK k 0 {self.c_cathode:g}\n" if self.c_cathode > 0 else "")
-        return f"""* 12AX7 common-cathode referentietrap
+        return f"""* 12AX7 common-cathode reference stage
 {spice.include('12ax7.lib')}
 VB bplus 0 DC {self.b_plus:g}
 {source}

@@ -1,9 +1,9 @@
-"""Teken een leesbaar schema van één kanaal (voor documentatie / webpagina).
+"""Draw a readable schematic of one channel (for the documentation / web page).
 
-Waarden en referenties komen uit circuitbuilder/build.py (kanaal L, 1xx), zodat het
-schema altijd overeenkomt met de print, de onderdelenlijst en de simulatie.
+Values and reference designators come from circuitbuilder/build.py (channel L, 1xx),
+so the drawing always matches the PCB, the parts list and the simulation.
 
-Resultaat: docs/img/schema_kanaal.svg
+Output: docs/img/schematic_channel.svg
 """
 
 from __future__ import annotations
@@ -41,7 +41,7 @@ def main() -> None:
     d = schemdraw.Drawing(show=False)
     d.config(unit=2.4)
 
-    # ------------------------------------------------ ingang + U1 (y = 0)
+    # ------------------------------------------------ input + U1 (y = 0)
     d += elm.Dot(open=True).at((0, 0)).label("IN", "left")
     d += elm.Capacitor().right().label(L("CIN"))
     d += (i1 := elm.Dot())
@@ -50,7 +50,7 @@ def main() -> None:
     d += elm.Line().right(1.2).at(i1.center)
     d += (u1 := elm.Opamp(leads=True).flip().anchor("in2")
           .label(f"{P['U1'].ref}\n½ NE5532P", "top", ofst=0.25))
-    # terugkoppeling onder de opamp: RF1 van uitgang naar -in, RG1+CG1 naar massa
+    # feedback below the opamp: RF1 from output to -in, RG1+CG1 to ground
     d += elm.Line().down(0.9).at(u1.in1)
     d += (fb1 := elm.Dot())
     d += elm.Line().right(1.1).at(fb1.center)
@@ -78,7 +78,7 @@ def main() -> None:
     d += elm.Line().right(0.6).at(u2.out)
     d += (v1n := elm.Dot().label("−V1", "top"))
 
-    # ------------------------------------------------ tak A (y = 0)
+    # ------------------------------------------------ branch A (y = 0)
     xa = 19.0
     d += elm.Line().right().at(v1.center).tox(xa - 3.2)
     d += elm.Resistor().right().tox(xa).label(L("RA"))
@@ -94,7 +94,7 @@ def main() -> None:
     d += elm.Resistor().right().label(L("RSA"))
     d += (sa := elm.Dot())
 
-    # ------------------------------------------------ tak B (y = -9.6)
+    # ------------------------------------------------ branch B (y = -9.6)
     xb = 25.0
     d += elm.Line().right().at(v1n.center).tox(xb - 6.0)
     d += elm.Resistor().right().label(L("RB"))
@@ -111,13 +111,13 @@ def main() -> None:
     d += elm.Resistor().right().label(L("RSB"))
     d += (sb := elm.Dot())
 
-    # ------------------------------------------------ schoon pad RS0 (y = -16.5)
+    # ------------------------------------------------ clean path RS0 (y = -16.5)
     xs = max(sa.center[0], sb.center[0]) + 1.6
     d += elm.Line().down(6.9).at(v1n.center)
-    d += elm.Resistor().right().tox(xs).label(f"{P['RS0'].ref}  {P['RS0'].value}   (schoon signaal)")
+    d += elm.Resistor().right().tox(xs).label(f"{P['RS0'].ref}  {P['RS0'].value}   (clean signal)")
     d += (s_low := elm.Dot())
 
-    # ------------------------------------------------ sommator U3
+    # ------------------------------------------------ summer U3
     d += elm.Line().right().at(sa.center).tox(xs)
     d += (s_top := elm.Dot())
     d += elm.Line().right().at(sb.center).tox(xs)
@@ -137,7 +137,7 @@ def main() -> None:
     d += elm.Capacitor().right().tox(u3.out[0] + 0.7).label(L("CF2"))
     d += elm.Line().down().toy(fr.center)
     d += elm.Dot().at((xs + 0.7, ys))
-    # uitgang
+    # output
     d += elm.Line().right(0.7).at(u3.out)
     d += elm.Resistor().right().label(L("ROUT"))
     d += elm.Capacitor().right().label(L("COUT"))
@@ -147,19 +147,19 @@ def main() -> None:
     d += elm.Line().right(1.0).at(no.center)
     d += elm.Dot(open=True).label("OUT", "right")
 
-    # ------------------------------------------------ voedingsfilter VP
+    # ------------------------------------------------ supply filter VP
     d += elm.Dot(open=True).at((0, -15.5)).label("+15 V", "left")
     d += elm.Resistor().right().label(L("RFLT"))
     d += (vp := elm.Dot().label("VP", "top"))
     d += elm.Capacitor(polar=True).down().at(vp.center).length(2.2).label(L("CFLT"), "bottom")
     d += elm.Ground()
     d += elm.Line().right(1.2).at(vp.center)
-    d += elm.Dot(open=True).label("naar RBA en RBB", "right")
+    d += elm.Dot(open=True).label("to RBA and RBB", "right")
     d += elm.Label().at((0, -20.3)).label(
-        "Kanaal L (referenties 1xx). Kanaal R is identiek (2xx). "
-        "3× NE5532P uit ±15 V, per IC 2× 100 nF ontkoppeling.", "right")
-    d.save(str(OUT / "schema_kanaal.svg"))
-    print(f"Schema: {OUT / 'schema_kanaal.svg'}")
+        "Channel L (references 1xx). Channel R is identical (2xx). "
+        "3× NE5532P from ±15 V, 2× 100 nF decoupling per IC.", "right")
+    d.save(str(OUT / "schematic_channel.svg"))
+    print(f"Schematic: {OUT / 'schematic_channel.svg'}")
 
 
 if __name__ == "__main__":

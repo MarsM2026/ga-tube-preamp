@@ -1,16 +1,16 @@
-* NE5532 (dubbele, intern gecompenseerde NE5534) voor ngspice.
-* Basis: TI/MicroSim "Parts" macromodel NE5534 (1989), via
+* NE5532 (dual, internally compensated NE5534) for ngspice.
+* Based on: TI/MicroSim "Parts" macromodel NE5534 (1989), via
 *   https://github.com/kicad-spice-library/KiCad-Spice-Library (Models/Manufacturer/Texas Instruments/ne5534.mod)
-* NE5532 = NE5534 met 22 pF compensatie (eenheidsversterking-stabiel), hier als
-* Miller-condensator tussen de compensatieknopen van het macromodel.
+* NE5532 = NE5534 with 22 pF compensation (unity-gain stable), modelled here as a
+* Miller capacitor between the compensation nodes of the macromodel.
 *
-* Pinnen NE5532: niet-inv, inv, V+, V-, uitgang
+* NE5532 pins: non-inv, inv, V+, V-, output
 .subckt NE5532 1 2 3 4 5
 XOP 1 2 3 4 5 c6 c7 NE5534
 CC c6 c7 22p
 .ends NE5532
 
-* Wrapper met dezelfde pinnen als het generieke model (gevoed uit +/-15 V)
+* Wrapper with the same pins as the generic model (powered from +/-15 V)
 .subckt OPAMP_NE5532 inp inn out
 VCC vcc 0 DC 15
 VEE vee 0 DC -15

@@ -1,18 +1,18 @@
-"""Bouw de complete hardware-uitvoer opnieuw op, in de juiste volgorde.
+"""Rebuild the complete hardware output, in the right order.
 
-  1. KiCad-schema + parts.json          (scripts/kicad_schematic.py, venv-Python)
-  2. Print: plaatsing + DSN              (scripts/kicad_pcb.py place, KiCad-Python)
-  3. Automatisch routeren                (Freerouting, Java)
-  4. Print afwerken: SES, massavlakken   (scripts/kicad_pcb.py finish, KiCad-Python)
-  5. ERC en DRC                          (kicad-cli)
-  6. Exports naar hardware/export/       (Gerbers + boorbestanden als zip, schema-PDF/SVG,
-                                          print-SVG per laag, 3D-renders, BOM)
-  7. Alleen SMD: montagebestanden voor een fabrikant (JLCPCB-formaat: BOM + CPL)
+  1. KiCad schematic + parts.json       (scripts/kicad_schematic.py, venv Python)
+  2. PCB: placement + DSN                (scripts/kicad_pcb.py place, KiCad Python)
+  3. Autorouting                         (Freerouting, Java)
+  4. Finish PCB: SES, ground pours       (scripts/kicad_pcb.py finish, KiCad Python)
+  5. ERC and DRC                         (kicad-cli)
+  6. Exports to hardware/export/         (Gerbers + drill files as zip, schematic PDF/SVG,
+                                          PCB SVG per layer, 3D renders, BOM)
+  7. SMD only: assembly files for a fab  (JLCPCB format: BOM + CPL)
 
-Gebruik:  python scripts/make_hardware.py [--variant tht|smd] [--skip-route]
-          tht (standaard): hardware/kicad + hardware/export
-          smd:             hardware/kicad_smd + hardware/export_smd
-Paden:    KICAD_DIR (standaard %LOCALAPPDATA%/Programs/KiCad/10.0), Java in PATH.
+Usage:  python scripts/make_hardware.py [--variant tht|smd] [--skip-route]
+        tht (default): hardware/kicad + hardware/export
+        smd:           hardware/kicad_smd + hardware/export_smd
+Paths:  KICAD_DIR (default %LOCALAPPDATA%/Programs/KiCad/10.0), Java in PATH.
 """
 
 from __future__ import annotations
@@ -35,7 +35,7 @@ KICAD = Path(os.environ.get("KICAD_DIR", Path(os.environ.get("LOCALAPPDATA", "")
 CLI = str(KICAD / "bin" / "kicad-cli.exe")
 KPY = str(KICAD / "bin" / "python.exe")
 FREEROUTING = ROOT / "tools" / "freerouting" / "freerouting.jar"
-HW = EXPORT = PCB = SCH = None  # gezet in main() per variant
+HW = EXPORT = PCB = SCH = None  # set per variant in main()
 
 
 def ref_key(r: str):
@@ -43,11 +43,11 @@ def ref_key(r: str):
 
 
 def assembly_files() -> None:
-    """Montagebestanden in JLCPCB-formaat (ook bruikbaar voor andere fabrikanten).
+    """Assembly files in JLCPCB format (also usable for other fabs).
 
-    BOM: Comment, Designator, Footprint, LCSC Part #   (LCSC-nummers leeg: kies ze in de
-         onderdelenzoeker van de fabrikant; de omschrijving staat in kolom Description)
-    CPL: Designator, Mid X, Mid Y, Layer, Rotation      (uit kicad-cli pcb export pos)
+    BOM: Comment, Designator, Footprint, LCSC Part #   (LCSC numbers left empty: pick them
+         in the fab's parts search; the description is in the Description column)
+    CPL: Designator, Mid X, Mid Y, Layer, Rotation      (from kicad-cli pcb export pos)
     """
     parts = json.loads((HW / "parts.json").read_text(encoding="utf-8"))
     groups: dict = {}
@@ -71,12 +71,12 @@ def assembly_files() -> None:
         w = csv.writer(g)
         w.writerow(["Designator", "Mid X", "Mid Y", "Layer", "Rotation"])
         for r in csv.DictReader(f):
-            if r["Ref"].startswith("H"):  # montagegaten
+            if r["Ref"].startswith("H"):  # mounting holes
                 continue
             w.writerow([r["Ref"], f"{float(r['PosX']):.3f}mm", f"{float(r['PosY']):.3f}mm",
                         "Top" if r["Side"] == "top" else "Bottom", f"{float(r['Rot']):g}"])
     pos.unlink()
-    print(f"  montagebestanden: {len(rows)} BOM-regels, CPL met {len(parts)} posities")
+    print(f"  assembly files: {len(rows)} BOM lines, CPL with {len(parts)} positions")
 
 
 def run(cmd, cwd=None, timeout=900):
@@ -86,16 +86,16 @@ def run(cmd, cwd=None, timeout=900):
     if out:
         print("  " + "\n  ".join(out.splitlines()[-6:]))
     if r.returncode != 0:
-        raise SystemExit(f"mislukt (exit {r.returncode})")
+        raise SystemExit(f"failed (exit {r.returncode})")
     return out
 
 
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--variant", default="tht", choices=["tht", "smd"])
-    ap.add_argument("--skip-route", action="store_true", help="bestaande .ses hergebruiken")
+    ap.add_argument("--skip-route", action="store_true", help="reuse the existing .ses")
     ap.add_argument("--render-quality", default="basic", choices=["basic", "high"],
-                    help="3D-renders: basic (snel) of high (ca. 15 min per beeld)")
+                    help="3D renders: basic (fast) or high (approx. 15 min per image)")
     args = ap.parse_args()
     global HW, EXPORT, PCB, SCH
     build.set_variant(args.variant)
@@ -117,7 +117,7 @@ def main() -> None:
     if EXPORT.exists():
         shutil.rmtree(EXPORT)
     (EXPORT / "gerber").mkdir(parents=True)
-    run([CLI, "sch", "export", "pdf", "-o", EXPORT / "schema.pdf", SCH])
+    run([CLI, "sch", "export", "pdf", "-o", EXPORT / "schematic.pdf", SCH])
     run([CLI, "sch", "export", "svg", "-o", EXPORT, SCH])
     run([CLI, "sch", "export", "bom", "-o", EXPORT / "bom_kicad.csv",
          "--fields", "Reference,Value,Footprint,${QUANTITY},Description",
@@ -129,11 +129,11 @@ def main() -> None:
     with zipfile.ZipFile(EXPORT / "warm_preamp_gerbers.zip", "w", zipfile.ZIP_DEFLATED) as z:
         for f in sorted((EXPORT / "gerber").iterdir()):
             z.write(f, f.name)
-    run([CLI, "pcb", "export", "pdf", "-o", EXPORT / "print_lagen.pdf", "--mode-separate",
+    run([CLI, "pcb", "export", "pdf", "-o", EXPORT / "pcb_layers.pdf", "--mode-separate",
          "--layers", "F.Cu,B.Cu,F.Silkscreen,Edge.Cuts", PCB])
-    for name, layers in (("print_boven", "F.Cu,F.Silkscreen,Edge.Cuts"),
-                         ("print_onder", "B.Cu,B.Silkscreen,Edge.Cuts"),
-                         ("print_opbouw", "F.Silkscreen,F.Fab,Edge.Cuts")):
+    for name, layers in (("pcb_top", "F.Cu,F.Silkscreen,Edge.Cuts"),
+                         ("pcb_bottom", "B.Cu,B.Silkscreen,Edge.Cuts"),
+                         ("pcb_assembly", "F.Silkscreen,F.Fab,Edge.Cuts")):
         run([CLI, "pcb", "export", "svg", "--mode-single", "--layers", layers, "--fit-page-to-board",
              "--exclude-drawing-sheet", "-o", EXPORT / f"{name}.svg", PCB])
     for side in ("top", "bottom"):
@@ -142,13 +142,13 @@ def main() -> None:
             timeout=1800)
     run([CLI, "pcb", "render", "--side", "top", "--rotate", "-45,0,30", "--quality", args.render_quality,
          "--width", "1800", "--height", "1200", "--zoom", "0.9", "--background", "transparent",
-         "-o", EXPORT / "render_3d_schuin.png", PCB], timeout=1800)
+         "-o", EXPORT / "render_3d_angled.png", PCB], timeout=1800)
     bom = ROOT / "hardware" / ("bom.csv" if args.variant == "tht" else "bom_smd.csv")
-    if bom.exists():  # leesbare onderdelenlijst uit make_docs_assets.py
+    if bom.exists():  # readable parts list from make_docs_assets.py
         shutil.copy(bom, EXPORT / "bom.csv")
     if args.variant == "smd":
         assembly_files()
-    print(f"\nKlaar. Uitvoer in {EXPORT}")
+    print(f"\nDone. Output in {EXPORT}")
 
 
 if __name__ == "__main__":

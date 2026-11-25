@@ -1,18 +1,18 @@
-"""Kandidaat-topologie: opamp-voorversterker met even-harmonischen-generator.
+"""Candidate topology: opamp preamp with an even-harmonic generator.
 
-Signaalpad (alle opamps uit +/-15 V):
+Signal path (all opamps powered from +/-15 V):
 
-  in -> CIN/RIN -> U1 (niet-inverterend, versterking 1+RF1/RG1) -> v1
-                   U2 (inverter, 10k/10k)                        -> v1n = -v1
-  Tak A: v1  -RA-> knoop a, voorspanning via RBA uit +15 V, N diodes in serie naar massa
-  Tak B: v1n -RB-> knoop b, idem met RBB
-  U3 (inverterende sommator, RF2):  out = -RF2 * ( v1n/RS0 + a~/RSA + b~/RSB )
-     (a~, b~ = wisselspanning via 47 uF)
+  in -> CIN/RIN -> U1 (non-inverting, gain 1+RF1/RG1) -> v1
+                   U2 (inverter, 10k/10k)              -> v1n = -v1
+  Branch A: v1  -RA-> node a, biased via RBA from +15 V, N diodes in series to ground
+  Branch B: v1n -RB-> node b, same with RBB
+  U3 (inverting summer, RF2):  out = -RF2 * ( v1n/RS0 + a~/RSA + b~/RSB )
+     (a~, b~ = AC component via 47 uF)
 
-De diodespanning is ~ ln(1 + x) met x evenredig met het signaal. Tak A ziet +x,
-tak B -x: bij optellen vallen de oneven termen (grotendeels) weg en blijft vooral
-x^2 over, dus H2 die evenredig met het niveau groeit, net als bij een triode.
-Verschillen tussen de takken geven gedoseerd H3.
+The diode voltage is ~ ln(1 + x) with x proportional to the signal. Branch A sees +x,
+branch B sees -x: when summed, the odd terms (largely) cancel and mainly x^2 remains,
+i.e. H2 that grows in proportion to the level, just like a triode.
+Differences between the branches add a controlled amount of H3.
 """
 
 from __future__ import annotations
@@ -27,7 +27,7 @@ R_SMALL = eseries.values(100, 1e5)
 R_MID = eseries.values(1e3, 1e5)
 R_WIDE = eseries.values(1e3, 1e6)
 
-# (naam, toegestane waarden)
+# (name, allowed values)
 GENES: list[tuple[str, np.ndarray]] = [
     ("RF1", R_MID),
     ("RG1", R_MID),
@@ -58,13 +58,13 @@ class Design:
     def bom(self) -> str:
         v = self.values
         lines = [f"  {k:4s} = {eseries.fmt(v[k])}" for k, _ in GENES if k != "N"]
-        lines.append(f"  N    = {int(v['N'])} x 1N4148 per tak")
+        lines.append(f"  N    = {int(v['N'])} x 1N4148 per branch")
         return "\n".join(lines)
 
     def subckt(self, opamp: str = "OPAMP") -> str:
-        """Subcircuit. Optionele sleutels in `values` (voor toleranties):
-        RIN, RI1, RI2 (vaste weerstanden) en IS_a0.., IS_b0.. (schaalfactor op de
-        verzadigingsstroom van elke diode, 1 = nominaal)."""
+        """Subcircuit. Optional keys in `values` (for tolerance analysis):
+        RIN, RI1, RI2 (fixed resistors) and IS_a0.., IS_b0.. (scale factor on the
+        saturation current of each diode, 1 = nominal)."""
         v = {**FIXED, **self.values}
         n = int(v["N"])
         models = []
@@ -113,12 +113,12 @@ CF2 out s 22p
 
     def netlist(self, amplitudes, f0: float = 1000.0, r_load: float = 10e3,
                 opamp: str = "generic") -> str:
-        """Eén netlist met per amplitude een eigen kopie (in<i>/out<i>) plus een
-        AC-kopie (in_ac/out_ac) voor frequentierespons en ruis.
+        """One netlist with a separate copy per amplitude (in<i>/out<i>) plus an
+        AC copy (in_ac/out_ac) for frequency response and noise.
 
-        opamp: "generic" (snel, voor het GA) of "ne5532" (TI-macromodel, ter controle).
+        opamp: "generic" (fast, used by the GA) or "ne5532" (TI macromodel, for checking).
         """
-        parts = ["* opamp-voorversterker, kandidaat", spice.include("parts.lib")]
+        parts = ["* opamp preamp, candidate", spice.include("parts.lib")]
         if opamp == "ne5532":
             parts.append(spice.include("ne5532.lib"))
             sub = self.subckt("OPAMP_NE5532")

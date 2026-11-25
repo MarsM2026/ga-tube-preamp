@@ -1,8 +1,8 @@
-"""Optimaliseer de opamp-voorversterker met een genetisch algoritme (pymoo),
-gevolgd door een lokale zoekstap over naburige E24-waarden.
+"""Optimise the opamp preamp with a genetic algorithm (pymoo), followed by a
+local search step over neighbouring E24 values.
 
-Gebruik:  python scripts/optimize.py [--pop 48] [--gen 40] [--workers 8] [--seed 1]
-Resultaat: out/best.json (+ voortgang in out/ga_log.csv)
+Usage:   python scripts/optimize.py [--pop 48] [--gen 40] [--workers 8] [--seed 1]
+Output:  out/best.json (+ progress in out/ga_log.csv)
 """
 
 from __future__ import annotations
@@ -64,7 +64,7 @@ class Logger(Callback):
         gen, n = algorithm.n_gen, algorithm.evaluator.n_eval
         el = time.time() - self.t0
         self.log.write(f"{gen},{n},{f.min():.4f},{np.median(f):.4f},{el:.0f}\n")
-        print(f"gen {gen:3d}  evals {n:5d}  beste {f.min():8.3f}  mediaan {np.median(f):9.3f}"
+        print(f"gen {gen:3d}  evals {n:5d}  best {f.min():8.3f}  median {np.median(f):9.3f}"
               f"  ({el:.0f} s)", flush=True)
         best = algorithm.opt[0].X
         save(Design.from_genes(best), algorithm.opt[0].F[0], "ga")
@@ -76,7 +76,7 @@ def save(design: Design, cost: float, stage: str) -> None:
 
 
 def local_search(genes, cost, tgt, pool) -> tuple[np.ndarray, float]:
-    """Probeer per gen de naburige E24-waarde (+/-1, +/-2); neem de beste verbetering."""
+    """Try the neighbouring E24 value (+/-1, +/-2) for each gene; keep the best improvement."""
     improved = True
     while improved:
         improved = False
@@ -92,7 +92,7 @@ def local_search(genes, cost, tgt, pool) -> tuple[np.ndarray, float]:
         if costs[k] < cost - 1e-3:
             genes, cost = trials[k], costs[k]
             improved = True
-            print(f"  lokaal: kosten {cost:.3f}", flush=True)
+            print(f"  local: cost {cost:.3f}", flush=True)
             save(Design.from_genes(genes), cost, "local")
     return genes, cost
 
@@ -110,7 +110,7 @@ def main() -> None:
     rng = np.random.default_rng(args.seed)
     init = rng.integers(0, UPPER + 1, size=(args.pop, N_GENES))
     init[0] = to_genes(HAND)
-    # eerdere resultaten als startpunt, plus symmetrische varianten (tak B = tak A)
+    # earlier results as starting points, plus symmetric variants (branch B = branch A)
     names = [n for n, _ in GENES]
     idx = {n: i for i, n in enumerate(names)}
     seeds = [to_genes(json.loads(p.read_text())["values"])
@@ -125,7 +125,7 @@ def main() -> None:
         g = base[k % len(base)].copy()
         for a, b in (("RA", "RB"), ("RBA", "RBB"), ("RSA", "RSB")):
             g[idx[b]] = g[idx[a]]
-        if k >= len(base):  # varieer, behalve de exacte symmetrische kopieën
+        if k >= len(base):  # mutate, except for the exact symmetric copies
             mask = rng.random(N_GENES) < 0.5
             g = np.clip(g + mask * rng.integers(-3, 4, N_GENES), 0, UPPER)
         init[row] = g
@@ -144,12 +144,12 @@ def main() -> None:
         res = minimize(problem, algo, ("n_gen", args.gen), seed=args.seed,
                        callback=Logger(t0), verbose=False)
         genes = np.round(res.X).astype(int)
-        print(f"GA klaar: kosten {res.F[0]:.3f}. Lokale verfijning...", flush=True)
+        print(f"GA done: cost {res.F[0]:.3f}. Local refinement...", flush=True)
         genes, cost = local_search(genes, float(res.F[0]), tgt, pool)
 
     design = Design.from_genes(genes)
     save(design, cost, "final")
-    print(f"\nKlaar in {time.time() - t0:.0f} s, kosten {cost:.3f}\n{design.bom()}")
+    print(f"\nDone in {time.time() - t0:.0f} s, cost {cost:.3f}\n{design.bom()}")
 
 
 if __name__ == "__main__":

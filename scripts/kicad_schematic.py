@@ -1,12 +1,12 @@
-"""Genereer het KiCad-schema (hardware/kicad/warm_preamp.kicad_sch) en de
-onderdelen/net-lijst voor de printgenerator (hardware/kicad/parts.json).
+"""Generate the KiCad schematic (hardware/kicad/warm_preamp.kicad_sch) and the
+parts/net list for the PCB generator (hardware/kicad/parts.json).
 
-Bron: circuitbuilder/build.py. Symbolen komen uit de geïnstalleerde KiCad-bibliotheek
-en worden in het schema ingesloten. Componenten zijn verbonden via netlabels
-(korte draadstompjes op elke pin), gegroepeerd per functioneel blok en kanaal.
+Source: circuitbuilder/build.py. Symbols come from the installed KiCad library and
+are embedded in the schematic. Components are connected through net labels
+(short wire stubs on every pin), grouped per functional block and channel.
 
-Gebruik:  python scripts/kicad_schematic.py [--variant tht|smd]
-          (smd schrijft naar hardware/kicad_smd/)
+Usage:  python scripts/kicad_schematic.py [--variant tht|smd]
+        (smd writes to hardware/kicad_smd/)
 """
 
 from __future__ import annotations
@@ -25,7 +25,8 @@ sys.path.insert(0, str(ROOT))
 from circuitbuilder import build  # noqa: E402
 from circuitbuilder.sexpr import Q, dump, find, find_all, parse  # noqa: E402
 
-KICAD = Path(os.environ.get("KICAD_DIR", r"C:\Users\marce\AppData\Local\Programs\KiCad\10.0"))
+KICAD = Path(os.environ.get("KICAD_DIR",
+                          Path(os.environ.get("LOCALAPPDATA", "")) / "Programs/KiCad/10.0"))
 SYMLIB = KICAD / "share" / "kicad" / "symbols"
 PROJECT = "warm_preamp"
 NS = uuid.UUID("6f1c3a52-6a7e-4d0e-9a51-1b2c3d4e5f60")
@@ -41,14 +42,14 @@ POWER_NETS = {"GND": "power:GND", "+15V": "power:+15V", "-15V": "power:-15V"}
 OPAMP_PINS = {"A": {"OUT": "1", "-": "2", "+": "3"}, "B": {"OUT": "7", "-": "6", "+": "5"},
               "C": {"V+": "8", "V-": "4"}}
 UNIT_NUM = {"A": 1, "B": 2, "C": 3}
-BLOCK_ORDER = ["ingang", "versterker", "inverter", "voorspanning", "tak A", "tak B",
-               "sommator", "uitgang"]
-BLOCK_TITLE = {"ingang": "Ingang", "versterker": "U1: versterker (x2,5)",
-               "inverter": "U2: inverter", "voorspanning": "Voorspanning diodes (gefilterde +15 V)",
-               "tak A": "Tak A: diodeketen (+V1)", "tak B": "Tak B: diodeketen (-V1) met trimpot",
-               "sommator": "U3: sommator", "uitgang": "Uitgang", "voeding": "Voeding en ontkoppeling"}
+BLOCK_ORDER = ["input", "amplifier", "inverter", "bias", "branch A", "branch B",
+               "summer", "output"]
+BLOCK_TITLE = {"input": "Input", "amplifier": "U1: amplifier (x2.5)",
+               "inverter": "U2: inverter", "bias": "Diode bias (filtered +15 V)",
+               "branch A": "Branch A: diode chain (+V1)", "branch B": "Branch B: diode chain (-V1) with trimmer",
+               "summer": "U3: summer", "output": "Output", "supply": "Power supply and decoupling"}
 
-G = 1.27  # rastermaat
+G = 1.27  # grid size
 
 
 def uid(*key) -> str:
@@ -59,7 +60,7 @@ def snap(v: float) -> float:
     return round(round(v / G) * G, 4)
 
 
-# ------------------------------------------------------------ symbolen -----
+# ------------------------------------------------------------- symbols -----
 _lib_cache: dict = {}
 
 
@@ -71,7 +72,7 @@ def lib_symbols(lib: str) -> dict:
 
 
 def flat_symbol(lib_id: str):
-    """Symbooldefinitie, met 'extends' opgelost, hernoemd naar 'Lib:Naam'."""
+    """Symbol definition with 'extends' resolved, renamed to 'Lib:Name'."""
     lib, name = lib_id.split(":")
     syms = lib_symbols(lib)
     node = copy.deepcopy(syms[name])
@@ -96,7 +97,7 @@ def flat_symbol(lib_id: str):
 
 
 def pin_table(sym) -> dict:
-    """{(unit, pinnummer): (x, y, hoek)} in bibliotheekcoördinaten (y omhoog)."""
+    """{(unit, pin number): (x, y, angle)} in library coordinates (y up)."""
     name = str(sym[1]).split(":")[1]
     out = {}
     for sub in find_all(sym, "symbol"):
@@ -110,16 +111,16 @@ def pin_table(sym) -> dict:
 
 
 def pin_pos(sym_xy, pin):
-    """Verbindingspunt en richting naar buiten in schemacoördinaten (y omlaag)."""
+    """Connection point and outward direction in schematic coordinates (y down)."""
     px, py, ang = pin
     x, y = sym_xy[0] + px, sym_xy[1] - py
     a = math.radians(ang)
-    # pin wijst vanaf het verbindingspunt richting het symbool: (cos a, sin a) in lib
-    dx, dy = -math.cos(a), math.sin(a)  # naar buiten, in schema-assen
+    # a pin points from its connection point towards the symbol: (cos a, sin a) in lib
+    dx, dy = -math.cos(a), math.sin(a)  # outward, in schematic axes
     return (snap(x), snap(y)), (round(dx), round(dy))
 
 
-# ------------------------------------------------------------ elementen ----
+# ------------------------------------------------------------ elements -----
 def font(size=1.27, hide=False, justify=None, bold=False):
     eff = ["effects", ["font", ["size", size, size]] + ([["bold", "yes"]] if bold else [])]
     if justify:
@@ -135,7 +136,7 @@ def prop(name, value, xy, hide=False, angle=0, justify=None):
 
 def symbol_instance(lib_id, ref, value, xy, unit, footprint, descr, pins, key, angle=0,
                     in_bom=True, ref_xy=None, val_xy=None, kind=""):
-    if kind in ("D", "OPAMP"):  # tekst boven/onder het symbool, vrij van de pinlabels
+    if kind in ("D", "OPAMP"):  # text above/below the symbol, clear of the pin labels
         dy = 3.81 if kind == "D" else 6.35
         ref_xy = ref_xy or (xy[0] - 2.54, xy[1] - dy)
         val_xy = val_xy or (xy[0] - 2.54, xy[1] + dy + 1.27)
@@ -173,14 +174,14 @@ def text(s, xy, size=2.0, bold=True):
             font(size=size, justify="left bottom", bold=bold), ["uuid", Q(uid("txt", s, xy))]]
 
 
-# ------------------------------------------------------------ indeling -----
+# -------------------------------------------------------------- layout -----
 CELL_W = {"OPAMP": 40.64, "OPAMP_PWR": 22.86, "D": 33.02, "SIG_CONN": 33.02, "PWR_CONN": 33.02}
 ROW_H = 33.02
 BLOCK_MAX_W = 135.0
 
 
 def layout(parts):
-    """Plaats per kanaal (kolom) de blokken onder elkaar; voeding rechts."""
+    """Stack the blocks of each channel in a column; power supply on the right."""
     groups: dict = {}
     for p in parts:
         key = (p.channel or "-", p.block)
@@ -189,12 +190,12 @@ def layout(parts):
     col_x = {"L": 25.4, "R": 190.5, "-": 355.6}
     for ch in ("L", "R", "-"):
         y = 30.48
-        blocks = BLOCK_ORDER if ch != "-" else ["voeding"]
+        blocks = BLOCK_ORDER if ch != "-" else ["supply"]
         for blk in blocks:
             items = groups.get((ch, blk), [])
             if not items:
                 continue
-            title = BLOCK_TITLE[blk] + (f"  (kanaal {ch})" if ch != "-" else "")
+            title = BLOCK_TITLE[blk] + (f"  (channel {ch})" if ch != "-" else "")
             titles.append((title, (col_x[ch], y)))
             x, row_y = col_x[ch] + 7.62, y + 15.24
             for p in items:
@@ -208,7 +209,7 @@ def layout(parts):
     return positions, titles
 
 
-# ------------------------------------------------------------ hoofdprogramma
+# ---------------------------------------------------------------- main -----
 def main() -> None:
     if "--variant" in sys.argv:
         build.set_variant(sys.argv[sys.argv.index("--variant") + 1])
@@ -256,7 +257,7 @@ def main() -> None:
                 items.append(power_symbol(net, end, (dx, dy)))
             else:
                 items.append(label(net, end, (dx, dy)))
-        # printgegevens: per IC samenvoegen
+        # PCB data: merge per IC
         entry = pcb_parts.setdefault(ref, {"ref": ref, "value": p.value, "footprint": p.footprint,
                                            "pads": {}, "channel": p.channel, "block": p.block,
                                            "descr": p.descr, "symbol_uuid": uid("sym", p.ref)})
@@ -265,7 +266,7 @@ def main() -> None:
             entry["symbol_uuid"] = uid("sym", p.ref)
             entry["channel"], entry["block"] = p.channel, "opamp"
 
-    # PWR_FLAG op de voedingsnetten (bij J1) zodat ERC weet dat ze gevoed worden
+    # PWR_FLAG on the supply nets (near J1) so ERC knows they are driven
     j1 = positions[id(next(p for p in parts if p.ref == "J1"))]
     for i, net in enumerate(("+15V", "GND", "-15V")):
         xy = (snap(j1[0] + 160.0 + i * 15.24), snap(j1[1] - 5.08))
@@ -279,17 +280,17 @@ def main() -> None:
 
     for t, xy in titles:
         items.append(text(t, (snap(xy[0]), snap(xy[1]))))
-    items.append(text("Opamp-voorversterker met 12AX7-karakter (stereo). Ontwerp: genetisch algoritme "
-                      "(circuitbuilder). Alle weerstanden " + ("1 %." if smd else "metaalfilm 1 %."), (25.4, 17.78), size=2.5))
+    items.append(text("Opamp preamp with 12AX7 character (stereo). Values found by a genetic algorithm. "
+                      "KyntoSoftware. All resistors " + ("1 %." if smd else "metal film 1 %."), (25.4, 17.78), size=2.5))
 
     today = dt.date.today().isoformat()
     sch = ["kicad_sch", ["version", "20250114"], ["generator", Q("circuitbuilder")],
            ["generator_version", Q("9.0")], ["uuid", Q(ROOT_UUID)], ["paper", Q("A1")],
-           ["title_block", ["title", Q("Warme opamp-voorversterker (12AX7-karakter)")],
-            ["date", Q(today)], ["rev", Q("1.0")], ["company", Q("circuitbuilder")],
-            ["comment", 1, Q(f"Stereo, 3x {build.name('opamp')}, +/-15 V, versterking 10 dB"
-                             + ("  (SMD-variant)" if smd else ""))],
-            ["comment", 2, Q("Waarden geoptimaliseerd met genetisch algoritme t.o.v. 12AX7-trap")]],
+           ["title_block", ["title", Q("Warm opamp preamp (12AX7 character)")],
+            ["date", Q(today)], ["rev", Q("1.0")], ["company", Q("KyntoSoftware")],
+            ["comment", 1, Q(f"Stereo, 3x {build.name('opamp')}, +/-15 V, gain 10 dB"
+                             + ("  (SMD variant)" if smd else ""))],
+            ["comment", 2, Q("Values optimised by a genetic algorithm against a 12AX7 stage")]],
            ["lib_symbols"] + list(syms.values())] + items + [
            ["sheet_instances", ["path", Q("/"), ["page", Q("1")]]], ["embedded_fonts", "no"]]
     OUTDIR.mkdir(parents=True, exist_ok=True)
@@ -300,8 +301,8 @@ def main() -> None:
     if not pro.exists():
         pro.write_text(json.dumps({"meta": {"filename": f"{PROJECT}.kicad_pro", "version": 3}},
                                   indent=2), encoding="utf-8")
-    print(f"Schema: {OUTDIR / (PROJECT + '.kicad_sch')}  ({len(parts)} symbool-eenheden)")
-    print(f"Printdata: {OUTDIR / 'parts.json'}  ({len(pcb_parts)} componenten)")
+    print(f"Schematic: {OUTDIR / (PROJECT + '.kicad_sch')}  ({len(parts)} symbol units)")
+    print(f"PCB data: {OUTDIR / 'parts.json'}  ({len(pcb_parts)} components)")
 
 
 if __name__ == "__main__":

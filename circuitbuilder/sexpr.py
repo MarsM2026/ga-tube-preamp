@@ -1,15 +1,14 @@
-"""Minimale S-expressie-lezer/schrijver voor KiCad-bestanden.
+"""Minimal S-expression reader/writer for KiCad files.
 
-Een lijst wordt een Python-list; atomen blijven strings. Strings tussen
-aanhalingstekens worden als `Q("...")` bewaard zodat ze bij het schrijven weer
-gequote worden.
+A list becomes a Python list; atoms stay strings. Quoted strings are kept as
+`Q("...")` so they are quoted again when written.
 """
 
 from __future__ import annotations
 
 
 class Q(str):
-    """Een gequote string."""
+    """A quoted string."""
 
 
 def parse(text: str):
@@ -81,7 +80,7 @@ def dump(node, indent: int = 0) -> str:
 
 
 def find(node, key):
-    """Eerste sub-lijst met kop `key`."""
+    """First sub-list whose head is `key`."""
     for x in node:
         if isinstance(x, list) and x and x[0] == key:
             return x
