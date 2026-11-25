@@ -28,7 +28,6 @@ ERC/DRC without errors). Not yet physically built and measured.
 | Folder / file | Content |
 |---|---|
 | [docs/](docs/README.md) | **documentation**: how it works, design process, results, build guide |
-| [docs/WEBPAGE_HANDOFF.md](docs/WEBPAGE_HANDOFF.md) | **instructions for whoever turns this into a web page** |
 | `docs/img/`, `docs/data/` | charts and raw numbers (JSON/CSV) |
 | `hardware/kicad/`, `hardware/export/` | through-hole: KiCad 10 project, Gerbers, schematic PDF/SVG, PCB layers, 3D renders, parts list |
 | `hardware/kicad_smd/`, `hardware/export_smd/` | SMD version: same, plus assembly files for the fab ([explanation](docs/07_assembled_smd.md)) |

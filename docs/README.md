@@ -10,10 +10,6 @@ Read in this order:
 6. [Running the software yourself](06_software.md)
 7. [Having it made ready-to-use (SMD version)](07_assembled_smd.md)
 
-**Building a web page from this?** Start with
-[WEBPAGE_HANDOFF.md](WEBPAGE_HANDOFF.md): it lists where all texts, images, data and
-downloads are and proposes a page structure.
-
 ## Folders
 
 | Folder | Content |
